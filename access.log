@@ -1,0 +1,4 @@
+127.0.0.1 - - [03/Nov/2019:19:17:15 +0100] "GET / HTTP/1.1" 500 514701 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"
+127.0.0.1 - - [03/Nov/2019:19:17:17 +0100] "GET /favicon.ico HTTP/1.1" 200 296 "http://himzo.local/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"
+127.0.0.1 - - [03/Nov/2019:19:17:32 +0100] "GET / HTTP/1.1" 200 1732 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"
+127.0.0.1 - - [03/Nov/2019:19:17:32 +0100] "GET /favicon.ico HTTP/1.1" 200 295 "http://himzo.local/" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"
