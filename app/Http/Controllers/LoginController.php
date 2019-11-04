@@ -8,6 +8,17 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    private $pek_roles = [
+        'tag' => 3,
+        'gazdaságis' => 4,
+        'körvezető' => 5,
+        'volt körvezető' => 2,
+        'volt gazdaságis' => 2,
+        'pulcsirészlegvezető' => 2,
+        'próbás' => 2,
+        '' => 1
+    ];
+
     public function authSchRedirect(Request $request)
     {
         $auth_sch_id = env('AUTH_SCH_ID');
@@ -20,7 +31,8 @@ class LoginController extends Controller
             'displayName',
             'sn',
             'givenName',
-            'mail'
+            'mail',
+            'eduPersonEntitlement '
         ];
 
         $new_scope = "";
@@ -56,7 +68,11 @@ class LoginController extends Controller
 
         $result = json_decode($result);
 
-        $access_token = $result->access_token;
+        if(isset($result->access_token)){
+            $access_token = $result->access_token;
+        }else{
+            abort(400);
+        }
 
         $url = "https://auth.sch.bme.hu/api/profile?access_token=$access_token";
         $curl = curl_init($url);
@@ -66,6 +82,22 @@ class LoginController extends Controller
 
         $result = json_decode($result);
 
+        foreach($result->eduPersonEntitlement as $group){
+            if($group->name == "Pulcsi és Foltmékör"){
+                $himzo = $group;
+            }
+        }
+
+        if(isset($himzo)){
+            if($himzo->status=="tag"){
+                $title = $himzo->title[0];
+            }else{
+                $title = "";
+            }
+        }else{
+            $title = '';
+        }
+
         $user = User::where('email',$result->mail)->get();
         if($user->isEmpty()) {
             $user = new User();
@@ -73,6 +105,7 @@ class LoginController extends Controller
             $user->name = $result->displayName;
             $user->email = $result->mail;
             $user->internal_id = $result->internal_id;
+            $user->role_id = $this->pek_roles[$title];
 
             $user->save();
         }elseif($user->first()->internal_id==null){
@@ -80,10 +113,13 @@ class LoginController extends Controller
             $user->internal_id = $result->internal_id;
             $user->name = $result->displayName;
             $user->surname = $result->sn;
+            $user->role_id = $this->pek_roles[$title];
             $user->given_names = $result->givenName;
             $user->save();
         }else{
             $user = $user->first();
+            $user->role_id = $this->pek_roles[$title];
+            $user->save();
         }
 
         Auth::loginUsingId($user->id);

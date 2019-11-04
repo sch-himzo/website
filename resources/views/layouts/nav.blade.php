@@ -1,4 +1,4 @@
-<nav class="navbar">
+<nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
             <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar">
@@ -11,6 +11,7 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
+                <li class="@yield('index.active')"><a class="@yield('index.active')" href="{{ route('index') }}">Főoldal</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::check())

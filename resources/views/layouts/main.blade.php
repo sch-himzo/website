@@ -7,6 +7,7 @@
     </head>
     <body>
     @include('layouts.nav')
+    @yield('jumbotron')
 
     <div class="container" role="main">
         @yield('content')

@@ -16,5 +16,30 @@ class RolesSeeder extends Seeder
             'name' => 'Default',
             'description' => 'Alap'
         ]);
+
+        Role::create([
+            'name' => 'Próbás',
+            'description' => 'Próbás'
+        ]);
+
+        Role::create([
+            'name' => 'Tag',
+            'description' => 'Körtag'
+        ]);
+
+        Role::create([
+            'name' => 'Gazdaságis',
+            'description' => 'A kör gazdaságisa'
+        ]);
+
+        Role::create([
+            'name' => 'Körvezető',
+            'description' => 'Körvezető'
+        ]);
+
+        Role::create([
+            'name' => 'Web Admin',
+            'description' => 'A weboldal adminisztrátora'
+        ]);
     }
 }
