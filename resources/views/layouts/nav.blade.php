@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse navbar-fixed-top">
+<nav class="navbar navbar-inverse">
     <div class="container">
         <div class="navbar-header">
             <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar">
@@ -17,7 +17,7 @@
                 @if(Auth::check())
                     <li><a href="{{ route('logout') }}">Kijelentkezés</a></li>
                 @else
-                    <li><a href="{{ route('login') }}">Bejelentkezés</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#login_modal">Bejelentkezés</a></li>
                 @endif
             </ul>
         </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -134,5 +135,15 @@ class LoginController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    public function facebookCallback(Request $request)
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function facebookRedirect(Request $request)
+    {
+        dd($request);
     }
 }

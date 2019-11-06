@@ -5,7 +5,7 @@
 @section('index.active','active')
 
 @section('jumbotron')
-    <div class="jumbotron">
+    <div class="jumbotron" style="margin-top:-20px;">
         <div class="container">
             <h1>Pulcsi és Foltmékör</h1>
             <p>Üdvözöljük a Pulcsi és Foltmékör weboldalán! Itt leadhatja folt rendelését</p>
