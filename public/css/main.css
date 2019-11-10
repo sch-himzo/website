@@ -64,3 +64,18 @@
 li.active{
     background:rgba(230,230,230,1);
 }
+
+.requirements{
+    border:1px solid rgba(0,0,0,0.5);
+    margin-top:5px;
+    margin-bottom:5px;
+    padding:7px;
+    border-radius:3px;
+    display:none;
+}
+
+.requirements p{
+    margin:0;
+    color:red;
+    padding:0;
+}

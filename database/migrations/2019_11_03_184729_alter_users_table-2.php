@@ -15,6 +15,7 @@ class AlterUsersTable2 extends Migration
     {
         Schema::table('users', function(Blueprint $table){
             $table->string('internal_id')->nullable();
+            $table->string('password')->nullable();
         });
     }
 

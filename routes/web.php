@@ -15,6 +15,13 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
         Route::get('login', 'LoginController@facebookCallback')->name('callback');
         Route::get('redirect', 'LoginController@facebookRedirect')->name('redirect');
     });
+
+    Route::post('login','LoginController@login')->name('login');
+
+    Route::post('register', 'LoginController@register')->name('register');
+
+    Route::post('email', 'LoginController@email')->name('email');
+    Route::post('password', 'LoginController@password')->name('password');
 });
 
 Route::get('logout', 'LoginController@logout')->name('logout');

@@ -11,7 +11,7 @@
                 <div class="alert alert-info alert-dismissable">
                     <a href="#" data-dismiss="alert" class="close">&times;</a>
                     <h4><i class="fa fa-info-circle"></i>&nbsp;Jelentkezz be!</h4>
-                    <p>Ha rendelést szeretnél leadni, akkor egyszerűbb ha <a href="{{ route('login') }}">bejelentkezel</a></p>
+                    <p>Ha rendelést szeretnél leadni, akkor egyszerűbb ha <a href="#" data-toggle="modal" data-target="#login_modal">bejelentkezel</a> vagy <a href="#" data-toggle="modal" data-target="#register_modal">regisztrálsz</a></p>
                 </div>
             </div>
         </div>

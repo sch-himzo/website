@@ -17,6 +17,7 @@
                 @if(Auth::check())
                     <li><a href="{{ route('logout') }}">Kijelentkezés</a></li>
                 @else
+                    <li><a href="#" data-toggle="modal" data-target="#register_modal">Regisztráció</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#login_modal">Bejelentkezés</a></li>
                 @endif
             </ul>
