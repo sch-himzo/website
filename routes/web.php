@@ -27,7 +27,7 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
 Route::get('logout', 'LoginController@logout')->name('logout');
 
 
-Route::group(['prefix' => 'orders', 'as' => 'orders.'], function(){
+Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'], function(){
     Route::get('new','OrdersController@create')->name('new');
     Route::post('save', 'OrdersController@save')->name('save');
 });

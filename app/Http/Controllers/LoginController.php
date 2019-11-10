@@ -136,7 +136,7 @@ class LoginController extends Controller
 
         Auth::attempt(['email' => $email, 'password' => $password]);
 
-        return redirect()->back();
+        return redirect()->intended('');
     }
 
     public function logout(Request $request)
