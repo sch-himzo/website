@@ -116,6 +116,10 @@ $size cm oldalhosszúság
         );
 
         $output = json_decode(curl_exec($curl));
+
+        $this->trelloChecklist($output->id);
+
+
         curl_close($curl);
     }
 
@@ -203,5 +207,49 @@ $size cm oldalhosszúság
     {
         $path = $order->image;
         return response()->file(storage_path("app/" . $path));
+    }
+
+    public function trelloChecklist($card)
+    {
+        $curl = curl_init();
+
+        $key = env('TRELLO_ID');
+        $token = env('TRELLO_KEY');
+
+        $data = [
+            'idCard' => $card,
+            'name' => 'Teendők',
+            'pos' => 'bottom',
+            'idChecklistSource' => '5da4934464eda41a074e64f5'
+        ];
+
+
+        $url = "https://api.trello.com/1/checklists?idCard=$card&key=$key&token=$token";
+
+        curl_setopt($curl, CURLOPT_URL,$url);
+        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($curl, CURLOPT_POST,true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS,$data);
+
+        $output = json_decode(curl_exec($curl));
+    }
+
+    public function testTrello()
+    {
+        $curl = curl_init();
+
+        $key = env('TRELLO_ID');
+        $token = env('TRELLO_KEY');
+        $list = env('TRELLO_LIST');
+
+
+        $url = "https://api.trello.com/1/lists/$list/cards?key=$key&token=$token";
+
+        curl_setopt($curl, CURLOPT_URL,$url);
+        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
+
+        $output = json_decode(curl_exec($curl));
+
+        dd($output);
     }
 }
