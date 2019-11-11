@@ -14,6 +14,9 @@
                 <li class="@yield('index.active')"><a class="@yield('index.active')" href="{{ route('index') }}">Főoldal</a></li>
                 @if(Auth::check())
                 <li class="@yield('orders.new.active')"><a class="@yield('orders.new.active')" href="{{ route('orders.new') }}">Új rendelés</a></li>
+                    @if(Auth::user()->role_id>1)
+                        <li class="@yield('orders.unapproved.active')"><a href="{{ route('orders.unapproved') }}" class="@yield('orders.unapproved.active')">Elfogadásra váró rendelések</a></li>
+                    @endif
                 @endif
             </ul>
             <ul class="nav navbar-nav navbar-right">

@@ -13,12 +13,12 @@ class LoginController extends Controller
         'tag' => 3,
         'gazdaságis' => 4,
         'körvezető' => 5,
-        'volt körvezető' => 2,
-        'volt gazdaságis' => 2,
-        'pulcsirészlegvezető' => 2,
+        'volt körvezető' => 3,
+        'volt gazdaságis' => 3,
+        'pulcsirészlegvezető' => 3,
         'próbás' => 2,
         '' => 1,
-        'újonc' => 1
+        'újonc' => 2
     ];
 
     public function authSchRedirect(Request $request)

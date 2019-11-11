@@ -45,4 +45,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Order::class);
     }
+
+    public function approvedOrders()
+    {
+        return $this->hasMany(Order::class);
+    }
 }

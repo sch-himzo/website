@@ -171,3 +171,4 @@
 127.0.0.1 - - [11/Nov/2019:13:42:32 +0100] "GET / HTTP/1.1" 302 646 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"
 127.0.0.1 - - [11/Nov/2019:15:31:31 +0100] "GET / HTTP/1.1" 302 646 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"
 127.0.0.1 - - [11/Nov/2019:17:28:00 +0100] "GET /auth/sch/login?code=91fb92499bed25e673b3cecbdf5aef320f1426b6&state=f528764d624db129b32c21fbca0cb8d6 HTTP/1.1" 302 848 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"
+127.0.0.1 - - [11/Nov/2019:19:32:59 +0100] "GET /auth/sch/login?code=58cce50bbdfd3561567b42ceea6de20e9917a4de&state=f528764d624db129b32c21fbca0cb8d6 HTTP/1.1" 302 848 "-" "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36"

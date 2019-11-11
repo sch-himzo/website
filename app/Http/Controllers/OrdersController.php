@@ -164,13 +164,39 @@ $size cm oldalhosszúság
             $order->user_id = Auth::id();
             $order->save();
 
-            $this->trello($order);
-
-
             return redirect()->route('user.orders');
         }else{
             return redirect()->back();
         }
+    }
+
+    public function unapproved()
+    {
+        if(Auth::user()->role_id<2)
+        {
+            abort(403);
+        }
+
+        $orders = Order::where('approved_by',null)->get();
+
+        return view('orders.unapproved',[
+            'orders' => $orders
+        ]);
+    }
+
+    public function approve(Order $order)
+    {
+        if(Auth::user()->role_id<2)
+        {
+            abort(403);
+        }
+
+        $order->approved_by = Auth::id();
+        $order->save();
+
+        $this->trello($order);
+
+        return redirect()->back();
     }
 
     public function getImage(Order $order)
