@@ -233,23 +233,4 @@ $size cm oldalhosszúság
 
         $output = json_decode(curl_exec($curl));
     }
-
-    public function testTrello()
-    {
-        $curl = curl_init();
-
-        $key = env('TRELLO_ID');
-        $token = env('TRELLO_KEY');
-        $list = env('TRELLO_LIST');
-
-
-        $url = "https://api.trello.com/1/lists/$list/cards?key=$key&token=$token";
-
-        curl_setopt($curl, CURLOPT_URL,$url);
-        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-
-        $output = json_decode(curl_exec($curl));
-
-        dd($output);
-    }
 }
