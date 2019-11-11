@@ -12,10 +12,20 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class="@yield('index.active')"><a class="@yield('index.active')" href="{{ route('index') }}">Főoldal</a></li>
+                @if(Auth::check())
+                <li class="@yield('orders.new.active')"><a class="@yield('orders.new.active')" href="{{ route('orders.new') }}">Új rendelés</a></li>
+                @endif
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::check())
-                    <li><a href="{{ route('logout') }}">Kijelentkezés</a></li>
+                    <li class="dropdown @yield('user.orders.active')">
+                        <a class="dropdown-toggle" href="#" data-toggle="dropdown">{{ Auth::user()->name }} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a class="@yield('user.orders.active')" href="{{ route('user.orders') }}">Rendeléseim</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{{ route('logout') }}">Kijelentkezés</a></li>
+                        </ul>
+                    </li>
                 @else
                     <li><a href="#" data-toggle="modal" data-target="#register_modal">Regisztráció</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#login_modal">Bejelentkezés</a></li>

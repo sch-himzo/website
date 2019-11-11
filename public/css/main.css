@@ -79,3 +79,34 @@ li.active{
     color:red;
     padding:0;
 }
+
+label span.required{
+    font-style: italic;
+    color:red;
+}
+
+.badge-select{
+    width:calc(33.3%);
+    margin:0 !important;
+}
+
+.internal-select{
+    width:calc(50%);
+    margin:0 !important;
+}
+
+.btn.right{
+    border-top-left-radius:0;
+    border-bottom-left-radius:0;
+    border-left:0;
+}
+
+.btn.left{
+    border-top-right-radius:0;
+    border-bottom-right-radius:0;
+    border-right:0;
+}
+
+.btn.center{
+    border-radius:0;
+}

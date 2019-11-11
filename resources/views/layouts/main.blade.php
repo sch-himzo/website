@@ -10,7 +10,7 @@
     @include('layouts.nav')
     @yield('jumbotron')
 
-    <div class="container-fluid" role="main">
+    <div class="container" role="main">
         @yield('content')
     </div>
     @if(!Auth::check())
@@ -32,8 +32,8 @@
                             </div>
                             <div class="form-group">
                                 <div class="input-group">
-                                    <label class="input-group-addon" for="password">Jelszó</label>
-                                    <input type="password" class="form-control" id="password" name="password" placeholder="Jelszó">
+                                    <label class="input-group-addon" for="password_login">Jelszó</label>
+                                    <input type="password" class="form-control" id="password_login" name="password" placeholder="Jelszó">
                                 </div>
                             </div>
                             <input type="submit" class="btn btn-lg btn-block btn-primary" value="Bejelentkezés">
@@ -58,20 +58,20 @@
                         <div class="modal-body">
                             <div class="form-group">
                                 <div class="input-group">
-                                    <label class="input-group-addon" for="name">Teljes név*</label>
+                                    <label class="input-group-addon" for="name">Teljes név<span class="required">*</span></label>
                                     <input type="text" class="form-control" name="name" id="name" placeholder="Név" required>
                                 </div>
                             </div>
                             <div class="form-group" id="email_group">
                                 <div class="input-group">
-                                    <label class="input-group-addon" for="email_register">Email cím*</label>
+                                    <label class="input-group-addon" for="email_register">Email cím<span class="required">*</span></label>
                                     <input type="text" class="form-control" name="email" id="email_register" placeholder="Email" required>
                                 </div>
                             </div>
                             <hr>
                             <div class="form-group" id="password_group">
                                 <div class="input-group">
-                                    <label class="input-group-addon" for="password">Jelszó</label>
+                                    <label class="input-group-addon" for="password">Jelszó<span class="required">*</span></label>
                                     <input class="form-control" type="password" placeholder="Jelszó" name="password" id="password">
                                 </div>
                                 <div id="requirements" class="requirements">
@@ -83,7 +83,7 @@
                             </div>
                             <div class="form-group" id="password2_group">
                                 <div class="input-group">
-                                    <label class="input-group-addon" for="password2">Jelszó megint</label>
+                                    <label class="input-group-addon" for="password2">Jelszó megint<span class="required">*</span></label>
                                     <input class="form-control" type="password" placeholder="Jelszó" name="password2" id="password2">
                                 </div>
                             </div>
@@ -102,4 +102,10 @@
 <script src="{{ asset('js/jquery.js') }}"></script>
 <script src="{{ asset('js/bootstrap.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
+<script>
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
+</script>
+@yield('scripts')
 </html>

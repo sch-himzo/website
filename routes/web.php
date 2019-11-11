@@ -30,4 +30,9 @@ Route::get('logout', 'LoginController@logout')->name('logout');
 Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'], function(){
     Route::get('new','OrdersController@create')->name('new');
     Route::post('save', 'OrdersController@save')->name('save');
+    Route::get('image/order/{order}','OrdersController@getImage')->name('getImage');
+});
+
+Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], function(){
+    Route::get('orders','UserController@orders')->name('orders');
 });
