@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Admin\TrelloController;
 use App\Models\Order;
+use App\Models\TrelloCard;
+use App\Models\TrelloList;
 use Auth;
 use File;
 use Illuminate\Http\Request;
@@ -235,5 +238,23 @@ $size cm oldalhosszúság
         curl_setopt($curl, CURLOPT_POSTFIELDS,$data);
 
         $output = json_decode(curl_exec($curl));
+    }
+
+    public function active()
+    {
+        $lists = TrelloList::all()->where('id','<','5');
+
+        foreach($lists as $list)
+        {
+            TrelloController::updateCards($list);
+        }
+
+        $cards = TrelloCard::all()
+//            ->where('status','NOT LIKE','%fizetve%')
+//            ->where('status','NOT LIKE','%Fizetve%')
+            ->where('list_id','<','5')
+            ->all();
+
+        return view('orders.active', ['cards' => $cards]);
     }
 }

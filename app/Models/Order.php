@@ -19,4 +19,9 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function trelloCard()
+    {
+        return $this->belongsTo(TrelloCard::class,'trello_card');
+    }
 }

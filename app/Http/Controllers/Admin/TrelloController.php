@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\TrelloCard;
 use App\Models\TrelloList;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TrelloController extends Controller
 {
@@ -48,7 +50,7 @@ class TrelloController extends Controller
         dd($output);
     }
 
-    public function checklist($checklist_id)
+    public static function checklist($checklist_id)
     {
         $c = curl_init();
 
@@ -83,7 +85,7 @@ class TrelloController extends Controller
         }
     }
 
-    public function cards(TrelloList $trello_list)
+    public static function updateCards(TrelloList $trello_list)
     {
         $c = curl_init();
 
@@ -98,15 +100,26 @@ class TrelloController extends Controller
         $output = json_decode(curl_exec($c));
 
         foreach($output as $card){
+
+            $last_activity = strtotime($card->dateLastActivity);
+
+            $old_card = TrelloCard::all()->where('trello_id',$card->id)->first();
+
+            if($old_card != null){
+                $stored_activity = strtotime($old_card->updated_at);
+
+                if($last_activity<$stored_activity){
+                    continue;
+                }
+            }
+
             if($card->idChecklists != null) {
                 foreach($card->idChecklists as $checklist){
-                    $completeness = $this->checklist($checklist);
+                    $completeness = static::checklist($checklist);
                 }
             }else{
                 $completeness = null;
             }
-
-            $old_card = TrelloCard::all()->where('trello_id',$card->id)->first();
 
             $idLabels = "";
             if($card->labels!=null){
@@ -133,10 +146,37 @@ class TrelloController extends Controller
                 $new_card->idLabels = $idLabels;
                 $new_card->list_id = $trello_list->id;
                 $new_card->save();
+
+                $matches = [];
+
+                preg_match("/-.\*\*Darabszám:\*\* ([0-9]*)/",$card->desc,$matches);
+
+                if(sizeof($matches)>0){
+                    $count = (int)($matches[1]);
+                }else{
+                    $count = 0;
+                }
+
+
+                $order = new Order();
+                $order->user_id = null;
+                $order->title = $card->name;
+                $order->count = $count;
+                $order->time_limit = null;
+                $order->type = 1;
+                $order->internal = true;
+                $order->size = 0;
+                $order->image = "";
+                $order->trello_card = $new_card->id;
+                $order->approved_by = Auth::id();
+                $order->save();
             }
 
         }
+    }
 
-        dd($output);
+    public function cards(TrelloList $trello_list)
+    {
+        static::updateCards($trello_list);
     }
 }

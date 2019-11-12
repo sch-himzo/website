@@ -13,6 +13,7 @@ class LoginController extends Controller
         'tag' => 3,
         'gazdaságis' => 4,
         'körvezető' => 5,
+        'Körvezető' => 5,
         'volt körvezető' => 3,
         'volt gazdaságis' => 3,
         'pulcsirészlegvezető' => 3,
