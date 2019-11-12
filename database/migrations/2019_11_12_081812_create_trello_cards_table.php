@@ -15,7 +15,7 @@ class CreateTrelloCardsTable extends Migration
     {
         Schema::create('trello_cards', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('trello_id')->unique();
+            $table->string('trello_id');
             $table->string('name');
             $table->text('desc');
             $table->string('idLabels');

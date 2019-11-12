@@ -15,7 +15,7 @@ class CreateTrelloListsTable extends Migration
     {
         Schema::create('trello_lists', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('trello_id')->unique();
+            $table->string('trello_id');
             $table->string('name');
             $table->timestamps();
         });
