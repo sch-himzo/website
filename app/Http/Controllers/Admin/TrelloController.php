@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Models\TempUser;
 use App\Models\TrelloCard;
 use App\Models\TrelloList;
 use Illuminate\Http\Request;
@@ -158,7 +159,26 @@ class TrelloController extends Controller
                 }
 
 
+                $matches = [];
+
+                if(sizeof($matches)>0){
+                    $temp_user = new TempUser();
+                    $name = $matches[1];
+                    $email = $matches[2];
+
+                    $temp_user->name = $name;
+                    $temp_user->email = $email;
+                    $temp_user->save;
+                }
+
+                preg_match("/- \*\*Rendelő:\*\*.(.*) - (.*)/", $card->desc, $matches);
+
+
+
                 $order = new Order();
+                if(isset($temp_user)){
+                    $order->temp_user_id = $temp_user->id;
+                }
                 $order->user_id = null;
                 $order->title = $card->name;
                 $order->count = $count;
