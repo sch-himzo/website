@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Admin\TrelloController;
 use App\Models\Order;
+use App\Models\TempUser;
 use App\Models\TrelloCard;
 use App\Models\TrelloList;
 use Auth;
@@ -268,5 +269,65 @@ $size cm oldalhosszúság
         $order->delete();
 
         return redirect()->back();
+    }
+
+    public function fake()
+    {
+        return view('orders.fake');
+    }
+    public function saveFake(Request $request)
+    {
+        if($request->file('image')){
+            $file = $request->file('image');
+            $extension = strtolower($file->extension());
+            $size = $file->getSize()/1024/1024;
+
+            if($size>10){
+                return redirect()->back();
+            }
+
+            if(!in_array($extension,$this->allowed_extensions)){
+                return redirect()->back();
+            }
+
+            $new_name = 'images/uploads/' . time().$request->input('name').'.'.$file->extension();
+
+            Storage::disk()->put($new_name, File::get($file));
+
+            $temp_user = new TempUser();
+            $temp_user->email = $request->input('email');
+            $temp_user->name = $request->input('name');
+            $temp_user->save();
+
+            $title = $request->input('title');
+            $count = $request->input('count');
+            $time_limit = date("Y-m-d",strtotime($request->input('time_limit')));
+            $type = $request->input('order_type');
+            $size = $request->input('size');
+            $font = $request->input('font');
+            $internal = $request->input('internal')=='internal';
+            $comment = $request->input('comment');
+
+            $order = new Order();
+            $order->title = $title;
+            $order->count = $count;
+            $order->time_limit = $time_limit=="" ? null : $time_limit;
+            if(array_key_exists($type, $this->order_types)){
+                $order->type = $this->order_types[$type];
+            }else{
+                $order->type = 1;
+            }
+            $order->size = $size;
+            $order->font = $font=="" ? null : $font;
+            $order->internal = $internal;
+            $order->comment = $comment=="" ? null : $comment;
+            $order->image = $new_name;
+            $order->temp_user_id = $temp_user->id;
+            $order->save();
+
+            return redirect()->route('user.orders');
+        }else{
+            return redirect()->back();
+        }
     }
 }

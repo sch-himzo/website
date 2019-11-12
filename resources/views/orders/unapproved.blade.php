@@ -21,7 +21,12 @@
                 @foreach($orders as $order)
                     <tr>
                         <td>{{ $order->title }}</td>
-                        <td>{{ $order->user->name }}</td>
+                        @if($order->user == null)
+                            <td>{{ $order->tempUser->name }}</td>
+                        @else
+
+                            <td>{{ $order->user->name }}</td>
+                        @endif
                         <td>{{ $order->time_limit }}</td>
                         <td>
                         <span data-toggle="tooltip" title="Kép megtekintése">

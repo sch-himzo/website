@@ -18,6 +18,8 @@
                         <ul class="dropdown-menu">
                             <li class="@yield('orders.new.active')"><a class="@yield('orders.new.active') " href="{{ route('orders.new') }}">Új rendelés</a></li>
                             @if(Auth::user()->role_id>1)
+                                <li role="separator" class="divider"></li>
+                                <li class="@yield('orders.fake.active')"><a class="@yield('orders.fake.active')" href="{{ route('orders.fake') }}">Rendelés felvétele</a></li>
                                 <li class="@yield('orders.unapproved.active')"><a href="{{ route('orders.unapproved') }}" class="@yield('orders.unapproved.active')">Elfogadásra váró rendelések</a></li>
                                 <li class="@yield('orders.active.active')"><a href="{{ route('orders.active') }}">Aktív rendelések</a></li>
                             @endif

@@ -27,17 +27,20 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
 Route::get('logout', 'LoginController@logout')->name('logout');
 
 
-Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'], function(){
-    Route::get('new','OrdersController@create')->name('new');
-    Route::get('delete/order/{order}','OrdersController@delete')->name('delete');
-    Route::post('save', 'OrdersController@save')->name('save');
-    Route::get('image/order/{order}','OrdersController@getImage')->name('getImage');
+Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
+    function () {
+        Route::get('new', 'OrdersController@create')->name('new');
+        Route::get('delete/order/{order}', 'OrdersController@delete')->name('delete');
+        Route::get('fake', 'OrdersController@fake')->name('fake');
+        Route::post('save/fake', 'OrdersController@saveFake')->name('saveFake');
+        Route::post('save', 'OrdersController@save')->name('save');
+        Route::get('image/order/{order}', 'OrdersController@getImage')->name('getImage');
 
-    Route::get('unapproved','OrdersController@unapproved')->name('unapproved');
-    Route::get('approve/order/{order}', 'OrdersController@approve')->name('approve');
+        Route::get('unapproved', 'OrdersController@unapproved')->name('unapproved');
+        Route::get('approve/order/{order}', 'OrdersController@approve')->name('approve');
 
-    Route::get('active', 'OrdersController@active')->name('active');
-});
+        Route::get('active', 'OrdersController@active')->name('active');
+    });
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], function(){
     Route::get('orders','UserController@orders')->name('orders');
