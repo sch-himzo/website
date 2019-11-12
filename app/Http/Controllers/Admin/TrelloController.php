@@ -160,6 +160,7 @@ class TrelloController extends Controller
 
 
                 $matches = [];
+                preg_match("/- \*\*Rendelő:\*\*.?(.*) - (.*)/", $card->desc, $matches);
 
                 if(sizeof($matches)>0){
                     $temp_user = new TempUser();
@@ -168,17 +169,18 @@ class TrelloController extends Controller
 
                     $temp_user->name = $name;
                     $temp_user->email = $email;
-                    $temp_user->save;
+                    $temp_user->save();
                 }
 
-                preg_match("/- \*\*Rendelő:\*\*.(.*) - (.*)/", $card->desc, $matches);
 
 
 
                 $order = new Order();
-                if(isset($temp_user)){
+                if(isset($temp_user)) {
                     $order->temp_user_id = $temp_user->id;
                 }
+
+                dd($order->temp_user_id);
                 $order->user_id = null;
                 $order->title = $card->name;
                 $order->count = $count;

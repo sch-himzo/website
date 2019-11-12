@@ -22,7 +22,7 @@
                         <td>{{ $card->order->first()->title }}</td>
                         <td>{{ $card->order->first()->time_limit }}</td>
                         <td>{{ $card->trelloList->name }}</td>
-                        <td>@if($card->order->first()->user!=null) {{ $card->order->first()->user->name }} @endif</td>
+                        <td>@if($card->order->first()->user!=null) {{ $card->order->first()->user->name }} @elseif($card->order->first()->tempUser!=null) {{ $card->order->first()->tempUser->name }} @endif</td>
                         <td>{{ route('orders.getImage', ['order' => $card->order->first()]) }}</td>
                         <td>{{ $card->order->first()->count }}</td>
                     </tr>

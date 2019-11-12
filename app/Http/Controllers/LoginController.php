@@ -93,7 +93,12 @@ class LoginController extends Controller
 
         if(isset($himzo)){
             if($himzo->status=="tag"){
-                $title = $himzo->title[0];
+                if(isset($himzo->title)){
+
+                    $title = $himzo->title[0];
+                }else{
+                    $title='';
+                }
             }else{
                 $title = "";
             }
