@@ -180,7 +180,6 @@ class TrelloController extends Controller
                     $order->temp_user_id = $temp_user->id;
                 }
 
-                dd($order->temp_user_id);
                 $order->user_id = null;
                 $order->title = $card->name;
                 $order->count = $count;
