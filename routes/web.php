@@ -29,6 +29,7 @@ Route::get('logout', 'LoginController@logout')->name('logout');
 
 Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'], function(){
     Route::get('new','OrdersController@create')->name('new');
+    Route::get('delete/order/{order}','OrdersController@delete')->name('delete');
     Route::post('save', 'OrdersController@save')->name('save');
     Route::get('image/order/{order}','OrdersController@getImage')->name('getImage');
 

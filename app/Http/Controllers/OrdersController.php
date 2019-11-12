@@ -257,4 +257,16 @@ $size cm oldalhosszúság
 
         return view('orders.active', ['cards' => $cards]);
     }
+
+    public function delete(Order $order)
+    {
+        if(Auth::user()->role_id<2)
+        {
+            abort(403);
+        }
+
+        $order->delete();
+
+        return redirect()->back();
+    }
 }

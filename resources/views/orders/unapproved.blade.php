@@ -38,6 +38,11 @@
                                 <i class="fa fa-check"></i>
                             </button>
                         </span>
+                        <span data-toggle="tooltip" title="Törlés">
+                            <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#delete_{{ $order->id }}">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </span>
                         </td>
                     </tr>
                 @endforeach
@@ -63,6 +68,24 @@
                     <div class="modal-footer">
                         <a href="{{ route('orders.approve', ['order' => $order]) }}" class="btn btn-success">Igen!</a>
                         <button type="button" data-dismiss="modal" class="btn btn-danger">Mégse</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="delete_{{ $order->id }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal" type="button">&times;</button>
+                        <h4 class="modal-title">Rendelés törlése</h4>
+                    </div>
+                    <div class="modal-body">
+                        Biztos törlöd ezt a rendelést?<br>
+                        <i>Ezáltal mindenhonnan elveszik - csak akkor töröld, ha biztos vagy benne, hogy duplikált, vagy, hogy kamu</i>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ route('orders.delete', ['order' => $order]) }}" class="btn btn-danger">Igen!</a>
+                        <button type="button" data-dismiss="modal" class="btn btn-default">Nem</button>
                     </div>
                 </div>
             </div>
