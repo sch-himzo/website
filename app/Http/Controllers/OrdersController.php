@@ -119,8 +119,9 @@ $size cm oldalhosszúság
 
         $this->trelloChecklist($output->id);
 
-
         curl_close($curl);
+
+        return $output->id;
     }
 
     public function save(Request $request)
@@ -198,7 +199,9 @@ $size cm oldalhosszúság
         $order->approved_by = Auth::id();
         $order->save();
 
-        $this->trello($order);
+        $trello_card_id = $this->trello($order);
+
+        $order->trello_card = $trello_card_id;
 
         return redirect()->back();
     }

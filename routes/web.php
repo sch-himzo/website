@@ -34,8 +34,17 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'], 
 
     Route::get('unapproved','OrdersController@unapproved')->name('unapproved');
     Route::get('approve/order/{order}', 'OrdersController@approve')->name('approve');
+
+    Route::get('active', 'OrdersController@active')->name('active');
 });
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], function(){
     Route::get('orders','UserController@orders')->name('orders');
+});
+
+Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'admin'], function(){
+    Route::group(['prefix' => 'trello','as' => 'trello.'], function(){
+        Route::get('lists','Admin\TrelloController@lists')->name('lists');
+        Route::get('lists/{trello_list}/cards','Admin\TrelloController@cards')->name('cards');
+    });
 });
