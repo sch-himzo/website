@@ -175,7 +175,7 @@ $size cm oldalhosszúság
 
             EmailController::orderReceivedClient($order);
 
-            EmailController::orderReceivedHimzo($order);
+            EmailController::orderReceivedInternal($order);
 
             return redirect()->route('user.orders');
         }else{
@@ -203,6 +203,9 @@ $size cm oldalhosszúság
         {
             abort(403);
         }
+
+        EmailController::orderApprovedClient($order);
+        EmailController::orderApprovedInternal($order, Auth::user());
 
         $order->approved_by = Auth::id();
         $order->save();
