@@ -13,12 +13,6 @@
         <td>{{ $title }}</td>
     </tr>
     <tr>
-        <th align="right">Kép</th>
-        <td>
-            <a href="{{ $image }}" style="text-decoration:none; color:#069;" target="_blank">Megnyitás</a>
-        </td>
-    </tr>
-    <tr>
         <th align="right">Határidő</th>
         <td>{{ $time_limit }}</td>
     </tr>

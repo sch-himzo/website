@@ -32,7 +32,6 @@ class EmailController extends Controller
         $data = [
             'name' => $to_name,
             'title' => $order->title,
-            'image' => route('orders.getImage', ['order' => $order]),
             'time_limit' => $order->time_limit,
             'count' => $order->count,
             'types' => $types,
