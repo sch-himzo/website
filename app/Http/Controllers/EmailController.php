@@ -323,7 +323,7 @@ class EmailController extends Controller
             $message->to($to_email,$to_name)
                 ->subject('Rendeléssel kapcsolatos kérdés ('.$order_title.')')
                 ->bcc($from_email)
-//            ->bcc('himzo@sch.bme.hu')
+//                ->bcc('himzo@sch.bme.hu')
                 ->replyTo('himzo@sch.bme.hu');
 
             $message->from($from_email, $from_name);
