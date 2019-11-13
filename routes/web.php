@@ -38,6 +38,8 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
 
         Route::post('email/{order}','OrdersController@email')->name('email');
 
+        Route::post('setUser/{order}','OrdersController@setUser')->name('setUser');
+
         Route::get('unapproved', 'OrdersController@unapproved')->name('unapproved');
         Route::get('approve/order/{order}', 'OrdersController@approve')->name('approve');
 

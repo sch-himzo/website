@@ -27,11 +27,19 @@
                         <td>{{ route('orders.getImage', ['order' => $card->order->first()]) }}</td>
                         <td>{{ $card->order->first()->count }}</td>
                         <td>
-                            <span data-toggle="tooltip" title="Email küldése">
+                            @if($card->order->first()->user==null && $card->order->first()->tempUser==null)
+                                <span data-toggle="tooltip" title="Megrendelő hozzáadása">
+                                    <button class="btn btn-success btn-xs" type="button" data-toggle="modal" data-target="#user_{{ $card->id }}">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                </span>
+                            @else
+                                <span data-toggle="tooltip" title="Email küldése">
                                 <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#email_{{ $card->id }}">
                                     <i class="fa fa-envelope"></i>
                                 </button>
                             </span>
+                            @endif
                         </td>
                     </tr>
                 @endforeach
@@ -42,6 +50,39 @@
 
 @section('modals')
     @foreach($cards as $card)
+        @if($card->order->first()->user==null && $card->order->first()->tempUser==null)
+        <div class="modal fade" id="user_{{ $card->id }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ route('orders.setUser', ['order' => $card->order->first()]) }}" method="POST">
+                        {{ csrf_field() }}
+                        <div class="modal-header">
+                            <button class="close" type="button" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Felhasználóhoz társítás</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="name">Név</label>
+                                    <input type="text" name="name" id="name" placeholder="Név" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="email">Email</label>
+                                    <input type="email" name="email" id="email" placeholder="Email cím" class="form-control" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Mentés">
+                            <button class="btn btn-default" type="button" data-dismiss="modal">Mégse</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        @else
         <div class="modal fade" id="email_{{ $card->id }}">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -79,5 +120,6 @@
                 </div>
             </div>
         </div>
+        @endif
     @endforeach
 @endsection

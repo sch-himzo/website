@@ -276,6 +276,27 @@ $size cm oldalhosszúság
         return view('orders.active', ['cards' => $cards]);
     }
 
+    public function setUser(Request $request, Order $order)
+    {
+        if($order->user!=null || $order->tempUser != null){
+            abort(403);
+        }
+
+        $email = $request->input('email');
+        $name = $request->input('name');
+
+        $temp_user = new TempUser();
+        $temp_user->name = $name;
+        $temp_user->email = $email;
+        $temp_user->save();
+
+        $order->temp_user_id = $temp_user->id;
+        $order->save();
+
+        return redirect()->back();
+
+    }
+
     public function delete(Request $request, Order $order)
     {
         if(Auth::user()->role_id<2)
