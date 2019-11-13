@@ -1,7 +1,7 @@
 <h4>Kedves {{ $name }}!</h4>
 
-<p>{{ $title }} nevű rendelésed törölve lett az alábbi indoklással:</p>
-<p>{{ $reason }}</p>
+<br>{{ $title }} nevű rendelésed törölve lett az alábbi indoklással:
+<br>{{ $reason }}
 <br>
 
 
@@ -42,5 +42,5 @@
     @endif
 </table>
 
-<p>Üdvözlettel,</p>
-<p><i>Pulcsi és Foltmékör</i></p>
+<br>Üdvözlettel,
+<br><i>Pulcsi és Foltmékör</i>

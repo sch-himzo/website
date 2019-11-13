@@ -1,12 +1,12 @@
 <h4>Csumpalumpa!</h4>
 
-<p><span style="font-weight:bold; color:red;">FONTOS!</span> Ezt az emailt nem te fogod kapni, csak amíg teszteljük a weboldalt nem akarom spamelni a <b>himzo@</b>-ot. Ez oda fog majd menni.</p>
+<br><span style="font-weight:bold; color:red;">FONTOS!</span> Ezt az emailt nem te fogod kapni, csak amíg teszteljük a weboldalt nem akarom spamelni a <b>himzo@</b>-ot. Ez oda fog majd menni.
 
-<p>Rendelés lett leadva a <a style="text-decoration:none; color:#069;" href="http://himzo.sch.bme.hu">weboldalon.</a></p>
+<br>Rendelés lett leadva a <a style="text-decoration:none; color:#069;" href="http://himzo.sch.bme.hu">weboldalon.</a>
 
-<p>A megrendelő jelenleg arra vár, hogy valaki elfogadja ezt.</p>
+<br>A megrendelő jelenleg arra vár, hogy valaki elfogadja ezt.
 
-<p>Rendelés adatai:</p>
+<br>Rendelés adatai:
 
 <table>
     <tr>
@@ -57,7 +57,7 @@
     @endif
 </table>
 
-<p>A rendelést itt tudod megtekinteni: <a style="color:#069; text-decoration:none;" href="http://himzo.sch.bme.hu/orders/unapproved">Elfogadásra váró rendelések</a></p>
+<br>A rendelést itt tudod megtekinteni: <a style="color:#069; text-decoration:none;" href="http://himzo.sch.bme.hu/orders/unapproved">Elfogadásra váró rendelések</a>
 
-<p>Üdvözlettel,</p>
-<p><i>Pulcsi és Foltmékör</i></p>
+<br>Üdvözlettel,
+<br><i>Pulcsi és Foltmékör</i>

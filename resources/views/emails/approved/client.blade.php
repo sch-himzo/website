@@ -1,10 +1,10 @@
 <h4>Kedves {{ $name }}!</h4>
 
-<p>{{ $title }} nevű rendelésed el lett fogadva!</p>
-
-<p>Hamarosan elkezd rendeléseddel foglalkozni egy körtagunk. Ha valamilyen kérdése van feléd a megadott email címeden fog keresni.</p>
-
-<p>Rendelésed adatai:</p>
+{{ $title }} nevű rendelésed el lett fogadva!<br>
+<br>
+Hamarosan elkezd rendeléseddel foglalkozni egy körtagunk. Ha valamilyen kérdése van feléd a megadott email címeden fog keresni.<br>
+<br>
+<h3>Rendelésed adatai:</h3>
 
 <table>
     <tr>
@@ -46,6 +46,6 @@
         </tr>
     @endif
 </table>
-
-<p>Üdvözlettel,</p>
-<p><i>Pulcsi és Foltmékör</i></p>
+<br>
+Üdvözlettel,<br>
+<i>Pulcsi és Foltmékör</i>

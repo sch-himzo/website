@@ -1,10 +1,10 @@
 <h4>Kedves {{ $name }}!</h4>
 
-<p>Azért kapod ezt az emailt, mert leadtál egy rendelést a Pulcsi és Foltmékör <a style="text-decoration:none; color:#069;" href="http://himzo.sch.bme.hu">weboldalán.</a></p>
+<br>Azért kapod ezt az emailt, mert leadtál egy rendelést a Pulcsi és Foltmékör <a style="text-decoration:none; color:#069;" href="http://himzo.sch.bme.hu">weboldalán.</a>
 
-<p>Rendelésedet feldolgozuk, jelenleg elfogadásra vár egy körtag által, kérjük várj türelemmel!</p>
+<br>Rendelésedet feldolgozuk, jelenleg elfogadásra vár egy körtag által, kérjük várj türelemmel!
 
-<p>Rendelésed adatai:</p>
+<br>Rendelésed adatai:
 
 <table>
     <tr>
@@ -47,7 +47,7 @@
     @endif
 </table>
 
-<p>Köszönjük rendelésed, értesíteni fogunk ha elfogadásra kerül a rendelésed!</p>
+<br>Köszönjük rendelésed, értesíteni fogunk ha elfogadásra kerül a rendelésed!
 
-<p>Üdvözlettel,</p>
-<p><i>Pulcsi és Foltmékör</i></p>
+<br>Üdvözlettel,
+<br><i>Pulcsi és Foltmékör</i>

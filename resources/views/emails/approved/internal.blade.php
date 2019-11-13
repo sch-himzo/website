@@ -1,12 +1,12 @@
 <h4>Csumpalumpa!</h4>
 
-<p><span style="font-weight:bold; color:red;">FONTOS!</span> Ezt az emailt nem te fogod kapni, csak amíg teszteljük a weboldalt nem akarom spamelni a <b>himzo@</b>-ot. Ez oda fog majd menni.</p>
+<br><span style="font-weight:bold; color:red;">FONTOS!</span> Ezt az emailt nem te fogod kapni, csak amíg teszteljük a weboldalt nem akarom spamelni a <b>himzo@</b>-ot. Ez oda fog majd menni.
 
-<p>A <b>{{ $title }}</b> nevű rendelés el lett fogadva a weboldalon <b>{{ $approver->name }}</b> által.</p>
+<br>A <b>{{ $title }}</b> nevű rendelés el lett fogadva a weboldalon <b>{{ $approver->name }}</b> által.
 
-<p>A megrendelő kapott erről értesítést.</p>
+<br>A megrendelő kapott erről értesítést.
 
-<p>Rendelés adatai:</p>
+<br>Rendelés adatai:
 
 <table>
     <tr>
@@ -57,8 +57,8 @@
     @endif
 </table>
 
-<p>A rendelést <a style="color:#069; text-decoration:none;" href="http://himzo.sch.bme.hu/orders/active">itt</a> tudod megtekinteni, illetve bekerült
-    <a style="color:#069; text-decoration:none;" href="https://trello.com/b/NLkjVmpG/rendel%C3%A9sek">Trellóba</a> is.</p>
+<br>A rendelést <a style="color:#069; text-decoration:none;" href="http://himzo.sch.bme.hu/orders/active">itt</a> tudod megtekinteni, illetve bekerült
+    <a style="color:#069; text-decoration:none;" href="https://trello.com/b/NLkjVmpG/rendel%C3%A9sek">Trellóba</a> is.
 
-<p>Üdvözlettel,</p>
-<p><i>Pulcsi és Foltmékör</i></p>
+<br>Üdvözlettel,
+<br><i>Pulcsi és Foltmékör</i>

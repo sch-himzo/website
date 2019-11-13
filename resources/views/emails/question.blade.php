@@ -1,9 +1,9 @@
 <h4>Kedves {{ $name }}!</h4>
 
-<p>Rendeléseddel kapcsolatban a következő kérdés merült fel:</p>
+<br>Rendeléseddel kapcsolatban a következő kérdés merült fel:
 
-<p>{{ $message_a }}</p>
-<p>Erre az emailre válaszolva tudod elküldeni nekünk a válaszodat.</p>
+<br>{{ $message_a }}
+<br>Erre az emailre válaszolva tudod elküldeni nekünk a válaszodat.
 
 
 <h4>Rendelésed adatai:</h4>
@@ -51,5 +51,5 @@
     @endif
 </table>
 
-<p>Üdvözlettel,</p>
-<p><i>Pulcsi és Foltmékör</i></p>
+<br>Üdvözlettel,
+<br><i>Pulcsi és Foltmékör</i>
