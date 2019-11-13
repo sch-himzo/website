@@ -150,7 +150,7 @@ $size cm oldalhosszúság
             $title = $request->input('title');
             $count = $request->input('count');
             $time_limit = date("Y-m-d",strtotime($request->input('time_limit')));
-            $type = $request->input('order_type');
+            $type = $request->input('type');
             $size = $request->input('size');
             $font = $request->input('font');
             $internal = $request->input('internal')=='internal';
@@ -172,6 +172,10 @@ $size cm oldalhosszúság
             $order->image = $new_name;
             $order->user_id = Auth::id();
             $order->save();
+
+            EmailController::orderReceivedClient($order);
+
+            EmailController::orderReceivedHimzo($order);
 
             return redirect()->route('user.orders');
         }else{
