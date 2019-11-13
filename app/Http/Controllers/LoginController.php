@@ -97,7 +97,7 @@ class LoginController extends Controller
 
                     $title = $himzo->title[0];
                 }else{
-                    $title='';
+                    $title='tag';
                 }
             }else{
                 $title = "";
