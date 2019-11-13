@@ -146,21 +146,21 @@ class EmailController extends Controller
             $data['comment'] = $order->comment;
         }
 
-//        Mail::send('emails.received.internal', $data, function($message) use ($to_name,$to_email,$order_title,$user_email){
-//            $message->to($to_email,$to_name)
-//                ->subject('Rendelés beérkezett ('.$order_title.')')
-//                ->replyTo('himzo@sch.bme.hu');
-//
-//            $message->from('himzobot@gmail.com','Pulcsi és Foltmékör');
-//        });
-
-        Mail::send('emails.received.internal', $data, function($message) use ($order_title,$user_email){
-            $message->to(Auth::user()->email,Auth::user()->name)
+        Mail::send('emails.received.internal', $data, function($message) use ($to_name,$to_email,$order_title,$user_email){
+            $message->to($to_email,$to_name)
                 ->subject('Rendelés beérkezett ('.$order_title.')')
                 ->replyTo('himzo@sch.bme.hu');
 
             $message->from('himzobot@gmail.com','Pulcsi és Foltmékör');
         });
+
+//        Mail::send('emails.received.internal', $data, function($message) use ($order_title,$user_email){
+//            $message->to(Auth::user()->email,Auth::user()->name)
+//                ->subject('Rendelés beérkezett ('.$order_title.')')
+//                ->replyTo('himzo@sch.bme.hu');
+//
+//            $message->from('himzobot@gmail.com','Pulcsi és Foltmékör');
+//        });
     }
 
     public static function orderApprovedClient(Order $order)
@@ -253,21 +253,21 @@ class EmailController extends Controller
             $data['comment'] = $order->comment;
         }
 
-//        Mail::send('emails.approved.internal', $data, function($message) use ($to_name,$to_email,$order_title,$user_email){
-//            $message->to($to_email,$to_name)
-//                ->subject('Rendelés beérkezett ('.$order_title.')')
-//                ->replyTo('himzo@sch.bme.hu');
-//
-//            $message->from('himzobot@gmail.com','Pulcsi és Foltmékör');
-//        });
-
-        Mail::send('emails.approved.internal', $data, function($message) use ($order_title,$user_email){
-            $message->to(Auth::user()->email,Auth::user()->name)
+        Mail::send('emails.approved.internal', $data, function($message) use ($to_name,$to_email,$order_title,$user_email){
+            $message->to($to_email,$to_name)
                 ->subject('Rendelés beérkezett ('.$order_title.')')
                 ->replyTo('himzo@sch.bme.hu');
 
             $message->from('himzobot@gmail.com','Pulcsi és Foltmékör');
         });
+
+//        Mail::send('emails.approved.internal', $data, function($message) use ($order_title,$user_email){
+//            $message->to(Auth::user()->email,Auth::user()->name)
+//                ->subject('Rendelés beérkezett ('.$order_title.')')
+//                ->replyTo('himzo@sch.bme.hu');
+//
+//            $message->from('himzobot@gmail.com','Pulcsi és Foltmékör');
+//        });
     }
 
     public static function orderQuestion(Order $order, $message)
@@ -323,7 +323,7 @@ class EmailController extends Controller
             $message->to($to_email,$to_name)
                 ->subject('Rendeléssel kapcsolatos kérdés ('.$order_title.')')
                 ->bcc($from_email)
-//                ->bcc('himzo@sch.bme.hu')
+                ->bcc('himzo@sch.bme.hu')
                 ->replyTo('himzo@sch.bme.hu');
 
             $message->from($from_email, $from_name);
