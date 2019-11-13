@@ -197,6 +197,16 @@ $size cm oldalhosszúság
         ]);
     }
 
+    public function email(Request $request, Order $order)
+    {
+        $message = $request->input('message');
+
+        if($message!=''){
+            EmailController::orderQuestion($order, $message);
+        }
+        return redirect()->back();
+    }
+
     public function approve(Order $order)
     {
         if(Auth::user()->role_id<2)

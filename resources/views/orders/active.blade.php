@@ -16,6 +16,7 @@
                     <th>Megrendelő</th>
                     <th>Kép</th>
                     <th>Darabszám</th>
+                    <th>Műveletek</th>
                 </tr>
                 @foreach($cards as $card)
                     <tr>
@@ -25,9 +26,58 @@
                         <td>@if($card->order->first()->user!=null) {{ $card->order->first()->user->name }} @elseif($card->order->first()->tempUser!=null) {{ $card->order->first()->tempUser->name }} @endif</td>
                         <td>{{ route('orders.getImage', ['order' => $card->order->first()]) }}</td>
                         <td>{{ $card->order->first()->count }}</td>
+                        <td>
+                            <span data-toggle="tooltip" title="Email küldése">
+                                <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#email_{{ $card->id }}">
+                                    <i class="fa fa-envelope"></i>
+                                </button>
+                            </span>
+                        </td>
                     </tr>
                 @endforeach
             </table>
         </div>
     </div>
+@endsection
+
+@section('modals')
+    @foreach($cards as $card)
+        <div class="modal fade" id="email_{{ $card->id }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="{{ route('orders.email', ['order' => $card->order->first()]) }}" method="POST">
+                        {{ csrf_field() }}
+                        <div class="modal-header">
+                            <button class="close" type="button" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Email küldése</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="email">Email cím</label>
+                                    <input readonly type="text" class="form-control" name="email" id="email" value="@if($card->order->first()->user!=null) {{ $card->order->first()->user->email }} @elseif($card->order->first()->tempUser!=null) {{ $card->order->first()->tempUser->email }} @endif">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="title">Rendelés</label>
+                                    <input readonly type="text" class="form-control" name="title" id="title" value="{{ $card->order->first()->title }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="message">Üzenet</label>
+                                    <textarea class="form-control" name="message" id="message" placeholder="">(Nem kell köszönni, csak írd ide a kérdésed)</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="submit" class="btn btn-primary" value="Küldés">
+                            <button data-dismiss="modal" type="button" class="btn btn-default">Mégse</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection

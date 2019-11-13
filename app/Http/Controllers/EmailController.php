@@ -269,4 +269,61 @@ class EmailController extends Controller
             $message->from('himzobot@gmail.com','Pulcsi és Foltmékör');
         });
     }
+
+    public static function orderQuestion(Order $order, $message)
+    {
+        if($order->user==null){
+            $user = $order->tempUser;
+        }else{
+            $user = $order->user;
+        }
+
+        $types = [
+            1 => 'Folt',
+            3 => 'Pulcsira hímzendő',
+            2 => 'Pólóra hímzendő'
+        ];
+
+        $to_name = $user->name;
+        $to_email = $user->email;
+        $from_name = Auth::user()->name;
+        $from_email = Auth::user()->email;
+
+        $order_title = $order->title;
+
+        $data = [
+            'name' => $to_name,
+            'from_name' => $from_name,
+            'message_a' => (string)($message),
+            'title' => $order->title,
+            'image' => route('orders.getImage', ['order' => $order]),
+            'time_limit' => $order->time_limit,
+            'count' => $order->count,
+            'types' => $types,
+            'type' => $order->type,
+            'size' => $order->size
+        ];
+
+        if(!filter_var($to_email,FILTER_VALIDATE_EMAIL)){
+            $to_email = "benedekb97@gmail.com";
+        };
+
+        if($order->font!=null){
+            $data['font'] = $order->font;
+        }
+
+        if($order->comment!=null){
+            $data['comment'] = $order->comment;
+        }
+
+        Mail::send('emails.question', $data, function($message) use ($to_name,$to_email,$order_title,$from_email,$from_name){
+            $message->to($to_email,$to_name)
+                ->subject('Rendeléssel kapcsolatos kérdés ('.$order_title.')')
+                ->bcc($from_email)
+//            ->bcc('himzo@sch.bme.hu')
+                ->replyTo('himzo@sch.bme.hu');
+
+            $message->from($from_email, $from_name);
+        });
+    }
 }

@@ -36,6 +36,8 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::post('save', 'OrdersController@save')->name('save');
         Route::get('image/order/{order}', 'OrdersController@getImage')->name('getImage');
 
+        Route::post('email/{order}','OrdersController@email')->name('email');
+
         Route::get('unapproved', 'OrdersController@unapproved')->name('unapproved');
         Route::get('approve/order/{order}', 'OrdersController@approve')->name('approve');
 
