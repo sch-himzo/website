@@ -13,12 +13,14 @@
         <th align="right">Név</th>
         <td>{{ $title }}</td>
     </tr>
+    @if(isset($image))
     <tr>
         <th align="right">Kép</th>
         <td>
             <a href="{{ $image }}" style="text-decoration:none; color:#069;" target="_blank">Megnyitás</a>
         </td>
     </tr>
+    @endif
     <tr>
         <th align="right">Határidő</th>
         <td>{{ $time_limit }}</td>

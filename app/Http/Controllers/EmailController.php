@@ -296,7 +296,6 @@ class EmailController extends Controller
             'from_name' => $from_name,
             'message_a' => (string)($message),
             'title' => $order->title,
-            'image' => route('orders.getImage', ['order' => $order]),
             'time_limit' => $order->time_limit,
             'count' => $order->count,
             'types' => $types,
@@ -307,6 +306,10 @@ class EmailController extends Controller
         if(!filter_var($to_email,FILTER_VALIDATE_EMAIL)){
             $to_email = "benedekb97@gmail.com";
         };
+
+        if($order->image!=''){
+            $data['image'] = route('orders.getImage', ['order' => $order]);
+        }
 
         if($order->font!=null){
             $data['font'] = $order->font;
