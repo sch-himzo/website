@@ -342,10 +342,19 @@ $size cm oldalhosszúság
 
             Storage::disk()->put($new_name, File::get($file));
 
-            $temp_user = new TempUser();
-            $temp_user->email = $request->input('email');
-            $temp_user->name = $request->input('name');
-            $temp_user->save();
+            if(User::where('email',$request->input('email'))->get()->count()<0){
+                $user = User::where('email',$request->input('email'))->first()->id;
+                $temp_user = null;
+            }else{
+                $user = null;
+                $temp_user = new TempUser();
+                $temp_user->email = $request->input('email');
+                $temp_user->name = $request->input('name');
+                $temp_user->save();
+
+                $temp_user = $temp_user->id;
+            }
+
 
             $title = $request->input('title');
             $count = $request->input('count');
@@ -370,7 +379,8 @@ $size cm oldalhosszúság
             $order->internal = $internal;
             $order->comment = $comment=="" ? null : $comment;
             $order->image = $new_name;
-            $order->temp_user_id = $temp_user->id;
+            $order->user_id = $user;
+            $order->temp_user_id = $temp_user;
             $order->save();
 
             return redirect()->route('user.orders');
