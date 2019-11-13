@@ -1,5 +1,7 @@
 <p>Csumpalumpa!</p>
 
+<p><span style="font-weight:bold; color:red;">FONTOS!</span> Ezt az emailt nem te fogod kapni, csak amíg teszteljük a weboldalt nem akarom spamelni a <b>himzo@</b>-ot. Ez oda fog majd menni.</p>
+
 <p>Rendelés lett leadva a <a style="text-decoration:none; color:#069;" href="http://himzo.sch.bme.hu">weboldalon.</a></p>
 
 <p>A megrendelő jelenleg arra vár, hogy valaki elfogadja ezt.</p>
