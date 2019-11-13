@@ -263,12 +263,16 @@ $size cm oldalhosszúság
         return view('orders.active', ['cards' => $cards]);
     }
 
-    public function delete(Order $order)
+    public function delete(Request $request, Order $order)
     {
         if(Auth::user()->role_id<2)
         {
             abort(403);
         }
+
+        $reason = $request->input('reason');
+
+        EmailController::orderDeletedClient($order, $reason);
 
         $order->delete();
 

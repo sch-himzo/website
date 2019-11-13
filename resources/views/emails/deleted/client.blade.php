@@ -1,10 +1,11 @@
 <h4>Kedves {{ $name }}!</h4>
 
-<p>Azért kapod ezt az emailt, mert leadtál egy rendelést a Pulcsi és Foltmékör <a style="text-decoration:none; color:#069;" href="http://himzo.sch.bme.hu">weboldalán.</a></p>
+<p>{{ $title }} nevű rendelésed törölve lett az alábbi indoklással:</p>
+<p>{{ $reason }}</p>
+<br>
 
-<p>Rendelésedet feldolgozuk, jelenleg elfogadásra vár egy körtag által, kérjük várj türelemmel!</p>
 
-<p>Rendelésed adatai:</p>
+<h4>Rendelésed adatai:</h4>
 
 <table>
     <tr>
@@ -46,8 +47,6 @@
         </tr>
     @endif
 </table>
-
-<p>Köszönjük rendelésed, értesíteni fogunk ha elfogadásra kerül a rendelésed!</p>
 
 <p>Üdvözlettel,</p>
 <p><i>Pulcsi és Foltmékör</i></p>
