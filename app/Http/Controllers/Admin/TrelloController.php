@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\TempUser;
 use App\Models\TrelloCard;
 use App\Models\TrelloList;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -164,13 +165,20 @@ class TrelloController extends Controller
                 preg_match("/- \*\*Rendelő:\*\*.?(.*) - (.*)/", $card->desc, $matches);
 
                 if(sizeof($matches)>0){
-                    $temp_user = new TempUser();
                     $name = $matches[1];
                     $email = $matches[2];
 
-                    $temp_user->name = $name;
-                    $temp_user->email = $email;
-                    $temp_user->save();
+                    if(User::where('email',$email)->get()->count()>1){
+                        $user = User::where('email',$email)->first()->id;
+                        $temp_user = null;
+                    }else{
+                        $user = null;
+                        $temp_user = new TempUser();
+
+                        $temp_user->name = $name;
+                        $temp_user->email = $email;
+                        $temp_user->save();
+                    }
                 }
 
                 $order = new Order();
@@ -180,7 +188,7 @@ class TrelloController extends Controller
                     $order->temp_user_id = null;
                 }
 
-                $order->user_id = null;
+                $order->user_id = $user;
                 $order->title = $card->name;
                 $order->count = $count;
                 $order->time_limit = null;

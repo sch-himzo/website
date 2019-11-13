@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\TempUser;
 use App\Models\TrelloCard;
 use App\Models\TrelloList;
+use App\Models\User;
 use Auth;
 use File;
 use Illuminate\Http\Request;
@@ -285,13 +286,18 @@ $size cm oldalhosszúság
         $email = $request->input('email');
         $name = $request->input('name');
 
-        $temp_user = new TempUser();
-        $temp_user->name = $name;
-        $temp_user->email = $email;
-        $temp_user->save();
+        if(User::where('email',$email)->get()->count()!=0){
+            $order->user_id = User::where('email',$email)->first()->id;
+            $order->save();
+        }else{
+            $temp_user = new TempUser();
+            $temp_user->name = $name;
+            $temp_user->email = $email;
+            $temp_user->save();
 
-        $order->temp_user_id = $temp_user->id;
-        $order->save();
+            $order->temp_user_id = $temp_user->id;
+            $order->save();
+        }
 
         return redirect()->back();
 
