@@ -170,6 +170,8 @@ class TrelloController extends Controller
                     $temp_user->name = $name;
                     $temp_user->email = $email;
                     $temp_user->save();
+                }else{
+                    unset($temp_user);
                 }
 
 
