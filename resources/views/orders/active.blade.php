@@ -101,11 +101,16 @@
                             <h4 class="modal-title">Email küldése</h4>
                         </div>
                         <div class="modal-body">
-                            <p><i>A megrendelőnek küldi az emailt, bcc-z téged, és himzo@-ot</i></p>
                             <div class="form-group">
                                 <div class="input-group">
                                     <label class="input-group-addon" for="email">Email cím</label>
                                     <input readonly type="text" class="form-control" name="email" id="email" value="@if($card->order->first()->user!=null) {{ $card->order->first()->user->email }} @elseif($card->order->first()->tempUser!=null) {{ $card->order->first()->tempUser->email }} @endif">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="bcc">BCC</label>
+                                    <input readonly type="text" class="form-control" name="bcc" id="bcc" value="{{ AUth::user()->email }},himzo@sch.bme.hu">
                                 </div>
                             </div>
                             <div class="form-group">
