@@ -24,7 +24,13 @@
                         <td>{{ $card->order->first()->time_limit }}</td>
                         <td>{{ $card->trelloList->name }}</td>
                         <td>@if($card->order->first()->user!=null) {{ $card->order->first()->user->name }} @elseif($card->order->first()->tempUser!=null) {{ $card->order->first()->tempUser->name }} @endif</td>
-                        <td>{{ route('orders.getImage', ['order' => $card->order->first()]) }}</td>
+                        <td>
+                            <span data-toggle="tooltip" title="Kép megtekintése">
+                                <a target="_blank" href="{{ route('orders.getImage', ['order' => $card->order->first()]) }}" class="btn btn-xs btn-primary">
+                                    <i class="fa fa-image"></i>
+                                </a>
+                            </span>
+                        </td>
                         <td>{{ $card->order->first()->count }}</td>
                         <td>
                             @if($card->order->first()->user==null && $card->order->first()->tempUser==null)
