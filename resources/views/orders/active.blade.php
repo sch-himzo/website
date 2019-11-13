@@ -110,7 +110,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <label class="input-group-addon" for="bcc">BCC</label>
-                                    <input readonly type="text" class="form-control" name="bcc" id="bcc" value="{{ AUth::user()->email }},himzo@sch.bme.hu">
+                                    <input readonly type="text" class="form-control" name="bcc" id="bcc" value="{{ Auth::user()->email }},himzo@sch.bme.hu">
                                 </div>
                             </div>
                             <div class="form-group">
