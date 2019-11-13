@@ -19,6 +19,29 @@
 @endsection
 
 @section('content')
+    <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+    <input type="hidden" name="users_url" id="users_url" value="{{ route('getUsers') }}">
+    <input type="hidden" name="current_user_id" id="current_user_id" value="@if(Auth::check()) {{ Auth::user()->id }} @else {{ false }} @endif">
     <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Kik vannak most hímzőben?</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped" id="users_table">
+                    </table>
+                </div>
+                @if(Auth::check() && Auth::user()->role_id>1)
+                    <div class="panel-footer" id="btn-container">
+
+                    </div>
+                @endif
+            </div>
+        </div>
     </div>
+@endsection
+
+@section('scripts')
+<script src="{{ asset('js/currently_in.js') }}"></script>
 @endsection

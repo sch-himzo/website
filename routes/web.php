@@ -44,6 +44,10 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], function(){
     Route::get('orders','UserController@orders')->name('orders');
+
+
+    Route::get('in', 'UserController@in')->name('in');
+    Route::get('out','UserController@out')->name('out');
 });
 
 Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'admin'], function(){
@@ -52,3 +56,5 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'admin'], fu
         Route::get('lists/{trello_list}/cards','Admin\TrelloController@cards')->name('cards');
     });
 });
+
+Route::post('get/users','HomeController@getUsers')->name('getUsers');
