@@ -184,6 +184,9 @@ class TrelloController extends Controller
                             $temp_user->save();
                         }
                     }
+                }else{
+                    $temp_user = null;
+                    $user = null;
                 }
 
                 $order = new Order();
