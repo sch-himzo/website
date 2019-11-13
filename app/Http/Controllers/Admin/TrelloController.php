@@ -168,16 +168,21 @@ class TrelloController extends Controller
                     $name = $matches[1];
                     $email = $matches[2];
 
-                    if(User::where('email',$email)->get()->count()>1){
+                    if(User::where('email',$email)->get()->count()>0){
                         $user = User::where('email',$email)->first()->id;
                         $temp_user = null;
                     }else{
                         $user = null;
-                        $temp_user = new TempUser();
 
-                        $temp_user->name = $name;
-                        $temp_user->email = $email;
-                        $temp_user->save();
+                        if(TempUser::all()->where('email',$email)->count()>0){
+                            $temp_user = TempUser::all()->where('email',$email)->first();
+                        }else{
+                            $temp_user = new TempUser();
+
+                            $temp_user->name = $name;
+                            $temp_user->email = $email;
+                            $temp_user->save();
+                        }
                     }
                 }
 
