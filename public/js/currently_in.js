@@ -32,6 +32,13 @@ function currentUsers(){
                     "</tr>";
             });
 
+            if(out===""){
+                out="<tr>" +
+                    "<td style='padding:10px; font-size:16px; font-style:italic;'>Nincs most itt senki :(" +
+                    "</td>" +
+                    "</tr>";
+            }
+
             console.log(out);
 
             users_table.html(out);
