@@ -101,6 +101,7 @@
                             <h4 class="modal-title">Email küldése</h4>
                         </div>
                         <div class="modal-body">
+                            <p><i>A megrendelőnek küldi az emailt, bcc-z téged, és himzo@-ot</i></p>
                             <div class="form-group">
                                 <div class="input-group">
                                     <label class="input-group-addon" for="email">Email cím</label>
