@@ -46,6 +46,15 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('active', 'OrdersController@active')->name('active');
     });
 
+Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' => 'jew'], function(){
+    Route::post('teddy-bears/new','TransactionController@newTeddy')->name('teddy_bear.new');
+    Route::post('teddy-bears/{teddy_bear}/balance/add', 'TransactionController@addBalance')->name('teddy_bear.balance.add');
+
+    Route::get('teddy-bears/{teddy_bear}','TransactionController@teddyBear')->name('teddy_bear');
+
+    Route::get('teddy-bears','TransactionController@teddyBears')->name('teddy_bears');
+});
+
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], function(){
     Route::get('orders','UserController@orders')->name('orders');
 

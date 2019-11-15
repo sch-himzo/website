@@ -10,4 +10,9 @@ class Role extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function teddyBears()
+    {
+        return $this->hasMany(TeddyBear::class);
+    }
 }

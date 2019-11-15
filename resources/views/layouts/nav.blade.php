@@ -29,6 +29,14 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::check())
+                    @if(Auth::user()->role_id>3)
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Pénzügyek <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('transactions.teddy_bears') }}">Kasszák</a></li>
+                            </ul>
+                        </li>
+                    @endif
                     <li class="dropdown @yield('user.orders.active')">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">{{ Auth::user()->name }} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
