@@ -33,6 +33,30 @@ class TransactionController extends Controller
         ]);
     }
 
+    public function editTransaction(Request $request, Transaction $transaction)
+    {
+        $amount = $request->input('amount');
+        $for = $request->input('for');
+
+        $transaction->amount = abs($amount);
+        $transaction->in = $amount>0;
+        $transaction->for = $for;
+        $transaction->save();
+
+        return redirect()->back();
+    }
+
+    public function deleteTransaction(Transaction $transaction)
+    {
+        if(Auth::user()->role_id<$transaction->teddyBear->role_id) {
+            abort(401);
+        }
+
+        $transaction->delete();
+
+        return redirect()->back();
+    }
+
     public function newTeddy(Request $request)
     {
         $name = $request->input('name');

@@ -50,6 +50,9 @@ Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' 
     Route::post('teddy-bears/new','TransactionController@newTeddy')->name('teddy_bear.new');
     Route::post('teddy-bears/{teddy_bear}/balance/add', 'TransactionController@addBalance')->name('teddy_bear.balance.add');
 
+    Route::post('transaction/{transaction}/edit','TransactionController@editTransaction')->name('edit');
+    Route::post('transaction/{transaction}/delete','TransactionController@deleteTransaction')->name('delete');
+
     Route::get('teddy-bears/{teddy_bear}','TransactionController@teddyBear')->name('teddy_bear');
 
     Route::get('teddy-bears','TransactionController@teddyBears')->name('teddy_bears');
