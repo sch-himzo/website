@@ -126,7 +126,9 @@ class LoginController extends Controller
             $user->save();
         }else{
             $user = $user->first();
-            $user->role_id = $this->pek_roles[$title];
+            if($user->role_id<6){
+                $user->role_id = $this->pek_roles[$title];
+            }
             $user->save();
         }
 
