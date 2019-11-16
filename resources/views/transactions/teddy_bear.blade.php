@@ -69,7 +69,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <label class="input-group-addon" for="amount">Összeg</label>
-                                    <input class="form-control" type="number" name="amount" id="amount" value="{{ $transaction->amount }}" placeholder="Összeg" required>
+                                    <input class="form-control" type="number" name="amount" id="amount" value="@if(!$transaction->in){{ 0-$transaction->amount }}@else{{ $transaction->amount }}@endif" placeholder="Összeg" required>
                                     <label class="input-group-addon" for="amount">Ft</label>
                                 </div>
                             </div>
