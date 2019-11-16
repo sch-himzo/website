@@ -300,6 +300,7 @@ $size cm oldalhosszúság
 //            ->where('status','NOT LIKE','%fizetve%')
 //            ->where('status','NOT LIKE','%Fizetve%')
             ->where('list_id','<','5')
+            ->sortByDesc('id')
             ->all();
 
         return view('orders.active', ['cards' => $cards]);

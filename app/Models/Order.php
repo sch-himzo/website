@@ -35,7 +35,14 @@ class Order extends Model
 
     public function getStatusClient()
     {
-        $checklist = $this->trelloCard->getChecklist()[0];
+
+        $checklists = $this->trelloCard->getChecklist();
+
+        if(sizeof($checklists)<1){
+            return $this->trelloCard->trelloList->name;
+        }
+
+        $checklist = $checklists[0];
 
         $items = $checklist->checkItems;
 
