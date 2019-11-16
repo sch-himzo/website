@@ -71,7 +71,8 @@
                         <i>Ezáltal bekerül trello-ba a "Beérkező" listába!</i>
                     </div>
                     <div class="modal-footer">
-                        <a href="{{ route('orders.approve', ['order' => $order]) }}" class="btn btn-success">Igen!</a>
+                        <a href="{{ route('orders.approve', ['order' => $order, 'internal' => false]) }}" class="btn btn-success">Igen (Schönherzes)</a>
+                        <a href="{{ route('orders.approve', ['order' => $order, 'internal' => true]) }}" class="btn btn-success">Igen (Külsős)</a>
                         <button type="button" data-dismiss="modal" class="btn btn-danger">Mégse</button>
                     </div>
                 </div>

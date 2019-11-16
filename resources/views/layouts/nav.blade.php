@@ -1,4 +1,4 @@
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
         <div class="navbar-header">
             <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#navbar">
@@ -13,10 +13,11 @@
             <ul class="nav navbar-nav">
                 <li class="@yield('index.active')"><a class="@yield('index.active')" href="{{ route('index') }}">Főoldal</a></li>
                 @if(Auth::check())
-                    <li class="dropdown @yield('orders.new.active') @yield('orders.unapproved.active') @yield('orders.active.active')">
+                    <li class="dropdown @yield('orders.new.active')  @yield('user.orders.active') @yield('orders.unapproved.active') @yield('orders.active.active')">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">Rendelések <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li class="@yield('orders.new.active')"><a class="@yield('orders.new.active') " href="{{ route('orders.new') }}">Új rendelés</a></li>
+                            <li><a class="@yield('user.orders.active')" href="{{ route('user.orders') }}">Rendeléseim</a></li>
                             @if(Auth::user()->role_id>1)
                                 <li role="separator" class="divider"></li>
                                 <li class="@yield('orders.fake.active')"><a class="@yield('orders.fake.active')" href="{{ route('orders.fake') }}">Rendelés felvétele</a></li>
@@ -37,11 +38,9 @@
                             </ul>
                         </li>
                     @endif
-                    <li class="dropdown @yield('user.orders.active')">
+                    <li class="dropdown">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">{{ Auth::user()->name }} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a class="@yield('user.orders.active')" href="{{ route('user.orders') }}">Rendeléseim</a></li>
-                            <li role="separator" class="divider"></li>
                             <li><a href="{{ route('logout') }}">Kijelentkezés</a></li>
                         </ul>
                     </li>

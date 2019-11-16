@@ -6,10 +6,11 @@
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
         <script src="https://kit.fontawesome.com/492a2c0a6b.js" crossorigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        @yield('styles')
     </head>
     <body>
     @include('layouts.nav')
-    @yield('jumbotron')
+    @yield('carousel')
 
     <div class="container" role="main">
         @yield('content')

@@ -126,7 +126,7 @@ $size cm oldalhosszúság
 
         curl_close($curl);
 
-        return $output->id;
+        return $output;
     }
 
     public function save(Request $request)
@@ -135,6 +135,19 @@ $size cm oldalhosszúság
             $file = $request->file('image');
             $extension = strtolower($file->extension());
             $size = $file->getSize()/1024/1024;
+
+            if($request->file('font')){
+                $font = $request->file('font');
+                $font_extension = strtolower($font->extension());
+                $font_size = $font->getSize()/1024/1024;
+
+                if($font_size>10 || $font_extension!="ttf"){
+                    return redirect()->back();
+                }
+
+                $new_font_name = 'fonts/uploads/' . time().$font->getClientOriginalName().'.'.$font_extension;
+                Storage::disk()->put($new_font_name, File::get($font));
+            }
 
             if($size>10){
                 return redirect()->back();
@@ -153,8 +166,11 @@ $size cm oldalhosszúság
             $time_limit = date("Y-m-d",strtotime($request->input('time_limit')));
             $type = $request->input('type');
             $size = $request->input('size');
-            $font = $request->input('font');
-            $internal = $request->input('internal')=='internal';
+            if(isset($new_font_name)){
+                $font = $new_font_name;
+            }else{
+                $font = null;
+            }
             $comment = $request->input('comment');
 
             $order = new Order();
@@ -166,9 +182,9 @@ $size cm oldalhosszúság
             }else{
                 $order->type = 1;
             }
+            $order->internal = false;
             $order->size = $size;
             $order->font = $font=="" ? null : $font;
-            $order->internal = $internal;
             $order->comment = $comment=="" ? null : $comment;
             $order->image = $new_name;
             $order->user_id = Auth::id();
@@ -208,22 +224,34 @@ $size cm oldalhosszúság
         return redirect()->back();
     }
 
-    public function approve(Order $order)
+    public function approve(Order $order, $internal)
     {
         if(Auth::user()->role_id<2)
         {
             abort(403);
         }
 
+        $order->internal = $internal;
+        $order->save();
+
         EmailController::orderApprovedClient($order);
         EmailController::orderApprovedInternal($order, Auth::user());
 
+
+        $card = $this->trello($order);
+
+        $trello_card = new TrelloCard();
+        $trello_card->trello_id = $card->id;
+        $trello_card->desc = $card->desc;
+        $trello_card->name = $card->name;
+        $trello_card->idLabels = implode(',',$card->idLabels);
+        $trello_card->list_id = 1;
+        $trello_card->save();
+
+        $order->trello_card = $trello_card->id;
         $order->approved_by = Auth::id();
         $order->save();
 
-        $trello_card_id = $this->trello($order);
-
-        $order->trello_card = $trello_card_id;
 
         return redirect()->back();
     }

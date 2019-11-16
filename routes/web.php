@@ -41,7 +41,7 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::post('setUser/{order}','OrdersController@setUser')->name('setUser');
 
         Route::get('unapproved', 'OrdersController@unapproved')->name('unapproved');
-        Route::get('approve/order/{order}', 'OrdersController@approve')->name('approve');
+        Route::get('approve/order/{order}/{internal}', 'OrdersController@approve')->name('approve');
 
         Route::get('active', 'OrdersController@active')->name('active');
     });

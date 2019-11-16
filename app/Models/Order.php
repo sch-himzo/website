@@ -32,4 +32,35 @@ class Order extends Model
     {
         return $this->belongsTo(TrelloCard::class,'trello_card');
     }
+
+    public function getStatusClient()
+    {
+        $checklist = $this->trelloCard->getChecklist()[0];
+
+        $items = $checklist->checkItems;
+
+        if($this->approved_by == null){
+            return "Elfogadásra vár";
+        }
+
+        if($items[0]->name =="tervezve" && $items[0]->state=="complete"){
+            if($items[1]->name == "hímezve" && $items[1]->state=="complete"){
+                if($items[2]->name == "fizetve" && $items[2]->state == "complete"){
+                    if($items[3]->name == "átadva" && $items[3]->state == "complete"){
+                        return "Fizetve";
+                    }else{
+                        return "Átadásra vár";
+                    }
+                }else{
+                    return "Fizetésre vár";
+                }
+            }else{
+                return "Folyamatban";
+            }
+        }else{
+            return "Folyamatban";
+        }
+
+
+    }
 }

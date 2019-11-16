@@ -43,7 +43,7 @@
                             <input class="badge-select btn btn-primary left" type="button" value="Folt" id="badge_button"><input class="badge-select btn btn-default center" type="button" value="Pólóra" id="shirt_button"><input class="badge-select btn btn-default right" type="button" value="Pulcsira" id="jumper_button">
                         </div>
                         <div class="form-group">
-                            <div class="input-group" data-toggle="tooltip" title="A folt mérete (cm-ben)">
+                            <div class="input-group" data-toggle="tooltip" title="A folt átmérője (cm-ben)">
                                 <label class="input-group-addon" for="size">Méret<span class="required">*</span></label>
                                 <input class="form-control" type="text" name="size" id="size" placeholder="Méret">
                                 <span class="input-group-addon">cm</span>
@@ -52,17 +52,13 @@
                         <div class="form-group">
                             <div class="input-group" data-toggle="tooltip" title="Ha különleges betűtípust igényel a folt">
                                 <label class="input-group-addon" for="font">Betűtípus</label>
-                                <input class="form-control" type="text" name="font" id="font" placeholder="Betűtípus">
+                                <input class="form-control" type="file" name="font" id="font">
                             </div>
-                        </div>
-                        <div class="form-group" data-toggle="tooltip" title="Külsős vagy Belsős rendelés?">
-                            <input type="hidden" name="internal" value="internal" id="internal_field">
-                            <input class="internal-select btn btn-primary left" type="button" value="Schönherzes" id="internal_button"><input class="internal-select btn btn-default right" type="button" value="Külsős" id="external_button">
                         </div>
                         <div class="form-group">
                             <div class="input-group" data-toggle="tooltip" title="Egyéb megjegyzés a rendeléssel kapcsolatban">
                                 <label for="comment" class="input-group-addon">Megjegyzés</label>
-                                <input type="text" name="comment" id="comment" placeholder="Megjegyzés" class="form-control">
+                                <textarea name="comment" id="comment" class="form-control"></textarea>
                             </div>
                         </div>
                     </div>

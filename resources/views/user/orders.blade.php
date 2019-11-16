@@ -17,6 +17,7 @@
                             <th>Határidő</th>
                             <th>Kép</th>
                             <th>Darabszám</th>
+                            <th>Állapot</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -38,6 +39,7 @@
                                     </span>
                                 </td>
                                 <td>{{ $order->count }}</td>
+                                <td>{{ $order->getStatusClient() }}</td>
                             </tr>
                         @endforeach
                     </tbody>
