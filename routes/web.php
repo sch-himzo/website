@@ -58,6 +58,15 @@ Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' 
     Route::get('teddy-bears','TransactionController@teddyBears')->name('teddy_bears');
 });
 
+Route::group(['prefix' => 'settings', 'as' => 'settings.', 'middleware' => 'leader'], function(){
+    Route::get('gallery','Admin\SettingsController@gallery')->name('gallery');
+
+    Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function(){
+        Route::post('new', 'Admin\GalleryController@new')->name('new');
+    });
+
+});
+
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], function(){
     Route::get('orders','UserController@orders')->name('orders');
 

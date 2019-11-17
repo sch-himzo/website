@@ -38,6 +38,14 @@
                             </ul>
                         </li>
                     @endif
+                    @if(Auth::user()->role_id>4)
+                        <li class="dropdown">
+                            <a class="dropdonw-toggle" href="#" data-toggle="dropdown">Beállítások <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('settings.gallery') }}">Galéria</a></li>
+                            </ul>
+                        </li>
+                    @endif
                     <li class="dropdown">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">{{ Auth::user()->name }} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
