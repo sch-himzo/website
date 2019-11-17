@@ -54,7 +54,7 @@
     <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
     <input type="hidden" name="users_url" id="users_url" value="{{ route('getUsers') }}">
     <input type="hidden" name="current_user_id" id="current_user_id" value="@if(Auth::check()) {{ Auth::user()->id }} @else {{ false }} @endif">
-    <div class="row">
+    <div style="margin-top:20px;" class="row">
         <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">
