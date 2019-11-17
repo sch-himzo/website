@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Gallery\Album;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
@@ -67,7 +68,10 @@ class Order extends Model
         }else{
             return "Folyamatban";
         }
+    }
 
-
+    public function albums()
+    {
+        return $this->belongsToMany(Album::class,'order_album','order_id','album_id');
     }
 }
