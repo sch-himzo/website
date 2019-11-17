@@ -45,7 +45,13 @@
                 <div class="container">
                     <div class="carousel-caption">
                         <h1>Folt rendelés</h1>
-                        <p><a class="btn btn-lg btn-primary" href="{{ route('orders.new') }}">Rendelés &raquo;</a></p>
+                        <p>
+                            @if(Auth::check())
+                            <a class="btn btn-lg btn-primary" href="{{ route('orders.new') }}">Rendelés &raquo;</a>
+                            @else
+                            <a class="btn btn-lg btn-primary" href="#" data-toggle="modal" data-target="#login_modal">Rendelés &raquo;</a>
+                            @endif
+                        </p>
                     </div>
                 </div>
             </div>
