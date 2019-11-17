@@ -60,6 +60,14 @@ Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' 
 
 Route::group(['prefix' => 'settings', 'as' => 'settings.', 'middleware' => 'leader'], function(){
     Route::get('gallery','Admin\SettingsController@gallery')->name('gallery');
+    Route::get('index','Admin\SettingsController@index')->name('index');
+
+    Route::post('index/slides/new','Admin\SettingsController@newSlide')->name('index.slides.new');
+    Route::get('index/slides/{slide}/edit','Admin\SettingsController@editSlide')->name('index.slide.edit');
+    Route::get('index/slides/{slide}/delete','Admin\SettingsController@deleteSlide')->name('index.slide.delete');
+    Route::get('index/slides/{slide}/up','Admin\SettingsController@slideUp')->name('index.slide.up');
+    Route::get('index/slides/{slide}/down','Admin\SettingsController@slideDown')->name('index.slide.down');
+    Route::post('index/slides/{slide}/save','Admin\SettingsController@saveSlide')->name('index.slides.save');
 
     Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function(){
         Route::post('new', 'Admin\GalleryController@new')->name('new');

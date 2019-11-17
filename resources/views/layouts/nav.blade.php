@@ -42,6 +42,7 @@
                         <li class="dropdown">
                             <a class="dropdonw-toggle" href="#" data-toggle="dropdown">Beállítások <span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                <li><a href="{{ route('settings.index') }}">Főoldal</a></li>
                                 <li><a href="{{ route('settings.gallery') }}">Galéria</a></li>
                             </ul>
                         </li>

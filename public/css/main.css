@@ -110,3 +110,20 @@ label span.required{
 .btn.center{
     border-radius:0;
 }
+
+.panel-button{
+    display:block;
+    width:100%;
+    border-bottom:1px solid rgba(0,0,0,0.2);
+    text-decoration:none;
+    padding:10px;
+    margin:0;
+}
+
+.panel-body.slides-panel{
+    padding:0;
+}
+.panel-button:hover, .panel-button:active, .panel-button:visited{
+    background:rgba(0,0,0,0.1);
+    text-decoration:none;
+}
