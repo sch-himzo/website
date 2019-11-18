@@ -79,17 +79,20 @@
                             <h4 class="modal-title">Képek hozzáadása</h4>
                         </div>
                         <div class="modal-body">
+                            <div class="row">
                             @foreach($card->order->albums as $album)
-                                <div class="modal-album">
-                                    <a href="{{ route('albums.view', ['album' => $album]) }}">
-                                        <img class="modal-album-cover" src="{{ route('images.get',['image' => $album->getCover()]) }}">
+                                    <div class="col-md-6">
+
+                                        <a  href="{{ route('albums.view', ['album' => $album]) }}">
+                                            <img class="modal-album-cover btn-image" src="{{ route('images.get',['image' => $album->getCover()]) }}">
+                                        </a>
+                                    </div>
+                            @endforeach
+                                <div class="col-md-6">
+                                    <a data-toggle="tooltip" title="Új album" href="{{ route('albums.new',['order' => $card->order]) }}" class="btn btn-block btn-lg btn-default">
+                                        <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
-                            @endforeach
-                            <div class="modal-album">
-                                <a data-toggle="tooltip" title="Új album" href="{{ route('albums.new',['order' => $card->order]) }}" class="btn btn-block btn-lg btn-default">
-                                    <i class="fa fa-plus"></i>
-                                </a>
                             </div>
                         </div>
                     </div>

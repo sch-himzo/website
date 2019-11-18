@@ -129,7 +129,7 @@ label span.required{
 }
 
 .modal-body .modal-album{
-    width:calc(50% - 20px);
+    width:calc(50% - 40px);
     margin:10px;
 }
 
@@ -155,4 +155,11 @@ img.modal-album-cover{
     max-width:100%;
     max-height:300px;
     margin-bottom:10px;
+}
+
+.btn-image{
+    border:1px solid rgba(0,0,0,0.3);
+}
+.btn-image:hover{
+    border:1px solid rgba(0,0,0,0.6);
 }
