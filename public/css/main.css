@@ -127,3 +127,8 @@ label span.required{
     background:rgba(0,0,0,0.1);
     text-decoration:none;
 }
+
+.modal-body .modal-album{
+    width:calc(50% - 20px);
+    margin:10px;
+}

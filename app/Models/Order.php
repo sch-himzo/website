@@ -34,39 +34,74 @@ class Order extends Model
         return $this->belongsTo(TrelloCard::class,'trello_card');
     }
 
-    public function getStatusClient()
+    public function updateStatus()
     {
+        $this->status = $this->getStatus();
+        $this->save();
+    }
 
+    public function getStatus()
+    {
         $checklists = $this->trelloCard->getChecklist();
 
         if(sizeof($checklists)<1){
-            return $this->trelloCard->trelloList->name;
+            if($this->approved_by==null){
+                return "arrived";
+            }else{
+                return "approved";
+            }
         }
 
         $checklist = $checklists[0];
 
         $items = $checklist->checkItems;
 
-        if($this->approved_by == null){
-            return "Elfogadásra vár";
+        if($this->approved_by==null){
+            return "arrived";
         }
 
         if($items[0]->name =="tervezve" && $items[0]->state=="complete"){
             if($items[1]->name == "hímezve" && $items[1]->state=="complete"){
                 if($items[2]->name == "fizetve" && $items[2]->state == "complete"){
                     if($items[3]->name == "átadva" && $items[3]->state == "complete"){
-                        return "Fizetve";
+                        return "finished";
                     }else{
-                        return "Átadásra vár";
+                        return "payed";
                     }
                 }else{
-                    return "Fizetésre vár";
+                    return "embroidered";
                 }
             }else{
-                return "Folyamatban";
+                return "designed";
             }
         }else{
-            return "Folyamatban";
+            return "approved";
+        }
+    }
+
+    public function getStatusInternal()
+    {
+        switch($this->status){
+            case "arrived": return "Elfogadásra vár";
+            case "approved": return "Elfogadva";
+            case "payed": return "Fizetve";
+            case "embroidered": return "Hímezve";
+            case "designed" : return "Tervezve";
+            case "finished": return "Kész";
+            default: return "Folyamatban";
+        }
+    }
+
+    public function getStatusClient()
+    {
+        switch($this->status){
+            case "arrived": return "Elfogadásra vár";
+            case "approved": return "Folyamatban";
+            case "payed": return "Átadásra vár";
+            case "embroidered": return "Fizetésre vár";
+            case "designed": return "Folyamatban";
+            case "finished": return "Átadva";
+            default: return "Folyamatban";
         }
     }
 

@@ -13,7 +13,7 @@ class TrelloCard extends Model
 
     public function order()
     {
-        return $this->hasMany(Order::class,'trello_card');
+        return $this->hasOne(Order::class,'trello_card');
     }
 
     public function getChecklist(){
