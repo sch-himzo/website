@@ -45,7 +45,7 @@ class OrdersController extends Controller
 
 *Rendelésből kinyert:*
 
- - **Rendelő:** $name ($email)
+ - **Rendelő:** $name - $email
  - **Határidő:** $time_limit
  - **Darabszám:** $count
  - **Fullextrás betűtípus:** $font
