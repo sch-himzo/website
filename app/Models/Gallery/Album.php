@@ -29,4 +29,9 @@ class Album extends Model
     {
         return $this->belongsToMany(Order::class,'order_album','album_id','order_id');
     }
+
+    public function coverPhotos()
+    {
+        return $this->images->random(5);
+    }
 }

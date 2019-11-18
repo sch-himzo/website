@@ -71,8 +71,15 @@ Route::group(['prefix' => 'settings', 'as' => 'settings.', 'middleware' => 'lead
 
     Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function(){
         Route::post('new', 'Admin\GalleryController@new')->name('new');
+
+        Route::post('set','Admin\GalleryController@set')->name('set');
+        Route::post('orders/set','Admin\GalleryController@setOrderGallery')->name('orders.set');
     });
 
+});
+
+Route::group(['prefix' => 'gallery','as' => 'gallery.'], function(){
+    Route::get('','GalleryController@images')->name('index');
 });
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], function(){
