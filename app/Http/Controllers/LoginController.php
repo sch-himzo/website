@@ -6,6 +6,7 @@ use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
+use Str;
 
 class LoginController extends Controller
 {
@@ -173,6 +174,8 @@ class LoginController extends Controller
         $password2 = $request->input('password2');
         $name = $request->input('name');
 
+        $activate_token = Str::random(60);
+
         if($name == null || $password == null || $password2 == null || $email == null){
             abort(400);
         }
@@ -193,13 +196,34 @@ class LoginController extends Controller
         $user->password = bcrypt($password);
         $user->email = $email;
         $user->name = $name;
+        $user->activate_token = $activate_token;
+        $user->activated = 0;
         $user->role_id = 1;
 
         $user->save();
 
+        EmailController::registerEmail($user);
+
         Auth::loginUsingId($user->id);
 
-        return redirect()->back();
+        return redirect()->route('activate');
+    }
+
+    public function emailSent()
+    {
+        return view('activate');
+    }
+
+    public function activate($token)
+    {
+        if(User::where('activate_token',$token)->count()>0){
+            $user = User::where('activate_token',$token)->first();
+
+            $user->activated = 1;
+            $user->save();
+        }
+
+        return redirect()->route('index.login');
     }
 
     public function email(Request $request){

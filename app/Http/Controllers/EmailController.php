@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -326,5 +327,25 @@ class EmailController extends Controller
                 $message->from($from_email, $from_name);
             });
         }
+    }
+
+    public static function registerEmail(User $user)
+    {
+        $data = [
+            'user' => $user
+        ];
+
+        $to_name = $user->name;
+        $to_email = $user->email;
+
+        $from_name = "Pulcsi és Foltmékör";
+        $from_email = "himzobot@gmail.com";
+
+        Mail::send('emails.register', $data, function($message) use ($to_name, $to_email, $from_email, $from_name){
+            $message->to($to_email, $to_name)
+                ->subject('Felhasználó aktiválása');
+
+            $message->from($from_email, $from_name);
+        });
     }
 }

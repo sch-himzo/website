@@ -27,6 +27,9 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
 
 Route::get('logout', 'LoginController@logout')->name('logout');
 
+Route::get('activate/{token}','LoginController@activate')->name('user.activate');
+
+Route::get('activate','LoginController@emailSent')->name('activate');
 
 Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
     function () {
