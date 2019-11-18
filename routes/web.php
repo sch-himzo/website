@@ -1,6 +1,7 @@
 <?php
 
 Route::get('', 'HomeController@index')->name('index');
+Route::get('login','HomeController@indexLogin')->name('index.login');
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
     Route::get('', 'LoginController@login')->name('login');
@@ -81,8 +82,23 @@ Route::group(['prefix' => 'settings', 'as' => 'settings.', 'middleware' => 'lead
 });
 
 Route::group(['prefix' => 'gallery','as' => 'gallery.'], function(){
-    Route::get('','GalleryController@images')->name('index');
+    Route::get('','Gallery\GalleryController@images')->name('index');
 });
+
+Route::group(['prefix' => 'images', 'as' => 'images.'], function(){
+    Route::get('{image}/get', 'Gallery\ImageController@get')->name('get');
+});
+
+Route::group(['prefix' => 'albums', 'as' => 'albums.'], function(){
+    Route::group(['middleware' => 'auth'], function(){
+        Route::get('new/order/{order}','Gallery\AlbumController@create')->name('new');
+        Route::post('new/step/2/order/{order}','Gallery\AlbumController@editUploadedImages')->name('new.step2');
+        Route::post('save/order/{order}/album/{album}','Gallery\AlbumController@save')->name('save');
+    });
+
+    Route::get('view/{album}','Gallery\AlbumController@view')->name('view');
+});
+
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], function(){
     Route::get('orders','UserController@orders')->name('orders');

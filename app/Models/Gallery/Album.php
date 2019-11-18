@@ -34,4 +34,9 @@ class Album extends Model
     {
         return $this->images->random(5);
     }
+
+    public function getCover()
+    {
+        return $this->images->random();
+    }
 }

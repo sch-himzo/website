@@ -75,5 +75,10 @@
 @endsection
 
 @section('scripts')
+    @if(isset($login) && $login==1)
+        <script>
+            $('#login_modal').modal('show');
+        </script>
+    @endif
 <script src="{{ asset('js/currently_in.js') }}"></script>
 @endsection
