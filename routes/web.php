@@ -44,6 +44,8 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('approve/order/{order}/{internal}', 'OrdersController@approve')->name('approve');
 
         Route::get('active', 'OrdersController@active')->name('active');
+
+        Route::get('update','OrdersController@updateTrello')->name('update');
     });
 
 Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' => 'jew'], function(){
