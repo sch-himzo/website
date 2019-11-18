@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Gallery\Gallery;
 use App\Models\Role;
+use App\Models\Setting;
 use App\Models\Slide;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,9 +26,25 @@ class SettingsController extends Controller
     public function index()
     {
         $slides = Slide::all()->sortBy('number');
+        $galleries = Gallery::all()->where('role_id','<','2');
+        $all_galleries = Gallery::all();
+        $current_gallery = Setting::all()->where('name','home_gallery')->first()->setting;
+        $current_orders_gallery = Setting::all()->where('name','orders_gallery')->first();
+
+        if($current_orders_gallery==null){
+            $current_orders_gallery = 1;
+        }else{
+            $current_orders_gallery = Gallery::where('id',$current_orders_gallery->setting)->first()->id;
+        }
+
+        $current_gallery = Gallery::where('id',$current_gallery)->first();
 
         return view('settings.index',[
-            'slides' => $slides
+            'slides' => $slides,
+            'galleries' => $galleries,
+            'current_gallery' => $current_gallery,
+            'current_orders_gallery' => $current_orders_gallery,
+            'all_galleries' => $all_galleries
         ]);
     }
 

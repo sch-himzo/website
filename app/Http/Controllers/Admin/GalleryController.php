@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Gallery\Gallery;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,6 +29,29 @@ class GalleryController extends Controller
         $gallery->description = $description;
         $gallery->role_id = $role_id;
         $gallery->save();
+
+        return redirect()->back();
+    }
+
+    public function set(Request $request)
+    {
+        $gallery = $request->input('gallery');
+
+        $setting = Setting::all()->where('name','home_gallery')->first();
+        $setting->setting=$gallery;
+        $setting->save();
+
+        return redirect()->back();
+    }
+
+    public function setOrderGallery(Request $request)
+    {
+        $gallery = $request->input('gallery_orders');
+
+        $setting = Setting::all()->where('name','orders_gallery')->first();
+
+        $setting->setting = $gallery;
+        $setting->save();
 
         return redirect()->back();
     }

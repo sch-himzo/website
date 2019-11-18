@@ -27,6 +27,7 @@
                         </ul>
                     </li>
                 @endif
+                <li class="@yield('galleries.active')"><a class="@yield('galleries.active')" href="{{ route('gallery.index') }}">Képek</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::check())
@@ -43,7 +44,7 @@
                             <a class="dropdonw-toggle" href="#" data-toggle="dropdown">Beállítások <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{ route('settings.index') }}">Főoldal</a></li>
-                                <li><a href="{{ route('settings.gallery') }}">Galéria</a></li>
+                                <li><a href="{{ route('settings.gallery') }}">Galériák</a></li>
                             </ul>
                         </li>
                     @endif
