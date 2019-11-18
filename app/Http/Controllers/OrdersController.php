@@ -287,7 +287,7 @@ $size cm oldalhosszúság
         $output = json_decode(curl_exec($curl));
     }
 
-    public function active()
+    public function updateTrello()
     {
         $lists = TrelloList::all()->where('id','<','5');
 
@@ -296,6 +296,17 @@ $size cm oldalhosszúság
             TrelloController::updateCards($list);
         }
 
+        $cards = TrelloCard::all();
+
+        foreach($cards as $card){
+            $card->order->updateStatus();
+        }
+
+        return redirect()->back();
+    }
+
+    public function active()
+    {
         $cards = TrelloCard::all()
 //            ->where('status','NOT LIKE','%fizetve%')
 //            ->where('status','NOT LIKE','%Fizetve%')

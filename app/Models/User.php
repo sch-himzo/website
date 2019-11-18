@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Gallery\Image;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -54,5 +55,10 @@ class User extends Authenticatable
     public function transactions()
     {
         return $this->hasMany(Transaction::class);
+    }
+
+    public function images()
+    {
+        return $this->hasMany(Image::class);
     }
 }

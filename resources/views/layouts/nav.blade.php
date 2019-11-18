@@ -27,6 +27,7 @@
                         </ul>
                     </li>
                 @endif
+                <li class="@yield('galleries.active')"><a class="@yield('galleries.active')" href="{{ route('gallery.index') }}">Képek</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::check())
@@ -35,6 +36,15 @@
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Pénzügyek <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="{{ route('transactions.teddy_bears') }}">Kasszák</a></li>
+                            </ul>
+                        </li>
+                    @endif
+                    @if(Auth::user()->role_id>4)
+                        <li class="dropdown">
+                            <a class="dropdonw-toggle" href="#" data-toggle="dropdown">Beállítások <span class="caret"></span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="{{ route('settings.index') }}">Főoldal</a></li>
+                                <li><a href="{{ route('settings.gallery') }}">Galériák</a></li>
                             </ul>
                         </li>
                     @endif

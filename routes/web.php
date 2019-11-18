@@ -1,6 +1,7 @@
 <?php
 
 Route::get('', 'HomeController@index')->name('index');
+Route::get('login','HomeController@indexLogin')->name('index.login');
 
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
     Route::get('', 'LoginController@login')->name('login');
@@ -44,6 +45,8 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('approve/order/{order}/{internal}', 'OrdersController@approve')->name('approve');
 
         Route::get('active', 'OrdersController@active')->name('active');
+
+        Route::get('update','OrdersController@updateTrello')->name('update');
     });
 
 Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' => 'jew'], function(){
@@ -57,6 +60,45 @@ Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' 
 
     Route::get('teddy-bears','TransactionController@teddyBears')->name('teddy_bears');
 });
+
+Route::group(['prefix' => 'settings', 'as' => 'settings.', 'middleware' => 'leader'], function(){
+    Route::get('gallery','Admin\SettingsController@gallery')->name('gallery');
+    Route::get('index','Admin\SettingsController@index')->name('index');
+
+    Route::post('index/slides/new','Admin\SettingsController@newSlide')->name('index.slides.new');
+    Route::get('index/slides/{slide}/edit','Admin\SettingsController@editSlide')->name('index.slide.edit');
+    Route::get('index/slides/{slide}/delete','Admin\SettingsController@deleteSlide')->name('index.slide.delete');
+    Route::get('index/slides/{slide}/up','Admin\SettingsController@slideUp')->name('index.slide.up');
+    Route::get('index/slides/{slide}/down','Admin\SettingsController@slideDown')->name('index.slide.down');
+    Route::post('index/slides/{slide}/save','Admin\SettingsController@saveSlide')->name('index.slides.save');
+
+    Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function(){
+        Route::post('new', 'Admin\GalleryController@new')->name('new');
+
+        Route::post('set','Admin\GalleryController@set')->name('set');
+        Route::post('orders/set','Admin\GalleryController@setOrderGallery')->name('orders.set');
+    });
+
+});
+
+Route::group(['prefix' => 'gallery','as' => 'gallery.'], function(){
+    Route::get('','Gallery\GalleryController@images')->name('index');
+});
+
+Route::group(['prefix' => 'images', 'as' => 'images.'], function(){
+    Route::get('{image}/get', 'Gallery\ImageController@get')->name('get');
+});
+
+Route::group(['prefix' => 'albums', 'as' => 'albums.'], function(){
+    Route::group(['middleware' => 'auth'], function(){
+        Route::get('new/order/{order}','Gallery\AlbumController@create')->name('new');
+        Route::post('new/step/2/order/{order}','Gallery\AlbumController@editUploadedImages')->name('new.step2');
+        Route::post('save/order/{order}/album/{album}','Gallery\AlbumController@save')->name('save');
+    });
+
+    Route::get('view/{album}','Gallery\AlbumController@view')->name('view');
+});
+
 
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], function(){
     Route::get('orders','UserController@orders')->name('orders');
