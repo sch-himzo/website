@@ -45,10 +45,21 @@ class AlbumController extends Controller
             return redirect()->back();
         }
 
+        $public_order = $order->public_albums;
+
+
         $album = new Album();
         $album->gallery_id = $gallery->id;
         $album->name = $request->input('name');
-        $album->role_id = $gallery->role_id;
+        if($gallery->role_id > 1){
+            $album->role_id = $gallery->role_id;
+        }else{
+            if($public_order==1){
+                $album->role_id = 1;
+            }else{
+                $album->role_id = 2;
+            }
+        }
         $album->save();
 
         $images = [];
@@ -114,6 +125,8 @@ class AlbumController extends Controller
 
         $album->orders()->attach($order);
         $album->save();
+
+        $order->trelloCard->addAlbum($album);
 
         return redirect()->route('albums.view', ['album' => $album]);
     }

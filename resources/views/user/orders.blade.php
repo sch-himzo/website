@@ -18,6 +18,7 @@
                             <th>Kép</th>
                             <th>Darabszám</th>
                             <th>Állapot</th>
+                            <th>Képek</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -40,6 +41,15 @@
                                 </td>
                                 <td>{{ $order->count }}</td>
                                 <td>{{ $order->getStatusClient() }}</td>
+                                <td>
+                                    @if($order->albums->count()!=0)
+                                        <a class="btn btn-xs btn-primary" data-toggle="tooltip" title="Albumok" href="{{ route('orders.albums', ['order' => $order]) }}">
+                                            <i class="fa fa-image"></i>
+                                        </a>
+                                    @else
+                                        <i>Nincs feltöltött kép</i>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

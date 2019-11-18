@@ -49,11 +49,16 @@
                             </span>
                             @endif
                             @if(in_array($card->order->status,['payed','embroidered','designed','finished']))
-                                <span data-toggle="tooltip" title="Képek">
+                                <span data-toggle="tooltip" title="Képek hozzáadása">
                                     <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#pictures_{{ $card->id }}">
-                                        <i class="fa fa-image"></i>
+                                        <i class="fa fa-plus"></i>
                                     </button>
                                 </span>
+                            @endif
+                            @if($card->order->albums->count()!=0)
+                                <a data-toggle="tooltip" title="Albumok" href="{{ route('orders.albums', ['order' => $card->order]) }}" class="btn btn-xs btn-default">
+                                    <i class="fa fa-image"></i>
+                                </a>
                             @endif
                         </td>
                     </tr>

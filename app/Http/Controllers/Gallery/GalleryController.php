@@ -16,7 +16,13 @@ class GalleryController extends Controller
 
         $gallery = Gallery::all()->where('id',$gallery)->first();
 
-        $albums = $gallery->albums;
+        if(!Auth::check()){
+            $role = 1;
+        }else{
+            $role = Auth::user()->role_id;
+        }
+
+        $albums = $gallery->albums->where('role_id','<=',$role);
 
 
         return view('gallery.index',[

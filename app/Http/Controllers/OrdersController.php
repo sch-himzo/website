@@ -182,6 +182,11 @@ $size cm oldalhosszúság
             }else{
                 $order->type = 1;
             }
+            if($request->input('public_albums')!=null){
+                $order->public_albums=true;
+            }else{
+                $order->public_albums=false;
+            }
             $order->internal = false;
             $order->size = $size;
             $order->font = $font=="" ? null : $font;
@@ -427,5 +432,18 @@ $size cm oldalhosszúság
         }else{
             return redirect()->back();
         }
+    }
+
+    public function albums(Order $order)
+    {
+        $albums = $order->albums;
+
+        $role = Auth::check() ? Auth::user()->role_id : 1;
+
+        return view('orders.albums', [
+            'role' => $role,
+            'albums' => $albums,
+            'order' => $order
+        ]);
     }
 }

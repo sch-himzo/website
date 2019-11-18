@@ -61,6 +61,10 @@
                                 <textarea name="comment" id="comment" class="form-control"></textarea>
                             </div>
                         </div>
+                        <div class="checkbox">
+
+                            <label for="public_albums"><input type="checkbox" name="public_albums" id="public_albums">Hozzájárulok ahhoz, hogy az elkészült rendelésemről készült képeket a weboldalon nyilvánosságra hozzuk.</label>
+                        </div>
                     </div>
                     <div class="panel-footer">
                         <input type="Submit" value="Mentés" class="btn btn-primary">

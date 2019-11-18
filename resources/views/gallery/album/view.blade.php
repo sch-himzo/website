@@ -2,8 +2,10 @@
 
 @section('title','Album - '.$album->name)
 
+@section('galleries.active','active')
+
 @section('content')
-    <h1 class="page-header with-description">Album megtekintése</h1>
+    <h1 class="page-header with-description">Album megtekintése &raquo; <a href="javascript:history.back()">Vissza</a></h1>
     <h2 class="page-description">{{ $album->name }}</h2>
     <div class="row">
         @foreach($album->images as $image)
