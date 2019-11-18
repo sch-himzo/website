@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Gallery;
 
+use App\Http\Controllers\Controller;
 use App\Models\Gallery\Gallery;
 use App\Models\Setting;
 use Illuminate\Http\Request;

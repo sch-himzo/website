@@ -49,7 +49,7 @@
                             </span>
                             @endif
                             @if(in_array($card->order->status,['payed','embroidered','designed','finished']))
-                                <span data-toggle="tooltip" title="Képek feltöltése">
+                                <span data-toggle="tooltip" title="Képek">
                                     <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#pictures_{{ $card->id }}">
                                         <i class="fa fa-image"></i>
                                     </button>
@@ -70,14 +70,22 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
+                            <button class="close" type="button" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title">Képek hozzáadása</h4>
                         </div>
                         <div class="modal-body">
                             @foreach($card->order->albums as $album)
                                 <div class="modal-album">
-                                    <img src="{{ $album->getCover() }}">
+                                    <a href="{{ route('albums.view', ['album' => $album]) }}">
+                                        <img class="modal-album-cover" src="{{ route('images.get',['image' => $album->getCover()]) }}">
+                                    </a>
                                 </div>
                             @endforeach
+                            <div class="modal-album">
+                                <a data-toggle="tooltip" title="Új album" href="{{ route('albums.new',['order' => $card->order]) }}" class="btn btn-block btn-lg btn-default">
+                                    <i class="fa fa-plus"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>

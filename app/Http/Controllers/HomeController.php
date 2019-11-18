@@ -18,6 +18,16 @@ class HomeController extends Controller
         ]);
     }
 
+    public function indexLogin(Request $request)
+    {
+        $slides = Slide::all()->sortBy('number');
+
+        return view('index',[
+            'login' => 1,
+            'slides' => $slides
+        ]);
+    }
+
     public function getUsers(Request $request)
     {
         $users_in_club = User::all()
