@@ -27,6 +27,13 @@
                                         </button>
                                     </span>
                                 </td>
+                                @if($design->extension()=='dst')
+                                <td>
+                                    <a class="btn btn-xs btn-default" data-toggle="tooltip" title="Kirajzolás" href="{{ route('designs.parse' ,['design' => $design]) }}">
+                                        <i class="fa fa-pen"></i>
+                                    </a>
+                                </td>
+                                @endif
                             </tr>
                         </table>
                     </div>
