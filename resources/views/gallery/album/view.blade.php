@@ -7,8 +7,12 @@
 @section('content')
     <h1 class="page-header with-description">Album megtekintése &raquo; <a href="javascript:history.back()">Vissza</a></h1>
     <h2 class="page-description">{{ $album->name }}</h2>
-    <div class="row">
+        <?php $i = 0; ?>
         @foreach($album->images as $image)
+            <?php $i++;
+            if($i%3==1){
+                ?><div class="row"><?php
+            }?>
             <div class="col-md-3">
                 <div class="panel panel-default">
                     <div class="panel-body">
@@ -20,6 +24,10 @@
                     </div>
                 </div>
             </div>
+                    <?php
+                    if($i%3==1){
+                    ?></div><?php
+                    }
+                    ?>
         @endforeach
-    </div>
 @endsection

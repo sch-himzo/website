@@ -6,8 +6,9 @@
 
 @section('content')
     <h1 class="page-header">Albumok</h1>
-    <div class="row">
         @if($albums->count()==0)
+
+            <div class="row">
             <div class="col-md-4 col-md-push-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -17,8 +18,16 @@
                     </div>
                 </div>
             </div>
+            </div>
         @endif
+    <?php $i = 0; ?>
         @foreach($albums as $album)
+            <?php $i++;
+            if($i%3==1){
+                ?><div class="row">
+            <?php
+            }
+            ?>
             <div class="col-md-4">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -40,6 +49,11 @@
                     </div>
                 </div>
             </div>
+                <?php
+                if($i%3==1){
+                ?></div>
+                <?php
+                }
+                ?>
         @endforeach
-    </div>
 @endsection
