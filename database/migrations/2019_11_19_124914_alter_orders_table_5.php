@@ -15,7 +15,7 @@ class AlterOrdersTable5 extends Migration
     {
         Schema::table('orders',function(Blueprint $table){
             $table->bigInteger('design_id')->unsigned()->nullable();
-            $table->foreign('design_id')->references('id')->on('designs')->onDelete('set null');
+            $table->foreign('design_id')->references('id')->on('design_groups')->onDelete('set null');
             $table->boolean('existing_desgin')->default(false);
         });
     }

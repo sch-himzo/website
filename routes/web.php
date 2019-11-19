@@ -54,20 +54,30 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('{order}/albums','OrdersController@albums')->name('albums');
     });
 
-Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'member'], function(){
-    Route::get('','DesignController@index')->name('index');
+Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth'], function(){
+
+    Route::group(['middleware' => 'member'], function(){
+        Route::get('','DesignController@index')->name('index');
+
+
+        Route::post('{group}/save','DesignController@save')->name('save');
+        Route::group(['prefix' => 'groups', 'as' => 'groups.'], function(){
+            Route::post('new','DesignController@newGroup')->name('new');
+
+            Route::get('{group}/view','DesignController@viewGroup')->name('view');
+            Route::get('{group}/delete','DesignController@deleteGroup')->name('delete');
+            Route::post('{group}/edit','DesignController@editGroup')->name('edit');
+        });
+    });
 
     Route::get('{design}/get','DesignController@get')->name('get');
 
-    Route::post('{group}/save','DesignController@save')->name('save');
-
-    Route::group(['prefix' => 'groups', 'as' => 'groups.'], function(){
-        Route::post('new','DesignController@newGroup')->name('new');
-
-        Route::get('{group}/view','DesignController@viewGroup')->name('view');
-        Route::get('{group}/delete','DesignController@deleteGroup')->name('delete');
-        Route::post('{group}/edit','DesignController@editGroup')->name('edit');
+    Route::group(['prefix' => 'orders', 'as' => 'orders.'], function(){
+        Route::get('{order}/view','DesignController@order')->name('view');
+        Route::post('{order}/add','DesignController@addToOrder')->name('add');
+        Route::post('{order}/update/{design}','DesignController@updateOrder')->name('update');
     });
+
 });
 
 Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' => 'jew'], function(){

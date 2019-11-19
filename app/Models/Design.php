@@ -11,13 +11,14 @@ class Design extends Model
         return $this->belongsTo(Order::class,'original_order_id');
     }
 
-    public function orders()
-    {
-        return $this->hasMany(Order::class);
-    }
-
     public function group()
     {
         return $this->belongsTo(DesignGroup::class);
+    }
+
+    public function extension()
+    {
+        $extension = explode('.',$this->image);
+        return strtolower($extension[sizeof($extension)-1]);
     }
 }

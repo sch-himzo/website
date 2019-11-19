@@ -112,6 +112,6 @@ class Order extends Model
 
     public function design()
     {
-        return $this->belongsTo(Design::class);
+        return $this->belongsTo(DesignGroup::class,'design_id');
     }
 }

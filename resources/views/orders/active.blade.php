@@ -35,6 +35,17 @@
                         </td>
                         <td>{{ $card->order->count }}</td>
                         <td>
+                            @if($card->order->design != null)
+                                <a class="btn btn-xs btn-success" data-toggle="tooltip" title="Tervfájlok megtekintése" href="{{ route('designs.orders.view',['order' => $card->order]) }}">
+                                    <i class="fa fa-file"></i>
+                                </a>
+                            @else
+                                <span data-toggle="tooltip" title="Tervfájlok hozzáadása">
+                                    <button class="btn btn-warning btn-xs" type="button" data-toggle="modal" data-target="#files_{{ $card->id }}">
+                                        <i class="fa fa-file"></i>
+                                    </button>
+                                </span>
+                            @endif
                             @if($card->order->user==null && $card->order->tempUser==null)
                                 <span data-toggle="tooltip" title="Megrendelő hozzáadása">
                                     <button class="btn btn-success btn-xs" type="button" data-toggle="modal" data-target="#user_{{ $card->id }}">
@@ -70,6 +81,39 @@
 
 @section('modals')
     @foreach($cards as $card)
+        @if($card->order->design == null)
+            <div class="modal fade" id="files_{{ $card->id }}">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" type="Button" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Tervfájlok hozzáadása</h4>
+                        </div>
+                        <form action="{{ route('designs.orders.add', ['order' => $card->order]) }}" method="POST" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label class="input-group-addon" for="art80_{{ $card->order->id }}">ART80<span class="required">*</span></label>
+                                        <input accept=".art80,.art60,.ART80,.ART60" type="file" name="art80_{{ $card->order->id }}" id="art80_{{ $card->order->id }}" required class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <label class="input-group-addon" for="dst_{{ $card->order->id }}">DST<span class="required">*</span></label>
+                                        <input accept=".dst,.DST" type="file" name="dst_{{ $card->order->id }}" id="dst_{{ $card->order->id }}" required class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Mégse</button>
+                                <input type="submit" value="Mentés" class="btn btn-success">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        @endif
         @if(in_array($card->order->status,['payed','embroidered','designed','finished']))
             <div class="modal fade" id="pictures_{{ $card->id }}">
                 <div class="modal-dialog">

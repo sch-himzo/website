@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Design;
 use App\Models\DesignGroup;
+use App\Models\Order;
+use App\Models\Setting;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,6 +40,107 @@ class DesignController extends Controller
         return redirect()->back();
     }
 
+    public function order(Order $order)
+    {
+        $group = $order->design;
+
+        return view('designs.order',[
+            'order' => $order,
+            'group' => $group
+        ]);
+    }
+
+    public function updateOrder(Request $request, Order $order, Design $design)
+    {
+        if($request->file('file_'.$design->id)){
+            $file = $request->file('file_'.$design->id);
+
+            $ext = strtolower($file->getClientOriginalExtension());
+            $name = $file->getClientOriginalName();
+            $new_name = time().$name;
+            $size = $file->getSize()/1024/1024;
+            if($size>5){
+                abort(400);
+            }
+            if(!in_array($ext,['art60','art80','dst'])){
+                abort(400);
+            }
+            Storage::disk()->put('images/uploads/designs/'.$new_name,File::get($file));
+
+            $design->name = $name;
+            $design->image = $new_name;
+            $design->save();
+
+            return redirect()->back();
+        }
+    }
+
+    public function addToOrder(Request $request, Order $order)
+    {
+        if($request->file('art80_'. $order->id) && $request->file('dst_'.$order->id)){
+            $art = $request->file('art80_'. $order->id);
+            $dst = $request->file('dst_'. $order->id);
+
+            $art_extension = strtolower($art->getClientOriginalExtension());
+            $dst_extension = strtolower($dst->getClientOriginalExtension());
+
+            $art_size = $art->getSize()/1024/1024;
+            $dst_size = $dst->getSize()/1024/1024;
+
+            if($art_size > 5 || $dst_size > 5){
+                abort(400);
+            }
+
+            if(!in_array($art_extension,['art80','art60']) || $dst_extension!='dst'){
+                abort(400);
+            }
+
+            $art_name = time().$art->getClientOriginalName();
+            $dst_name = time().$dst->getClientOriginalName();
+
+            Storage::disk()->put('images/uploads/designs/'.$art_name,File::get($art));
+            Storage::disk()->put('images/uploads/designs/'.$dst_name,File::get($dst));
+
+            $orders_group = Setting::all()->where('name','orders_group')->first()->setting;
+
+            $orders_group = DesignGroup::all()->find($orders_group);
+
+            $old_group = DesignGroup::all()
+                ->where('name',$order->title)
+                ->where('parent_id',$orders_group->id)
+                ->first();
+
+            if($old_group==null){
+                $group = new DesignGroup();
+                $group->name = $order->title;
+                $group->parent_id = $orders_group->id;
+                $group->owner_id = Auth::user()->id;
+                $group->save();
+            }else{
+                $group = $old_group;
+            }
+
+            $art_design = new Design();
+            $art_design->name = $art_name;
+            $art_design->image = $art_name;
+            $art_design->design_group_id = $group->id;
+            $art_design->save();
+
+            $dst_design = new Design();
+            $dst_design->name = $dst_name;
+            $dst_design->image = $dst_name;
+            $dst_design->design_group_id = $group->id;
+            $dst_design->save();
+
+            $order->design_id = $group->id;
+            $order->save();
+
+            return redirect()->route('designs.orders.view', ['order' => $order]);
+        }else{
+            return abort(400);
+        }
+    }
+
     public function viewGroup(DesignGroup $group)
     {
         $route = [];
@@ -60,8 +163,12 @@ class DesignController extends Controller
 
     public function get(Design $design)
     {
+        if(Auth::user()->role_id<2){
+            abort(401);
+        }
+
         $path = $design->image;
-        return response()->file(storage_path("app/images/uploads/designs/" . $path));
+        return response()->download(storage_path("app/images/uploads/designs/" . $path));
     }
 
     public function save(Request $request, DesignGroup $group)
