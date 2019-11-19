@@ -163,3 +163,13 @@ img.modal-album-cover{
 .btn-image:hover{
     border:1px solid rgba(0,0,0,0.6);
 }
+
+.panel-link{
+    text-decoration:none;
+    color:black;
+}
+
+.panel-link:hover{
+    text-decoration:none;
+    color:black;
+}

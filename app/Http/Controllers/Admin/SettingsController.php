@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\DesignGroup;
 use App\Models\Gallery\Gallery;
 use App\Models\Role;
 use App\Models\Setting;
@@ -23,6 +24,18 @@ class SettingsController extends Controller
         ]);
     }
 
+    public function setFolder(Request $request)
+    {
+        $new_folder = $request->input('folder_orders');
+
+        $setting = Setting::all()->where('name','orders_group')->first();
+
+        $setting->setting = $new_folder;
+        $setting->save();
+
+        return redirect()->back();
+    }
+
     public function index()
     {
         $slides = Slide::all()->sortBy('number');
@@ -30,6 +43,9 @@ class SettingsController extends Controller
         $all_galleries = Gallery::all();
         $current_gallery = Setting::all()->where('name','home_gallery')->first()->setting;
         $current_orders_gallery = Setting::all()->where('name','orders_gallery')->first();
+        $current_orders_folder = Setting::all()->where('name','orders_group')->first()->setting;
+        $all_folders = DesignGroup::all()->where('parent_id',null)->all();
+
 
         if($current_orders_gallery==null){
             $current_orders_gallery = 1;
@@ -44,7 +60,9 @@ class SettingsController extends Controller
             'galleries' => $galleries,
             'current_gallery' => $current_gallery,
             'current_orders_gallery' => $current_orders_gallery,
-            'all_galleries' => $all_galleries
+            'all_galleries' => $all_galleries,
+            'all_folders' => $all_folders,
+            'current_orders_folder' => $current_orders_folder
         ]);
     }
 

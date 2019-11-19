@@ -78,6 +78,34 @@
                 </form>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Rendelések mappája</h3>
+                </div>
+                <form action="{{ route('settings.orders.group.set') }}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="folder_orders" class="input-group-addon">Mappa</label>
+                                <select name="folder_orders" id="folder_orders" class="form-control">
+                                    <option selected disabled>Válassz egyet!</option>
+                                    @foreach($all_folders as $folder)
+                                        <option @if($current_orders_folder == $folder->id) selected @endif value="{{ $folder->id }}">{{ $folder->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fa fa-save"></i> Mentés
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection
 

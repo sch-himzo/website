@@ -27,6 +27,9 @@
                         </ul>
                     </li>
                 @endif
+                @if(Auth::check() && Auth::user()->role_id>3)
+                    <li class="@yield('designs.active')"><a href="{{ route('designs.index') }}">Tervek</a></li>
+                @endif
                 <li class="@yield('galleries.active')"><a class="@yield('galleries.active')" href="{{ route('gallery.index') }}">Képek</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

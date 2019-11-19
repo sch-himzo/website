@@ -109,4 +109,9 @@ class Order extends Model
     {
         return $this->belongsToMany(Album::class,'order_album','order_id','album_id');
     }
+
+    public function design()
+    {
+        return $this->belongsTo(Design::class);
+    }
 }

@@ -54,6 +54,22 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('{order}/albums','OrdersController@albums')->name('albums');
     });
 
+Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'member'], function(){
+    Route::get('','DesignController@index')->name('index');
+
+    Route::get('{design}/get','DesignController@get')->name('get');
+
+    Route::post('{group}/save','DesignController@save')->name('save');
+
+    Route::group(['prefix' => 'groups', 'as' => 'groups.'], function(){
+        Route::post('new','DesignController@newGroup')->name('new');
+
+        Route::get('{group}/view','DesignController@viewGroup')->name('view');
+        Route::get('{group}/delete','DesignController@deleteGroup')->name('delete');
+        Route::post('{group}/edit','DesignController@editGroup')->name('edit');
+    });
+});
+
 Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' => 'jew'], function(){
     Route::post('teddy-bears/new','TransactionController@newTeddy')->name('teddy_bear.new');
     Route::post('teddy-bears/{teddy_bear}/balance/add', 'TransactionController@addBalance')->name('teddy_bear.balance.add');
@@ -76,6 +92,8 @@ Route::group(['prefix' => 'settings', 'as' => 'settings.', 'middleware' => 'lead
     Route::get('index/slides/{slide}/up','Admin\SettingsController@slideUp')->name('index.slide.up');
     Route::get('index/slides/{slide}/down','Admin\SettingsController@slideDown')->name('index.slide.down');
     Route::post('index/slides/{slide}/save','Admin\SettingsController@saveSlide')->name('index.slides.save');
+
+    Route::post('index/orders/folder/set', 'Admin\SettingsController@setFolder')->name('orders.group.set');
 
     Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function(){
         Route::post('new', 'Admin\GalleryController@new')->name('new');

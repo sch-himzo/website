@@ -61,4 +61,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Image::class);
     }
+
+    public function designGroups()
+    {
+        return $this->hasMany(DesignGroup::class,'owner_id');
+    }
 }
