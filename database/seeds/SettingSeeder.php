@@ -24,10 +24,10 @@ class SettingSeeder extends Seeder
 //            'description' => 'A rendelésekhez kapcsolódó galéria'
 //        ]);
 
-//        Setting::create([
-//            'name' => 'orders_group',
-//            'setting' => 1,
-//            'description' => 'A rendelésekhez kapcsolódo mappa'
-//        ]);
+        Setting::create([
+            'name' => 'orders_group',
+            'setting' => 1,
+            'description' => 'A rendelésekhez kapcsolódo mappa'
+        ]);
     }
 }
