@@ -10,7 +10,7 @@
         <?php $i = 0; ?>
         @foreach($album->images as $image)
             <?php $i++;
-            if($i%3==1){
+            if($i%4==1){
                 ?><div class="row"><?php
             }?>
             <div class="col-md-3">
