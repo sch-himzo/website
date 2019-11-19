@@ -95,6 +95,8 @@ class DesignController extends Controller
                 abort(400);
             }
 
+            $art_o_name = $art->getClientOriginalName();
+            $dst_o_name = $dst->getClientOriginalName();
             $art_name = time().$art->getClientOriginalName();
             $dst_name = time().$dst->getClientOriginalName();
 
@@ -121,13 +123,13 @@ class DesignController extends Controller
             }
 
             $art_design = new Design();
-            $art_design->name = $art_name;
+            $art_design->name = $art_o_name;
             $art_design->image = $art_name;
             $art_design->design_group_id = $group->id;
             $art_design->save();
 
             $dst_design = new Design();
-            $dst_design->name = $dst_name;
+            $dst_design->name = $dst_o_name;
             $dst_design->image = $dst_name;
             $dst_design->design_group_id = $group->id;
             $dst_design->save();
