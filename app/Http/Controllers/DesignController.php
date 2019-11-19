@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Color;
 use App\Models\Design;
 use App\Models\DesignGroup;
 use App\Models\Order;
@@ -231,6 +232,71 @@ class DesignController extends Controller
         }
 
         $group->delete();
+
+        return redirect()->back();
+    }
+
+    public function colors(Request $request, Design $design)
+    {
+        if($design->colors->count()!=0){
+            $count = $request->input('colors');
+            for($i = 0; $i<$count; $i++){
+                $r = $request->input('r_'.$i);
+                $g = $request->input('g_'.$i);
+                $b = $request->input('b_'.$i);
+
+                if($r == null){
+                    $r = 0;
+                }
+
+                if($g == null){
+                    $g = 0;
+                }
+
+                if($b == null){
+                    $b = 0;
+                }
+
+                $color = $design->colors->where('number',$i)->first();
+                $color->red = $r;
+                $color->green = $g;
+                $color->blue = $b;
+                $color->isacord = true;
+                $color->design_id = $design->id;
+                $color->number = $i;
+                $color->save();
+            }
+        }else{
+            $count = $request->input('colors');
+            for($i = 0; $i<$count; $i++){
+                $r = $request->input('r_'.$i);
+                $g = $request->input('g_'.$i);
+                $b = $request->input('b_'.$i);
+
+                if($r == null){
+                    $r = 0;
+                }
+
+                if($g == null){
+                    $g = 0;
+                }
+
+                if($b == null){
+                    $b = 0;
+                }
+
+                $color = new Color();
+                $color->red = $r;
+                $color->green = $g;
+                $color->blue = $b;
+                $color->isacord = true;
+                $color->design_id = $design->id;
+                $color->number = $i;
+                $color->save();
+            }
+        }
+
+
 
         return redirect()->back();
     }

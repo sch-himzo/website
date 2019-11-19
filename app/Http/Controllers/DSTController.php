@@ -162,8 +162,8 @@ class DSTController extends Controller
             }
         }
 
-        $canvas_width = abs($maxx) + abs($minx);
-        $canvas_height = abs($maxy) + abs($miny);
+        $canvas_width = abs($maxx) + abs($minx) + 10;
+        $canvas_height = abs($maxy) + abs($miny) + 10;
 
 
 
@@ -174,7 +174,9 @@ class DSTController extends Controller
             'maxx' => $maxx,
             'maxy' => $maxy,
             'height' => $canvas_height,
-            'width' => $canvas_width
+            'width' => $canvas_width,
+            'color_count' => $color_count,
+            'design' => $design
         ]);
     }
 

@@ -21,4 +21,9 @@ class Design extends Model
         $extension = explode('.',$this->image);
         return strtolower($extension[sizeof($extension)-1]);
     }
+
+    public function colors()
+    {
+        return $this->hasMany(Color::class);
+    }
 }

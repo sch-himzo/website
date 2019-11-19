@@ -173,3 +173,17 @@ img.modal-album-cover{
     text-decoration:none;
     color:black;
 }
+
+.svg{
+    margin:auto;
+    border:1px solid rgba(0,0,0,0.4);
+}
+.color-select{
+    margin:auto;
+    display:block;
+}
+
+.color-select .color{
+    text-align:center;
+    margin-bottom:5px;
+}

@@ -70,6 +70,7 @@ Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth']
         });
     });
 
+    Route::post('{design}/colors', 'DesignController@colors')->name('colors');
     Route::get('{design}/parse','DSTController@parse')->name('parse');
     Route::get('{design}/get','DesignController@get')->name('get');
 
