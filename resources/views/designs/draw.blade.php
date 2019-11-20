@@ -71,7 +71,7 @@
                                         <g id="color_{{ $id }}" style="stroke:rgb({{ $design->colors->where('number',$id)->first()->red }},{{ $design->colors->where('number',$id)->first()->green }},{{ $design->colors->where('number',$id)->first()->blue }});">
                                             @endif
                                             @foreach($color as $stitch)
-                                                <line x1="{{ $stitch[0][0]+abs($minx) }}" x2="{{ $stitch[1][0]+abs($minx) }}" y1="{{ $stitch[0][1]+abs($miny) }}" y2="{{ $stitch[1][1]+abs($miny) }}" style="stroke-width:1;"></line>
+                                                <line x1="{{ $stitch[0][0]+abs($minx)+5 }}" x2="{{ $stitch[1][0]+abs($minx)+5 }}" y1="{{ $stitch[0][1]+abs($miny)+5 }}" y2="{{ $stitch[1][1]+abs($miny)+5 }}" style="stroke-width:1;"></line>
                                             @endforeach
                                         </g>
                                 @endforeach
