@@ -186,7 +186,7 @@ class DesignController extends Controller
                 abort(400);
             }
 
-            $extension = strtolower($file->extension());
+            $extension = strtolower($file->getClientOriginalExtension());
 
             if(!in_array($extension, ['dst','art60','art80'])){
                 abort(400);
