@@ -201,7 +201,7 @@
                             @foreach($order->design->designs as $design)
                                 <tr>
                                     <td>
-                                        <i class="fa fa-file"></i> {{ $design->name }}
+                                        <i class="fa fa-file"></i> {{ \Illuminate\Support\Str::limit($design->name,20) }}
                                     </td>
                                     <td align="right">
                                         @if($design->extension()=="dst")
