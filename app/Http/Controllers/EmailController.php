@@ -17,6 +17,9 @@ class EmailController extends Controller
         }else{
             $user = $order->user;
         }
+        if($user==null){
+            return;
+        }
 
         $types = [
             1 => 'Folt',
@@ -67,6 +70,9 @@ class EmailController extends Controller
         }else{
             $user = $order->user;
         }
+        if($user==null){
+            return;
+        }
 
         $types = [
             1 => 'Folt',
@@ -115,6 +121,9 @@ class EmailController extends Controller
             $user = $order->tempUser;
         }else{
             $user = $order->user;
+        }
+        if($user==null){
+            return;
         }
 
         $user_email = $user->email;
@@ -170,6 +179,9 @@ class EmailController extends Controller
         }else{
             $user = $order->user;
         }
+        if($user==null){
+            return;
+        }
 
         $types = [
             1 => 'Folt',
@@ -218,6 +230,9 @@ class EmailController extends Controller
             $user = $order->tempUser;
         }else{
             $user = $order->user;
+        }
+        if($user==null){
+            return;
         }
 
         $user_email = $user->email;
@@ -272,6 +287,9 @@ class EmailController extends Controller
             $user = $order->tempUser;
         }else{
             $user = $order->user;
+        }
+        if($user==null){
+            return;
         }
 
         $types = [
