@@ -482,7 +482,7 @@ $size cm oldalhosszúság
             $user = User::where('email',$order->tempUser->email)->first();
 
             if($user!=null){
-                $order->user_id = $user;
+                $order->user_id = $user->id;
                 $order->tempUser->delete();
                 $order->save();
             }
