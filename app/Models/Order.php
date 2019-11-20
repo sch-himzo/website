@@ -173,6 +173,8 @@ class Order extends Model
             }
             if($this->type>1){
                 $add2 = 300;
+            }else{
+                $add2 = 200;
             }
         }else{
             if($dst->size<=5){
@@ -184,6 +186,8 @@ class Order extends Model
             }
             if($this->type>1){
                 $add2 = 400;
+            }else{
+                $ädd2 = 300;
             }
         }
 
