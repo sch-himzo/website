@@ -479,9 +479,11 @@ $size cm oldalhosszúság
     public function order(Order $order)
     {
         if($order->tempUser!=null && $order->user==null){
-            $user = User::where('email',$order->tempUser->email)->first();
+            $user = User::all()->where('email',$order->tempUser->email)->first();
 
             if($user!=null){
+
+                dd($user);
                 $order->user_id = $user->id;
                 $order->tempUser->delete();
                 $order->save();
