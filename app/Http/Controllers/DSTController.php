@@ -167,6 +167,21 @@ class DSTController extends Controller
 
 
 
+        if($color_count+1!=$design->color_count){
+            $colors = $design->colors;
+
+            foreach($colors as $color){
+                $color->delete();
+            }
+
+            $design->color_count = $color_count+1;
+        }
+
+
+        $design->stitch_count = $stitch_count;
+        $design->save();
+
+
         return view('designs.draw', [
             'stitches' => $stitches,
             'minx' => $minx,
