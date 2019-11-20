@@ -118,4 +118,106 @@ class Order extends Model
     {
         return $this->belongsTo(DesignGroup::class,'design_id');
     }
+
+    public function getDST()
+    {
+        $designs = $this->design;
+        if($designs==null){
+            return null;
+        }
+
+        $designs = $designs->designs;
+        if($designs==null || $designs->count()==0){
+            return null;
+        }
+
+        foreach($designs as $design){
+            if($design->extension()=="dst"){
+                return $design;
+            }
+        }
+        return null;
+    }
+
+    public function getCost()
+    {
+        $dst = $this->getDST();
+        if($dst==null){
+            return null;
+        }
+
+        $colors = $dst->colors;
+        if($colors == null || $colors->count()==0){
+            return null;
+        }
+
+        if($this->count>10 && $this->internal)
+            $cost = 200;
+
+        if($this->count<=10 && $this->internal)
+            $cost = 0;
+
+        if($this->count<=10 && !$this->internal)
+            $cost = 200;
+
+        if($this->count>10 && !$this->internal)
+            $cost = 400;
+
+        if($this->internal){
+            if($this->size<=5){
+                $add = 100;
+            }elseif($dst->size>5 && $dst->size<=10){
+                $add = 200;
+            }else{
+                $add = 300;
+            }
+            if($this->type>1){
+                $add2 = 300;
+            }
+        }else{
+            if($dst->size<=5){
+                $add = 200;
+            }elseif($dst->size>5 && $dst->size<=10){
+                $add = 300;
+            }else{
+                $add = 400;
+            }
+            if($this->type>1){
+                $add2 = 400;
+            }
+        }
+
+
+        if($this->original){
+            $cost_so_far = $cost+$add+$add2;
+        }else{
+            $cost_so_far = $add+$add2;
+        }
+
+        foreach($colors as $color){
+            if($this->internal){
+                if($color->isacord){
+                    $d = 100;
+                }else{
+                    $d = 25;
+                }
+            }else{
+                if($color->isacord){
+                    $d = 50;
+                }else{
+                    $d = 15;
+                }
+            }
+
+            $cost_so_far += $color->stitch_count/$d;
+
+        }
+
+        return round($cost_so_far);
+    }
+
+    public function originalDesign()
+    {
+        return $this->hasOne(Design::class,'original_order_id');
+    }
 }

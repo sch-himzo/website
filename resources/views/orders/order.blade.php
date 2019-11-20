@@ -76,6 +76,26 @@
                                 {{ $order->size }} cm
                             </td>
                         </tr>
+                        <tr>
+                            @if($order->getDST()!=null)
+                                <th>
+                                    Végleges méret (<i class="fa fa-question" data-toggle="tooltip" title="A folt területe visszaosztva átmérőre (mintha kör lenne)"></i>)
+                                </th>
+                                <td>
+                                    {{ number_format($order->getDST()->size,2,',','.') }} cm
+                                </td>
+                            @endif
+                        </tr>
+                        @if($order->getCost()!=null)
+                            <tr>
+                                <th>Darabár</th>
+                                <td>{{ number_format($order->getCost(),0,',','.') }} Ft</td>
+                            </tr>
+                            <tr>
+                                <th>Szumma</th>
+                                <td>{{ number_format($order->count*$order->getCost(),0,',','.') }} Ft</td>
+                            </tr>
+                        @endif
                     </table>
                 </div>
                 <div class="panel-footer">

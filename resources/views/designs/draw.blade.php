@@ -12,6 +12,7 @@
                 <form action="{{ route('designs.colors', ['design' => $design]) }}" method="POST">
                     {{ csrf_field() }}
                     <input type="hidden" name="colors" value="{{ $color_count }}">
+                    <input type="hidden" name="diameter" value="{{ $diameter }}">
                     <div class="panel-body">
                         <div class="color-select">
                             @if($design->colors->count()==0)

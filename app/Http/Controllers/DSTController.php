@@ -141,6 +141,10 @@ class DSTController extends Controller
             $design->color_count = $color_count+1;
         }
 
+        $areacm = $canvas_width*$canvas_height/2500;
+
+        $diameter = sqrt($areacm/pi());
+
 
         $design->stitch_count = $stitch_count;
         $design->save();
@@ -151,6 +155,7 @@ class DSTController extends Controller
             'miny' => $miny,
             'maxx' => $maxx,
             'maxy' => $maxy,
+            'diameter' => $diameter,
             'height' => $canvas_height,
             'width' => $canvas_width,
             'color_count' => $color_count,

@@ -78,6 +78,7 @@ class DesignController extends Controller
 
     public function addToOrder(Request $request, Order $order)
     {
+
         if($request->file('art80_'. $order->id) && $request->file('dst_'.$order->id)){
             $art = $request->file('art80_'. $order->id);
             $dst = $request->file('dst_'. $order->id);
@@ -239,6 +240,7 @@ class DesignController extends Controller
 
     public function colors(Request $request, Design $design)
     {
+        $diameter = $request->input('diameter');
         if($design->colors->count()!=0){
             $count = $request->input('colors');
             for($i = 0; $i<$count; $i++){
@@ -271,7 +273,10 @@ class DesignController extends Controller
                 $color->stitch_count = $stitches;
                 $color->number = $i;
                 $color->save();
+
             }
+            $design->size = $diameter*2;
+            $design->save();
         }else{
             $count = $request->input('colors');
             for($i = 0; $i<$count; $i++){
@@ -305,9 +310,9 @@ class DesignController extends Controller
                 $color->stitch_count = $stitches;
                 $color->save();
             }
+            $design->size = $diameter*2;
+            $design->save();
         }
-
-
 
         return redirect()->back();
     }
