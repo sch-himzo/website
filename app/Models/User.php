@@ -66,4 +66,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(DesignGroup::class,'owner_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function assignedOrders()
+    {
+        return $this->belongsToMany(Order::class,'user_order','user_id','order_id');
+    }
 }

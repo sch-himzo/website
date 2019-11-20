@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Admin\TrelloController;
+use App\Models\Comment;
 use App\Models\DesignGroup;
 use App\Models\Order;
 use App\Models\Setting;
@@ -11,6 +12,7 @@ use App\Models\TrelloCard;
 use App\Models\TrelloList;
 use App\Models\User;
 use Auth;
+use Carbon\Carbon;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -478,6 +480,17 @@ $size cm oldalhosszúság
         ]);
     }
 
+    public function assign(Order $order)
+    {
+        if($order->assignedUsers->find(Auth::user()->id)!=null){
+            $order->assignedUsers()->detach(Auth::user());
+        }else{
+            $order->assignedUsers()->save(Auth::user());
+        }
+
+        return redirect()->back();
+    }
+
     public function order(Order $order)
     {
         if($order->tempUser!=null && $order->user==null){
@@ -510,6 +523,8 @@ $size cm oldalhosszúság
             3 => 'Pulcsira hímzendő'
         ];
 
+        Carbon::setLocale('hu');
+
         $setting = Setting::all()->where('name','orders_group')->first()->setting;
 
         $groups = DesignGroup::all()->find($setting)->children;
@@ -526,5 +541,21 @@ $size cm oldalhosszúság
     {
         $path = 'app/fonts/uploads/'.$order->font;
         return response()->download(storage_path($path));
+    }
+
+    public function comment(Request $request, Order $order)
+    {
+        $text = $request->input('comment');
+        if(!$text){
+            abort(400);
+        }
+
+        $comment = new Comment();
+        $comment->user_id = Auth::user()->id;
+        $comment->order_id = $order->id;
+        $comment->comment = $text;
+        $comment->save();
+
+        return redirect()->back();
     }
 }

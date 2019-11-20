@@ -51,6 +51,9 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
 
         Route::post('setUser/{order}','OrdersController@setUser')->name('setUser');
 
+        Route::post('{order}/comment','OrdersController@comment')->name('comment');
+        Route::get('{order}/assign', 'OrdersController@assign')->name('assign');
+
         Route::get('unapproved', 'OrdersController@unapproved')->name('unapproved');
         Route::get('approve/order/{order}/{internal}', 'OrdersController@approve')->name('approve');
 

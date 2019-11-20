@@ -291,6 +291,71 @@
             </div>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Hozzárendelt körtagok</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        @if($order->assignedUsers->count()==0)
+                            <tr>
+                                <td align="center"><i>Nincs hozzárendelve senki</i></td>
+                            </tr>
+                        @else
+                            @foreach($order->assignedUsers as $user)
+                                <tr>
+                                    <td>{{ $user->name }}</td>
+                                </tr>
+
+                            @endforeach
+                        @endif
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    @if($order->assignedUsers->find(Auth::user()->id)!=null)
+                        <a href="{{ route('orders.assign', ['order' => $order]) }}" class="btn btn-danger">
+                            <i class="fa fa-minus"></i> Kilépek
+                        </a>
+                    @else
+                        <a href="{{ route('orders.assign', ['order' => $order]) }}" class="btn btn-success">
+                            <i class="fa fa-plus"></i> Hozzárendelés
+                        </a>
+                    @endif
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Kommentek</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        @foreach($order->comments as $comment)
+                            <tr>
+                                <td>
+                                    <b>{{ $comment->user->name }}</b><br>
+                                    <i>{{ $comment->created_at->diffForHumans() }}</i>
+                                </td>
+                                <td>{{ $comment->comment }}</td>
+                            </tr>
+                        @endforeach
+                    </table>
+                </div>
+                <div class="panel-footer">
+                    <form class="form-inline" action="{{ route('orders.comment', ['order' => $order]) }}" method="POST">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="comment" id="comment" placeholder="Komment">
+                        </div>
+                        <input type="submit" value="Küldés" class="btn btn-default">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('modals')

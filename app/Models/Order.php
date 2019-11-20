@@ -224,4 +224,13 @@ class Order extends Model
     {
         return $this->hasOne(Design::class,'original_order_id');
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+    public function assignedUsers()
+    {
+        return $this->belongsToMany(User::class,'user_order','order_id','user_id');
+    }
 }
