@@ -157,6 +157,8 @@ class LoginController extends Controller
         $password = $request->input('password');
 
 
+        $user = User::where('email',$email)->first();
+
         $temp_user = TempUser::all()->where('email',$user->email)->first();
 
         if($temp_user!=null){
