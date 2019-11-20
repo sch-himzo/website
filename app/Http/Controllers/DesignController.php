@@ -316,4 +316,13 @@ class DesignController extends Controller
 
         return redirect()->back();
     }
+
+    public function attachGroupToOrder(DesignGroup $design, Order $order)
+    {
+        $order->design_id = $design->id;
+        $order->original = false;
+        $order->save();
+
+        return redirect()->back();
+    }
 }

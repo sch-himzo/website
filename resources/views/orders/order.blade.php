@@ -226,7 +226,10 @@
                 @if($order->design==null)
                     <div class="panel-footer">
                         <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_files">
-                            <i class="fa fa-plus"></i> Fájlok feltöltése
+                            <i class="fa fa-plus"></i> Új tervfájl
+                        </button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#select_files">
+                            <i class="fa fa-plus"></i> Létező tervfájl
                         </button>
                     </div>
                 @endif
@@ -320,6 +323,32 @@
                             <input type="submit" value="Mentés" class="btn btn-success">
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="select_files">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" type="button" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Létező tervfájlok csatolása</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        @foreach($design_groups as $design)
+                            <div class="col-md-6">
+                                <a class="modal-big-link" href="{{ route('designs.attach', ['design' => $design, 'order' => $order]) }}">
+                                    {{ $design->name }}<br>
+                                    @foreach($design->designs as $file)
+                                    <p style="font-size:12px;">
+                                        <i class="fa fa-file"></i> {{ $file->name }}
+                                    </p>
+                                    @endforeach
+                                </a>
+                            </div>
+                        @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

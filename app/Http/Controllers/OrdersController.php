@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Admin\TrelloController;
+use App\Models\DesignGroup;
 use App\Models\Order;
+use App\Models\Setting;
 use App\Models\TempUser;
 use App\Models\TrelloCard;
 use App\Models\TrelloList;
@@ -508,10 +510,15 @@ $size cm oldalhosszúság
             3 => 'Pulcsira hímzendő'
         ];
 
+        $setting = Setting::all()->where('name','orders_group')->first()->setting;
+
+        $groups = DesignGroup::all()->find($setting)->children;
+
         return view('orders.order',[
             'order' => $order,
             'order_types' => $order_types,
-            'dst' => $out
+            'dst' => $out,
+            'design_groups' => $groups
         ]);
     }
 

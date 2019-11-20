@@ -66,6 +66,7 @@ Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth']
     Route::group(['middleware' => 'member'], function(){
         Route::get('','DesignController@index')->name('index');
 
+        Route::get('{design}/order/{order}','DesignController@attachGroupToOrder')->name('attach');
 
         Route::post('{group}/save','DesignController@save')->name('save');
         Route::group(['prefix' => 'groups', 'as' => 'groups.'], function(){
