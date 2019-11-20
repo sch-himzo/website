@@ -81,6 +81,10 @@ class Order extends Model
 
     public function getStatusInternal()
     {
+        if($this->archived){
+            return "Archivált";
+        }
+
         switch($this->status){
             case "arrived": return "Elfogadásra vár";
             case "approved": return "Elfogadva";

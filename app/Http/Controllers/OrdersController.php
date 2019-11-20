@@ -176,6 +176,7 @@ $size cm oldalhosszúság
             $order = new Order();
             $order->title = $title;
             $order->count = $count;
+            $order->status = 'arrived';
             $order->time_limit = $time_limit=="" ? null : $time_limit;
             if(array_key_exists($type, $this->order_types)){
                 $order->type = $this->order_types[$type];
@@ -229,6 +230,23 @@ $size cm oldalhosszúság
         return redirect()->back();
     }
 
+    public function edit(Order $order, Request $request)
+    {
+        $size = $request->input('size');
+        $count = $request->input('count');
+
+        if(!$size || !$count){
+            abort(400);
+        }
+
+        $order->size = $size;
+        $order->count = $count;
+
+        $order->save();
+
+        return redirect()->back();
+    }
+
     public function approve(Order $order, $internal)
     {
         if(Auth::user()->role_id<2)
@@ -255,6 +273,7 @@ $size cm oldalhosszúság
 
         $order->trello_card = $trello_card->id;
         $order->approved_by = Auth::id();
+        $order->status = 'approved';
         $order->save();
 
 
@@ -319,7 +338,9 @@ $size cm oldalhosszúság
             ->sortByDesc('id')
             ->all();
 
-        return view('orders.active', ['cards' => $cards]);
+        $orders = Order::where('archived',false)->get()->sortByDesc('id');
+
+        return view('orders.active', ['orders' => $orders]);
     }
 
     public function setUser(Request $request, Order $order)
@@ -346,6 +367,14 @@ $size cm oldalhosszúság
 
         return redirect()->back();
 
+    }
+
+    public function archive(Order $order)
+    {
+        $order->archived = true;
+        $order->save();
+
+        return redirect()->back();
     }
 
     public function delete(Request $request, Order $order)
@@ -445,5 +474,50 @@ $size cm oldalhosszúság
             'albums' => $albums,
             'order' => $order
         ]);
+    }
+
+    public function order(Order $order)
+    {
+        if($order->tempUser!=null && $order->user==null){
+            $user = User::where('email',$order->tempUser->email)->first();
+
+            if($user!=null){
+                $order->user_id = $user;
+                $order->tempUser->delete();
+                $order->save();
+            }
+        }
+
+        $design = $order->design;
+
+        if($design!=null){
+            $dst = $design->designs;
+            $out = null;
+            foreach($dst as $des){
+                if($des->extension()=='dst'){
+                    $out = $des;
+                }
+            }
+        }else{
+            $out = null;
+        }
+
+        $order_types = [
+            1 => 'Folt',
+            2 => 'Pólóra hímzendő',
+            3 => 'Pulcsira hímzendő'
+        ];
+
+        return view('orders.order',[
+            'order' => $order,
+            'order_types' => $order_types,
+            'dst' => $out
+        ]);
+    }
+
+    public function getFont(Order $order)
+    {
+        $path = 'app/fonts/uploads/'.$order->font;
+        return response()->download(storage_path($path));
     }
 }

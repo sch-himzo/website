@@ -18,56 +18,52 @@
                     <th>Darabszám</th>
                     <th>Műveletek</th>
                 </tr>
-                @foreach($cards as $card)
+                @foreach($orders as $order)
                     <tr>
-                        <td>{{ $card->order->title }}</td>
-                        <td>{{ $card->order->time_limit }}</td>
-                        <td>{{ $card->order->getStatusInternal() }}</td>
-                        <td>@if($card->order->user!=null) {{ $card->order->user->name }} @elseif($card->order->tempUser!=null) {{ $card->order->tempUser->name }} @endif</td>
                         <td>
-                            @if($card->order->image!="")
+                            <a href="{{ route('orders.view', ['order' => $order]) }}">
+                                {{ $order->title }}
+                            </a>
+                        </td>
+                        <td>{{ $order->time_limit }}</td>
+                        <td>{{ $order->getStatusInternal() }}</td>
+                        <td>@if($order->user!=null) {{ $order->user->name }} @elseif($order->tempUser!=null) {{ $order->tempUser->name }} @endif</td>
+                        <td>
+                            @if($order->image!="")
                             <span data-toggle="tooltip" title="Kép megtekintése">
-                                <a target="_blank" href="{{ route('orders.getImage', ['order' => $card->order]) }}" class="btn btn-xs btn-primary">
+                                <a target="_blank" href="{{ route('orders.getImage', ['order' => $order]) }}" class="btn btn-xs btn-primary">
                                     <i class="fa fa-image"></i>
                                 </a>
                             </span>
                             @endif
                         </td>
-                        <td>{{ $card->order->count }}</td>
+                        <td>{{ $order->count }}</td>
                         <td>
-                            @if($card->order->design != null)
-                                <a class="btn btn-xs btn-success" data-toggle="tooltip" title="Tervfájlok megtekintése" href="{{ route('designs.orders.view',['order' => $card->order]) }}">
-                                    <i class="fa fa-file"></i>
-                                </a>
-                            @else
-                                <span data-toggle="tooltip" title="Tervfájlok hozzáadása">
-                                    <button class="btn btn-warning btn-xs" type="button" data-toggle="modal" data-target="#files_{{ $card->id }}">
-                                        <i class="fa fa-file"></i>
-                                    </button>
-                                </span>
-                            @endif
-                            @if($card->order->user==null && $card->order->tempUser==null)
+                            <a data-toggle="tooltip" title="Megtekintés" href="{{ route('orders.view', ['order' => $order]) }}" class="btn btn-xs btn-default">
+                                <i class="fa fa-eye"></i>
+                            </a>
+                            @if($order->user==null && $order->tempUser==null)
                                 <span data-toggle="tooltip" title="Megrendelő hozzáadása">
-                                    <button class="btn btn-success btn-xs" type="button" data-toggle="modal" data-target="#user_{{ $card->id }}">
+                                    <button class="btn btn-success btn-xs" type="button" data-toggle="modal" data-target="#user_{{ $order->id }}">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </span>
                             @else
                                 <span data-toggle="tooltip" title="Email küldése">
-                                <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#email_{{ $card->id }}">
+                                <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#email_{{ $order->id }}">
                                     <i class="fa fa-envelope"></i>
                                 </button>
                             </span>
                             @endif
-                            @if(in_array($card->order->status,['payed','embroidered','designed','finished']))
+                            @if(in_array($order->status,['payed','embroidered','designed','finished']))
                                 <span data-toggle="tooltip" title="Képek hozzáadása">
-                                    <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#pictures_{{ $card->id }}">
+                                    <button class="btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#pictures_{{ $order->id }}">
                                         <i class="fa fa-plus"></i>
                                     </button>
                                 </span>
                             @endif
-                            @if($card->order->albums->count()!=0)
-                                <a data-toggle="tooltip" title="Albumok" href="{{ route('orders.albums', ['order' => $card->order]) }}" class="btn btn-xs btn-default">
+                            @if($order->albums->count()!=0)
+                                <a data-toggle="tooltip" title="Albumok" href="{{ route('orders.albums', ['order' => $order]) }}" class="btn btn-xs btn-default">
                                     <i class="fa fa-image"></i>
                                 </a>
                             @endif
@@ -80,28 +76,28 @@
 @endsection
 
 @section('modals')
-    @foreach($cards as $card)
-        @if($card->order->design == null)
-            <div class="modal fade" id="files_{{ $card->id }}">
+    @foreach($orders as $order)
+        @if($order->design == null)
+            <div class="modal fade" id="files_{{ $order->id }}">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button class="close" type="Button" data-dismiss="modal">&times;</button>
                             <h4 class="modal-title">Tervfájlok hozzáadása</h4>
                         </div>
-                        <form action="{{ route('designs.orders.add', ['order' => $card->order]) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('designs.orders.add', ['order' => $order]) }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             <div class="modal-body">
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <label class="input-group-addon" for="art80_{{ $card->order->id }}">ART80<span class="required">*</span></label>
-                                        <input accept=".art80,.art60,.ART80,.ART60" type="file" name="art80_{{ $card->order->id }}" id="art80_{{ $card->order->id }}" required class="form-control">
+                                        <label class="input-group-addon" for="art80_{{ $order->id }}">ART80<span class="required">*</span></label>
+                                        <input accept=".art80,.art60,.ART80,.ART60" type="file" name="art80_{{ $order->id }}" id="art80_{{ $order->id }}" required class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="input-group">
-                                        <label class="input-group-addon" for="dst_{{ $card->order->id }}">DST<span class="required">*</span></label>
-                                        <input accept=".dst,.DST" type="file" name="dst_{{ $card->order->id }}" id="dst_{{ $card->order->id }}" required class="form-control">
+                                        <label class="input-group-addon" for="dst_{{ $order->id }}">DST<span class="required">*</span></label>
+                                        <input accept=".dst,.DST" type="file" name="dst_{{ $order->id }}" id="dst_{{ $order->id }}" required class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -114,8 +110,8 @@
                 </div>
             </div>
         @endif
-        @if(in_array($card->order->status,['payed','embroidered','designed','finished']))
-            <div class="modal fade" id="pictures_{{ $card->id }}">
+        @if(in_array($order->status,['payed','embroidered','designed','finished']))
+            <div class="modal fade" id="pictures_{{ $order->id }}">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
@@ -124,7 +120,7 @@
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                            @foreach($card->order->albums as $album)
+                            @foreach($order->albums as $album)
                                     <div class="col-md-6">
 
                                         <a  href="{{ route('albums.view', ['album' => $album]) }}">
@@ -133,7 +129,7 @@
                                     </div>
                             @endforeach
                                 <div class="col-md-6">
-                                    <a data-toggle="tooltip" title="Új album" href="{{ route('albums.new',['order' => $card->order]) }}" class="btn btn-block btn-lg btn-default">
+                                    <a data-toggle="tooltip" title="Új album" href="{{ route('albums.new',['order' => $order]) }}" class="btn btn-block btn-lg btn-default">
                                         <i class="fa fa-plus"></i>
                                     </a>
                                 </div>
@@ -143,11 +139,11 @@
                 </div>
             </div>
         @endif
-        @if($card->order->user==null && $card->order->tempUser==null)
-        <div class="modal fade" id="user_{{ $card->id }}">
+        @if($order->user==null && $order->tempUser==null)
+        <div class="modal fade" id="user_{{ $order->id }}">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('orders.setUser', ['order' => $card->order]) }}" method="POST">
+                    <form action="{{ route('orders.setUser', ['order' => $order]) }}" method="POST">
                         {{ csrf_field() }}
                         <div class="modal-header">
                             <button class="close" type="button" data-dismiss="modal">&times;</button>
@@ -176,10 +172,10 @@
             </div>
         </div>
         @else
-        <div class="modal fade" id="email_{{ $card->id }}">
+        <div class="modal fade" id="email_{{ $order->id }}">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('orders.email', ['order' => $card->order]) }}" method="POST">
+                    <form action="{{ route('orders.email', ['order' => $order]) }}" method="POST">
                         {{ csrf_field() }}
                         <div class="modal-header">
                             <button class="close" type="button" data-dismiss="modal">&times;</button>
@@ -189,7 +185,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <label class="input-group-addon" for="email">Email cím</label>
-                                    <input readonly type="text" class="form-control" name="email" id="email" value="@if($card->order->user!=null) {{ $card->order->user->email }} @elseif($card->order->tempUser!=null) {{ $card->order->tempUser->email }} @endif">
+                                    <input readonly type="text" class="form-control" name="email" id="email" value="@if($order->user!=null) {{ $order->user->email }} @elseif($order->tempUser!=null) {{ $order->tempUser->email }} @endif">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -201,7 +197,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <label class="input-group-addon" for="title">Rendelés</label>
-                                    <input readonly type="text" class="form-control" name="title" id="title" value="{{ $card->order->title }}">
+                                    <input readonly type="text" class="form-control" name="title" id="title" value="{{ $order->title }}">
                                 </div>
                             </div>
                             <div class="form-group">

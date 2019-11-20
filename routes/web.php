@@ -39,6 +39,13 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::post('save/fake', 'OrdersController@saveFake')->name('saveFake');
         Route::post('save', 'OrdersController@save')->name('save');
         Route::get('image/order/{order}', 'OrdersController@getImage')->name('getImage');
+        Route::get('font/order/{order}', 'OrdersController@getFont')->name('getFont');
+
+        Route::get('{order}/archive', 'OrdersController@archive')->name('archive');
+
+        Route::post('{order}/edit','OrdersController@edit')->name('edit');
+
+        Route::get('{order}/view','OrdersController@order')->name('view');
 
         Route::post('email/{order}','OrdersController@email')->name('email');
 

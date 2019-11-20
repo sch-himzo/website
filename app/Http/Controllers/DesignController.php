@@ -136,6 +136,7 @@ class DesignController extends Controller
             $dst_design->save();
 
             $order->design_id = $group->id;
+            $order->status = 'designed';
             $order->save();
 
             return redirect()->route('designs.orders.view', ['order' => $order]);
@@ -244,6 +245,7 @@ class DesignController extends Controller
                 $r = $request->input('r_'.$i);
                 $g = $request->input('g_'.$i);
                 $b = $request->input('b_'.$i);
+                $stitches = $request->input('color_stitches_'.$i);
                 $code = $request->input('color_'.$i);
                 $isacord = $request->input('color_isa_'.$i)=="isa";
 
@@ -266,6 +268,7 @@ class DesignController extends Controller
                 $color->isacord = $isacord;
                 $color->code = $code;
                 $color->design_id = $design->id;
+                $color->stitch_count = $stitches;
                 $color->number = $i;
                 $color->save();
             }
@@ -275,6 +278,7 @@ class DesignController extends Controller
                 $r = $request->input('r_'.$i);
                 $g = $request->input('g_'.$i);
                 $b = $request->input('b_'.$i);
+                $stitches = $request->input('color_stitches_'.$i);
                 $code = $request->input('color_'.$i);
                 $isacord = $request->input('color_isa_'.$i)=="isa";
 
@@ -298,6 +302,7 @@ class DesignController extends Controller
                 $color->code = $code;
                 $color->design_id = $design->id;
                 $color->number = $i;
+                $color->stitch_count = $stitches;
                 $color->save();
             }
         }

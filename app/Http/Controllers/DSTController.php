@@ -145,7 +145,6 @@ class DSTController extends Controller
         $design->stitch_count = $stitch_count;
         $design->save();
 
-
         return view('designs.draw', [
             'stitches' => $stitches,
             'minx' => $minx,
