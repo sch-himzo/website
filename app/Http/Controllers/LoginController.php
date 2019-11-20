@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TempUser;
 use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
@@ -114,7 +115,7 @@ class LoginController extends Controller
             $user->name = $result->displayName;
             $user->email = $result->mail;
             $user->internal_id = $result->internal_id;
-            $user->role_id = $this->pek_roles[$title];
+            $user->role_id = $this->pek_roles[strtolower($title)];
 
             $user->save();
         }elseif($user->first()->internal_id==null){
@@ -122,15 +123,27 @@ class LoginController extends Controller
             $user->internal_id = $result->internal_id;
             $user->name = $result->displayName;
             $user->surname = $result->sn;
-            $user->role_id = $this->pek_roles[$title];
+            $user->role_id = $this->pek_roles[strtolower($title)];
             $user->given_names = $result->givenName;
             $user->save();
         }else{
             $user = $user->first();
             if($user->role_id<6){
-                $user->role_id = $this->pek_roles[$title];
+                $user->role_id = $this->pek_roles[strtolower($title)];
             }
             $user->save();
+        }
+
+        $temp_user = TempUser::all()->where('email',$user->email)->first();
+
+        if($temp_user!=null){
+            $orders = $temp_user->orders;
+
+            foreach($orders as $order){
+                $order->user_id = $user->id;
+                $order->temp_user_id = null;
+                $order->save();
+            }
         }
 
         Auth::loginUsingId($user->id);
@@ -142,6 +155,19 @@ class LoginController extends Controller
     {
         $email = $request->input('email');
         $password = $request->input('password');
+
+
+        $temp_user = TempUser::all()->where('email',$user->email)->first();
+
+        if($temp_user!=null){
+            $orders = $temp_user->orders;
+
+            foreach($orders as $order){
+                $order->user_id = $user->id;
+                $order->temp_user_id = null;
+                $order->save();
+            }
+        }
 
         Auth::attempt(['email' => $email, 'password' => $password]);
 
@@ -203,6 +229,19 @@ class LoginController extends Controller
         $user->save();
 
         EmailController::registerEmail($user);
+
+
+        $temp_user = TempUser::all()->where('email',$user->email)->first();
+
+        if($temp_user!=null){
+            $orders = $temp_user->orders;
+
+            foreach($orders as $order){
+                $order->user_id = $user->id;
+                $order->temp_user_id = null;
+                $order->save();
+            }
+        }
 
         Auth::loginUsingId($user->id);
 
