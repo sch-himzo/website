@@ -197,6 +197,7 @@ img.modal-album-cover{
     border-radius:5px;
     color:black !important;
     text-decoration:none !important;
+    margin-top:5px;
 }
 
 .modal-big-link p{
