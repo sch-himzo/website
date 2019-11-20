@@ -89,18 +89,6 @@ class DSTController extends Controller
 
             if($this->control_bytes[$current_array[4]]=='') {
                 $pos = static::posChange($pos[0], $pos[1], $byte1, $byte2, $byte3);
-                if($pos[0]>$maxx){
-                    $maxx = $pos[0];
-                }
-                if($pos[0]<$minx){
-                    $minx = $pos[0];
-                }
-                if($pos[1]>$maxy){
-                    $maxy = $pos[1];
-                }
-                if($pos[1]<$miny){
-                    $miny = $pos[1];
-                }
 
                 $asd = 0;
             }
@@ -109,18 +97,6 @@ class DSTController extends Controller
                 $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
                 $color_count++;
                 $asd = 0;
-                if($pos[0]>$maxx){
-                    $maxx = $pos[0];
-                }
-                if($pos[0]<$minx){
-                    $minx = $pos[0];
-                }
-                if($pos[1]>$maxy){
-                    $maxy = $pos[1];
-                }
-                if($pos[1]<$miny){
-                    $miny = $pos[1];
-                }
             }
 
             if($this->control_bytes[$current_array[4]]=='normal'){
@@ -147,18 +123,6 @@ class DSTController extends Controller
             if($this->control_bytes[$current_array[4]]=='jump'){
                 $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
                 $asd = 0;
-                if($pos[0]>$maxx){
-                    $maxx = $pos[0];
-                }
-                if($pos[0]<$minx){
-                    $minx = $pos[0];
-                }
-                if($pos[1]>$maxy){
-                    $maxy = $pos[1];
-                }
-                if($pos[1]<$miny){
-                    $miny = $pos[1];
-                }
             }
         }
 

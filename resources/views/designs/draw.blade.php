@@ -4,7 +4,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-4 col-md-push-4">
+        <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Színválasztás</h3>
@@ -43,28 +43,48 @@
                             @endif
                         </div>
                     </div>
+                    <div class="panel-body">
+                        <div class="color-select">
+                            Háttérszín:
+                            <input value="255" type="text" size="2" class="form-control" style="width:50px; display:inline;" id="background_r" placeholder="R">
+                            <input value="255" type="text" size="2" class="form-control" style="width:50px; display:inline;" id="background_g" placeholder="G">
+                            <input value="255" type="text" size="2" class="form-control" style="width:50px; display:inline;" id="background_b" placeholder="B">
+                        </div>
+                    </div>
                     <div class="panel-footer">
                         <input type="submit" value="Mentés" class="btn btn-primary">
                     </div>
                 </form>
             </div>
         </div>
+        <div class="col-md-8" style="position:relative;">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Rajzolat</h3>
+                </div>
+                <div class="panel-body">
+                    <svg id="image" class="svg" viewBox="0 0 {{ $width }} {{ $height }}" preserveAspectRatio="none" style="margin:auto;">
+                        @foreach($stitches as $id => $color)
+                            @if($design->colors->count()==0)
+                                <g id="color_{{ $id }}" style="stroke:rgb(0,0,0)">
+                                    @else
+                                        <g id="color_{{ $id }}" style="stroke:rgb({{ $design->colors->where('number',$id)->first()->red }},{{ $design->colors->where('number',$id)->first()->green }},{{ $design->colors->where('number',$id)->first()->blue }});">
+                                            @endif
+                                            @foreach($color as $stitch)
+                                                <line x1="{{ $stitch[0][0]+abs($minx) }}" x2="{{ $stitch[1][0]+abs($minx) }}" y1="{{ $stitch[0][1]+abs($miny) }}" y2="{{ $stitch[1][1]+abs($miny) }}" style="stroke-width:1;"></line>
+                                            @endforeach
+                                        </g>
+                                @endforeach
+                    </svg>
+                </div>
+                <div class="panel-footer">
+
+                </div>
+            </div>
+
+        </div>
     </div>
-    <div class="svg" style="width:{{ $width }}px;">
-        <svg style="margin:auto;" width="{{ $width }}" height="{{ $height }}">
-            @foreach($stitches as $id => $color)
-                @if($design->colors->count()==0)
-                <g id="color_{{ $id }}" style="stroke:rgb(0,0,0)">
-                @else
-                <g id="color_{{ $id }}" style="stroke:rgb({{ $design->colors->where('number',$id)->first()->red }},{{ $design->colors->where('number',$id)->first()->green }},{{ $design->colors->where('number',$id)->first()->blue }});">
-                @endif
-                    @foreach($color as $stitch)
-                        <line x1="{{ $stitch[0][0]+$width/2 }}" x2="{{ $stitch[1][0]+$width/2 }}" y1="{{ $stitch[0][1]+$height/2 }}" y2="{{ $stitch[1][1]+$height/2 }}" style="stroke-width:1;"></line>
-                    @endforeach
-                </g>
-            @endforeach
-        </svg>
-    </div>
+
 @endsection
 
 @section('scripts')
@@ -614,6 +634,57 @@
             '1535':'3612',
             '1536':'5374'
         };
+
+        var bgr = $('#background_r');
+        var bgg = $('#background_g');
+        var bgb = $('#background_b');
+
+        $(bgr).on('paste keyup click', function(){
+            bg_r = bgr.val();
+            bg_g = bgg.val();
+            bg_b = bgb.val();
+            if(bg_r === ""){
+                bg_r = 0;
+            }
+            if(bg_g === ""){
+                bg_g = 0;
+            }
+            if(bg_b === ""){
+                bg_b = 0;
+            }
+            $('#image').css('background-color','rgb(' + bg_r +', ' + bg_g + ', ' + bg_b + ')');
+        });
+        $(bgg).on('paste keyup click', function(){
+            bg_r = bgr.val();
+            bg_g = bgg.val();
+            bg_b = bgb.val();
+            if(bg_r === ""){
+                bg_r = 0;
+            }
+            if(bg_g === ""){
+                bg_g = 0;
+            }
+            if(bg_b === ""){
+                bg_b = 0;
+            }
+            $('#image').css('background-color','rgb(' + bg_r +', ' + bg_g + ', ' + bg_b + ')');
+        });
+        $(bgb).on('paste keyup click', function(){
+            bg_r = bgr.val();
+            bg_g = bgg.val();
+            bg_b = bgb.val();
+            if(bg_r === ""){
+                bg_r = 0;
+            }
+            if(bg_g === ""){
+                bg_g = 0;
+            }
+            if(bg_b === ""){
+                bg_b = 0;
+            }
+            $('#image').css('background-color','rgb(' + bg_r +', ' + bg_g + ', ' + bg_b + ')');
+        });
+
 
         @for($i = 0; $i<$color_count; $i++)
 
