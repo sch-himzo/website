@@ -269,8 +269,7 @@
                             @if($dst->background != null)
                                 <tr>
                                     <td>Háttérszín</td>
-                                    <td>Kordura</td>
-                                    <td>{{ $dst->background->name }}</td>
+                                    <td colspan="2">{{ $dst->background->name }}</td>
                                     <td style="background:rgb({{ $dst->background->red }}, {{ $dst->background->green }}, {{ $dst->background->blue }} );">&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                     <td></td>
                                 </tr>
