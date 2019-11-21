@@ -68,11 +68,23 @@ class DesignController extends Controller
             }
             Storage::disk()->put('images/uploads/designs/'.$new_name,File::get($file));
 
+            $colors = $design->colors;
+
+            if($colors->count()!=0){
+                foreach($colors as $color){
+                    $color->delete();
+                }
+            }
+
             $design->name = $name;
             $design->image = $new_name;
+            $design->stitch_count = null;
+
             $design->save();
 
-            return redirect()->back();
+            return redirect()->route('designs.parse', ['design' => $design]);
+        }else{
+            abort(400);
         }
     }
 
