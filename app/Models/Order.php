@@ -172,9 +172,7 @@ class Order extends Model
                 $add = 300;
             }
             if($this->type>1){
-                $add2 = 300;
-            }else{
-                $add2 = 200;
+                $add = 300;
             }
         }else{
             if($dst->size<=5){
@@ -185,17 +183,14 @@ class Order extends Model
                 $add = 400;
             }
             if($this->type>1){
-                $add2 = 400;
-            }else{
-                $ädd2 = 300;
+                $add = 400;
             }
         }
 
-
-        if($this->original){
-            $cost_so_far = $cost+$add+$add2;
+        if($this->original==1){
+            $cost_so_far = $cost+$add;
         }else{
-            $cost_so_far = $add+$add2;
+            $cost_so_far = $add;
         }
 
         foreach($colors as $color){
