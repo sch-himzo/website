@@ -188,7 +188,7 @@ class DesignController extends Controller
 
             $extension = strtolower($file->getClientOriginalExtension());
 
-            if(!in_array($extension, ['dst','art60','art80'])){
+            if(!in_array($extension, ['dst','art60','art80','jpg','jpeg','png','gif','tiff','bmp'])){
                 abort(400);
             }
 
