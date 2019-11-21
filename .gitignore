@@ -14,3 +14,4 @@ _ide_helper.php
 _ide_helper_models.php
 error.log
 access.log
+.idea/*
