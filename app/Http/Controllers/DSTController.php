@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Background;
 use App\Models\Design;
 use File;
 use Illuminate\Http\Request;
@@ -145,6 +146,8 @@ class DSTController extends Controller
 
         $diameter = sqrt($areacm/pi());
 
+        $backgrounds = Background::all();
+        $current_background = $design->background;
 
         $design->stitch_count = $stitch_count;
         $design->save();
@@ -155,10 +158,12 @@ class DSTController extends Controller
             'miny' => $miny,
             'maxx' => $maxx,
             'maxy' => $maxy,
+            'backgrounds' => $backgrounds,
             'diameter' => $diameter,
             'height' => $canvas_height,
             'width' => $canvas_width,
             'color_count' => $color_count,
+            'current_background' => $current_background,
             'design' => $design
         ]);
     }

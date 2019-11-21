@@ -109,6 +109,11 @@ Route::group(['prefix' => 'settings', 'as' => 'settings.', 'middleware' => 'lead
     Route::get('gallery','Admin\SettingsController@gallery')->name('gallery');
     Route::get('index','Admin\SettingsController@index')->name('index');
 
+    Route::get('backgrounds','Admin\SettingsController@backgrounds')->name('backgrounds');
+    Route::post('backgrounds/new','Admin\SettingsController@newBackground')->name('backgrounds.new');
+    Route::post('backgrounds/{background}/edit','Admin\SettingsController@editBackground')->name('backgrounds.edit');
+    Route::get('backgrounds/{background}/delete', 'Admin\SettingsController@deleteBackground')->name('backgrounds.delete');
+
     Route::post('index/slides/new','Admin\SettingsController@newSlide')->name('index.slides.new');
     Route::get('index/slides/{slide}/edit','Admin\SettingsController@editSlide')->name('index.slide.edit');
     Route::get('index/slides/{slide}/delete','Admin\SettingsController@deleteSlide')->name('index.slide.delete');

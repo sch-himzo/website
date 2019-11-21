@@ -48,10 +48,17 @@
                     </div>
                     <div class="panel-body">
                         <div class="color-select">
-                            Háttérszín:
-                            <input value="255" type="text" size="2" class="form-control" style="width:50px; display:inline;" id="background_r" placeholder="R">
-                            <input value="255" type="text" size="2" class="form-control" style="width:50px; display:inline;" id="background_g" placeholder="G">
-                            <input value="255" type="text" size="2" class="form-control" style="width:50px; display:inline;" id="background_b" placeholder="B">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="background" class="input-group-addon">Háttér</label>
+                                    <select class="form-control" id="background" name="background" required>
+                                        <option disabled selected>Válassz egyet</option>
+                                        @foreach($backgrounds as $background)
+                                            <option @if($background==$current_background) selected @endif value="{{ $background->id }}" style="background:rgb({{ $background->red }}, {{ $background->green }}, {{ $background->blue }} );">{{ $background->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="panel-footer">
@@ -67,7 +74,7 @@
                     <h3 class="panel-title">Rajzolat</h3>
                 </div>
                 <div class="panel-body">
-                    <svg id="image" class="svg" viewBox="0 0 {{ $width }} {{ $height }}" preserveAspectRatio="none" style="margin:auto;">
+                    <svg style="@if($current_background!=null) background-color:rgb({{ $current_background->red }}, {{ $current_background->green }}, {{ $current_background->blue }} ); @endif" id="image" class="svg" viewBox="0 0 {{ $width }} {{ $height }}" preserveAspectRatio="none" style="margin:auto;">
                         @foreach($stitches as $id => $color)
                             @if($design->colors->count()==0)
                                 <g id="color_{{ $id }}" style="stroke:rgb(0,0,0)">
@@ -93,6 +100,11 @@
 
 @section('scripts')
     <script>
+        var backgrounds = {
+            @foreach($backgrounds as $background)
+                '{{ $background->id }}': [ {{ $background->red }}, {{ $background->green }}, {{ $background->blue }}],
+            @endforeach
+        }
         var isa_rgb = {
             '0010':[255,255,250],
             '0015':[255,255,255],
@@ -639,54 +651,12 @@
             '1536':'5374'
         };
 
-        var bgr = $('#background_r');
-        var bgg = $('#background_g');
-        var bgb = $('#background_b');
+        var background = $('#background');
 
-        $(bgr).on('paste keyup click', function(){
-            bg_r = bgr.val();
-            bg_g = bgg.val();
-            bg_b = bgb.val();
-            if(bg_r === ""){
-                bg_r = 0;
-            }
-            if(bg_g === ""){
-                bg_g = 0;
-            }
-            if(bg_b === ""){
-                bg_b = 0;
-            }
-            $('#image').css('background-color','rgb(' + bg_r +', ' + bg_g + ', ' + bg_b + ')');
-        });
-        $(bgg).on('paste keyup click', function(){
-            bg_r = bgr.val();
-            bg_g = bgg.val();
-            bg_b = bgb.val();
-            if(bg_r === ""){
-                bg_r = 0;
-            }
-            if(bg_g === ""){
-                bg_g = 0;
-            }
-            if(bg_b === ""){
-                bg_b = 0;
-            }
-            $('#image').css('background-color','rgb(' + bg_r +', ' + bg_g + ', ' + bg_b + ')');
-        });
-        $(bgb).on('paste keyup click', function(){
-            bg_r = bgr.val();
-            bg_g = bgg.val();
-            bg_b = bgb.val();
-            if(bg_r === ""){
-                bg_r = 0;
-            }
-            if(bg_g === ""){
-                bg_g = 0;
-            }
-            if(bg_b === ""){
-                bg_b = 0;
-            }
-            $('#image').css('background-color','rgb(' + bg_r +', ' + bg_g + ', ' + bg_b + ')');
+
+        $(background).on('load paste keyup click change', function(){
+            console.log(backgrounds[background.val()]);
+            $('#image').css('background-color','rgb(' + backgrounds[background.val()][0] +', ' + backgrounds[background.val()][1] + ', ' + backgrounds[background.val()][2] + ')');
         });
 
 

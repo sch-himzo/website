@@ -26,4 +26,9 @@ class Design extends Model
     {
         return $this->hasMany(Color::class);
     }
+
+    public function background()
+    {
+        return $this->belongsTo(Background::class);
+    }
 }

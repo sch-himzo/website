@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Background;
 use App\Models\Color;
 use App\Models\Design;
 use App\Models\DesignGroup;
@@ -253,6 +254,7 @@ class DesignController extends Controller
     public function colors(Request $request, Design $design)
     {
         $diameter = $request->input('diameter');
+        $background = $request->input('background');
         if($design->colors->count()!=0){
             $count = $request->input('colors');
             for($i = 0; $i<$count; $i++){
@@ -288,6 +290,7 @@ class DesignController extends Controller
 
             }
             $design->size = $diameter*2;
+            $design->background_id = $background;
             $design->save();
         }else{
             $count = $request->input('colors');
@@ -323,8 +326,10 @@ class DesignController extends Controller
                 $color->save();
             }
             $design->size = $diameter*2;
+            $design->background_id = $background;
             $design->save();
         }
+
 
         return redirect()->back();
     }

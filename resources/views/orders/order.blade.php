@@ -238,7 +238,7 @@
         <div class="col-md-4">
             <div class="panel @if($dst!=null && $dst->colors->count()!=0) {{ "panel-success" }} @else {{ "panel-danger" }} @endif">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Cérna színek</h3>
+                    <h3 class="panel-title">Színek</h3>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -246,7 +246,7 @@
                             @if($dst->colors->count()==0)
                                 <tr>
                                     <td align="center">
-                                        <i class="fa fa-angry"></i> Nem adtál meg cérna színeket
+                                        <i class="fa fa-angry"></i> Nem adtál meg színeket
                                     </td>
                                 </tr>
                             @else
@@ -261,10 +261,25 @@
                                             @endif
                                         </td>
                                         <td>{{ $color->code }}</td>
-                                        <td style="background:rgb({{ $color->red }},{{ $color->green }},{{ $color->blue }});">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <td style="background:rgb({{ $color->red }}, {{ $color->green }}, {{ $color->blue }});">&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                         <td>{{ number_format($color->stitch_count,0) }} öltés</td>
                                     </tr>
                                 @endforeach
+                            @endif
+                            @if($dst->background != null)
+                                <tr>
+                                    <td>Háttérszín</td>
+                                    <td>Kordura</td>
+                                    <td>{{ $dst->background->name }}</td>
+                                    <td style="background:rgb({{ $dst->background->red }}, {{ $dst->background->green }}, {{ $dst->background->blue }} );">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td></td>
+                                </tr>
+                            @else
+                                <tr>
+                                    <td colspan="5" align="center">
+                                        <i class="fa fa-angry"></i> Nem adtál meg háttérszínt
+                                    </td>
+                                </tr>
                             @endif
                         @else
                             <tr>

@@ -48,6 +48,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="{{ route('settings.index') }}">Főoldal</a></li>
                                 <li><a href="{{ route('settings.gallery') }}">Galériák</a></li>
+                                <li><a href="{{ route('settings.backgrounds') }}">Kordurák</a></li>
                             </ul>
                         </li>
                     @endif
