@@ -13,6 +13,7 @@
         @foreach($slides as $slide)
             .slide-{{ $slide->id }}{
                 background: url("{{ $slide->image }}") no-repeat center;
+                background-size:contain;
         }
         @endforeach
 

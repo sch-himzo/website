@@ -61,8 +61,8 @@ body {
 }
 
 .carousel-caption{
-    box-shadow:0 0 40px 40px rgba(0,0,0,0.4);
-    background:rgba(0,0,0,0.4);
+    box-shadow:0 0 40px 40px rgba(0,0,0,0.2);
+    background:rgba(0,0,0,0.2);
 }
 
 
