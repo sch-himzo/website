@@ -241,8 +241,11 @@ $size cm oldalhosszúság
         $status = $request->input('status');
 
         $dst = $order->getDST();
-        if(($dst!=null && $dst->colors->count()!=0 && $dst->background!=null && $order->assignedUsers->contains(Auth::user())) || Auth::user()->role_id>4){
-            $order->status = $status;
+
+        if($status){
+            if(($dst!=null && $dst->colors->count()!=0 && $dst->background!=null && $order->assignedUsers->contains(Auth::user())) || Auth::user()->role_id>4){
+                $order->status = $status;
+            }
         }
 
         if(!$size || !$count){
