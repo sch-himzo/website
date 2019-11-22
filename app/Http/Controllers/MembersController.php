@@ -12,7 +12,27 @@ class MembersController extends Controller
 {
     public function index()
     {
-        return view('members.index');
+        Carbon::setLocale('hu');
+
+        $oneweek = date('Y-m-d',time()+7*24*60*60);
+
+        $oneweekminus = date('Y-m-d H:i:s', time()-7*24*60*60);
+
+        $time_limit = Order::where('time_limit','<',$oneweek)
+            ->where('archived',false)
+            ->where('status','!=','finished')
+            ->withCount('assignedUsers')
+            ->get();
+
+        $recent = Order::where('updated_at', '>', $oneweekminus)
+            ->where('status','finished')
+            ->withCount('assignedUsers')
+            ->get();
+
+        return view('members.index',[
+            'time_limit' => $time_limit,
+            'recent' => $recent
+        ]);
     }
 
     public function mine()
