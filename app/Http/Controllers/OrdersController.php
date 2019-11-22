@@ -389,6 +389,10 @@ $size cm oldalhosszúság
         }
 
         $reason = $request->input('reason');
+        if($reason==null){
+            $reason = $request->input('reason_'.$order->id);
+        }
+
 
         EmailController::orderDeletedClient($order, $reason);
 
@@ -555,6 +559,22 @@ $size cm oldalhosszúság
         $comment->order_id = $order->id;
         $comment->comment = $text;
         $comment->save();
+
+        return redirect()->back();
+    }
+
+    public function joint(Order $order)
+    {
+        if(!Auth::check()){
+            abort(403);
+        }
+
+        if(Auth::user()->role_id<5){
+            abort(401);
+        }
+
+        $order->joint = !$order->joint;
+        $order->save();
 
         return redirect()->back();
     }

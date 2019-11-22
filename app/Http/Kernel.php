@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'jew' => \App\Http\Middleware\Jew::class,
         'leader' => \App\Http\Middleware\Leader::class,
         'member' => \App\Http\Middleware\Member::class,
+        'rookie' => \App\Http\Middleware\Rookie::class,
     ];
 
     /**

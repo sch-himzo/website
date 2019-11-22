@@ -41,6 +41,8 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('image/order/{order}', 'OrdersController@getImage')->name('getImage');
         Route::get('font/order/{order}', 'OrdersController@getFont')->name('getFont');
 
+        Route::get('{order}/joint','OrdersController@joint')->name('joint');
+
         Route::get('{order}/archive', 'OrdersController@archive')->name('archive');
 
         Route::post('{order}/edit','OrdersController@edit')->name('edit');
@@ -103,6 +105,21 @@ Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' 
     Route::get('teddy-bears/{teddy_bear}','TransactionController@teddyBear')->name('teddy_bear');
 
     Route::get('teddy-bears','TransactionController@teddyBears')->name('teddy_bears');
+});
+
+Route::group(['prefix' => 'members','as' => 'members.', 'middleware' => 'rookie'], function(){
+    Route::get('','MembersController@index')->name('index');
+    Route::get('unassigned','MembersController@unassigned')->name('unassigned');
+    Route::get('mine','MembersController@mine')->name('mine');
+    Route::get('unapproved','MembersController@unapproved')->name('unapproved');
+
+    Route::get('joint','MembersController@joint')->name('joint');
+
+    Route::group(['middleware' => 'leader'], function(){
+        Route::get('active','MembersController@active')->name('active');
+        Route::get('archived','MembersController@archived')->name('archived');
+    });
+
 });
 
 Route::group(['prefix' => 'settings', 'as' => 'settings.', 'middleware' => 'leader'], function(){

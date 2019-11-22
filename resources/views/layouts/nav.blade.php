@@ -11,7 +11,9 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="@yield('index.active')"><a class="@yield('index.active')" href="{{ route('index') }}">Főoldal</a></li>
+                @if(Auth::check() && Auth::user()->role_id>1)
+                    <li class="@yield('members.active')"><a class="@yield('members.active')" href="{{ route('members.index') }}">Irányítópult</a></li>
+                @endif
                 @if(Auth::check() && Auth::user()->activated==1)
                     <li class="dropdown @yield('orders.new.active')  @yield('user.orders.active') @yield('orders.unapproved.active') @yield('orders.active.active')">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">Rendelések <span class="caret"></span></a>
@@ -21,8 +23,6 @@
                             @if(Auth::user()->role_id>1)
                                 <li role="separator" class="divider"></li>
                                 <li class="@yield('orders.fake.active')"><a class="@yield('orders.fake.active')" href="{{ route('orders.fake') }}">Rendelés felvétele</a></li>
-                                <li class="@yield('orders.unapproved.active')"><a href="{{ route('orders.unapproved') }}" class="@yield('orders.unapproved.active')">Elfogadásra váró rendelések</a></li>
-                                <li class="@yield('orders.active.active')"><a href="{{ route('orders.active') }}">Aktív rendelések</a></li>
                             @endif
                         </ul>
                     </li>

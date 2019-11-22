@@ -306,6 +306,7 @@
         </div>
     </div>
     <div class="row">
+        @if($order->joint || Auth::user()->assignedOrders->find($order->id)!=null)
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -340,6 +341,7 @@
                 </div>
             </div>
         </div>
+        @endif
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
