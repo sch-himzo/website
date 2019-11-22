@@ -512,6 +512,20 @@
                                 <label class="input-group-addon">cm</label>
                             </div>
                         </div>
+                        @if(($dst!=null && $dst->background!=null && $dst->colors->count()!=0 && $order->assignedUsers->contains(Auth::user())) || Auth::user()->role_id>4)
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label class="input-group-addon" for="status">Státusz</label>
+                                <select id="status" class="form-control" required name="status">
+                                    <option selected disabled>Válassz egyet!</option>
+                                        <option @if($order->status=="designed") selected @endif value="designed">Tervezve</option>
+                                        <option @if($order->status=="embroidered") selected @endif value="embroidered">Hímezve</option>
+                                        <option @if($order->status=="payed") selected @endif value="payed">Fizetve</option>
+                                        <option @if($order->status=="finished") selected @endif value="finished">Kész</option>
+                                </select>
+                            </div>
+                        </div>
+                        @endif
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Mégse</button>
