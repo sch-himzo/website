@@ -291,6 +291,8 @@ class DSTController extends Controller
 
         Storage::put('public/images/svg/'.$name,$file);
 
+        dd($file);
+
         return $name;
     }
 }

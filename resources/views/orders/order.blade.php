@@ -126,11 +126,13 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel @if($dst!=null && $dst->svg!=null) panel-success @else panel-default @endif">
+            <div class="panel @if($dst!=null && $dst->svg!=null && $dst->colors->count()>0 && $dst->background!=null) panel-success @elseif($dst->colors->count()==0 || $dst->background==null) panel-warning @else panel-default @endif">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        @if($dst!=null && $dst->svg!=null)
+                        @if($dst!=null && $dst->svg!=null && $dst->colors->count()>0 && $dst->background!=null)
                             Kész rendelés
+                        @elseif($dst->colors->count()==0 || $dst->background==null)
+                            Készülő rendelés
                         @else
                             Küldött fájlok
                         @endif
@@ -140,7 +142,7 @@
                     <table class="table table-striped">
                         <tr>
                             <td align="center">
-                                @if(!$order->image=="")
+                                @if(!$order->image=="" && $dst==null && $dst->svg==null)
                                 <img class="album-edit-image" src="{{ route('orders.getImage', ['order' => $order]) }}" alt="{{ $order->title }}">
                                 @elseif($dst!=null && $dst->svg!=null)
                                     <img class="album-edit-image" src="{{ asset('storage/images/svg/'.$dst->svg)  }}">

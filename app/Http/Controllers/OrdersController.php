@@ -28,7 +28,7 @@ class OrdersController extends Controller
     ];
 
     protected $allowed_extensions = [
-        'jpg','jpeg','png','gif'
+        'jpg','jpeg','png','gif','svg'
     ];
 
     protected $order_types = [
@@ -137,12 +137,12 @@ $size cm oldalhosszúság
     {
         if($request->file('image')){
             $file = $request->file('image');
-            $extension = strtolower($file->extension());
+            $extension = strtolower($file->getClientOriginalExtension());
             $size = $file->getSize()/1024/1024;
 
             if($request->file('font')){
                 $font = $request->file('font');
-                $font_extension = strtolower($font->extension());
+                $font_extension = strtolower($font->getClientOriginalExtension());
                 $font_size = $font->getSize()/1024/1024;
 
                 if($font_size>10 || $font_extension!="ttf"){
@@ -161,7 +161,7 @@ $size cm oldalhosszúság
                 return redirect()->back();
             }
 
-            $new_name = 'images/uploads/' . time().$request->input('name').'.'.$file->extension();
+            $new_name = 'images/uploads/' . time().$request->input('name').'.'.$extension;
 
             Storage::disk()->put($new_name, File::get($file));
 
