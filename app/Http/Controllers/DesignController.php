@@ -80,6 +80,7 @@ class DesignController extends Controller
             $design->name = $name;
             $design->image = $new_name;
             $design->stitch_count = null;
+            $design->svg = null;
 
             $design->save();
 
