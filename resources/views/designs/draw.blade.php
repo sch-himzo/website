@@ -67,7 +67,11 @@
                     </div>
                     <div class="panel-footer">
                         <input type="submit" value="Mentés" class="btn btn-primary">
+                        @if($order!=null)
+                        <a href="{{ route('orders.view', ['order' => $order]) }}" class="btn btn-default">Vissza a rendeléshez</a>
+                        @else
                         <a href="javascript:history.back()" class="btn btn-default">Vissza</a>
+                        @endif
                     </div>
                 </form>
             </div>

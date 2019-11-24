@@ -73,6 +73,8 @@ Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth']
 
         Route::get('{design}/order/{order}','DesignController@attachGroupToOrder')->name('attach');
 
+        Route::get('{design}/svg', 'DesignController@getSVGFile')->name('getSVG');
+
         Route::post('{group}/save','DesignController@save')->name('save');
         Route::group(['prefix' => 'groups', 'as' => 'groups.'], function(){
             Route::post('new','DesignController@newGroup')->name('new');
@@ -84,7 +86,7 @@ Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth']
     });
 
     Route::post('{design}/colors', 'DesignController@colors')->name('colors');
-    Route::get('{design}/parse','DSTController@parse')->name('parse');
+    Route::get('{design}/parse/{order?}','DSTController@parse')->name('parse');
     Route::get('{design}/get','DesignController@get')->name('get');
 
     Route::group(['prefix' => 'orders', 'as' => 'orders.'], function(){

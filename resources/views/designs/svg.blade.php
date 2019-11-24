@@ -1,4 +1,4 @@
-<svg>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 {{ $width }} {{ $height }}">
     @if($design->background!=null)
         <rect width="{{ $width }}" height="{{ $height }}" style="fill:rgb({{ $design->background->red }}, {{ $design->background->green }}, {{ $design->background->blue }})"></rect>
     @endif

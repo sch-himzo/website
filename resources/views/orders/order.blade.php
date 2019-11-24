@@ -32,6 +32,16 @@
                             <th>Leadás időpontja</th>
                             <td>{{ $order->created_at }}</td>
                         </tr>
+                        @if($dst!=null && $dst->svg!=null && $order->image!=null)
+                            <tr>
+                                <th>Küldött kép</th>
+                                <td>
+                                    <a data-toggle="tooltip" title="Kép megtekintése" href="{{ route('orders.getImage', ['order' => $order]) }}" class="btn btn-xs btn-primary">
+                                        <i class="fa fa-image"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        @endif
                         <tr>
                             <th>Darabszám</th>
                             <td>
@@ -118,7 +128,13 @@
         <div class="col-md-6">
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Küldött fájlok</h3>
+                    <h3 class="panel-title">
+                        @if($dst!=null && $dst->svg!=null)
+                            Kész rendelés
+                        @else
+                            Küldött fájlok
+                        @endif
+                    </h3>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped">
@@ -126,11 +142,14 @@
                             <td align="center">
                                 @if(!$order->image=="")
                                 <img class="album-edit-image" src="{{ route('orders.getImage', ['order' => $order]) }}" alt="{{ $order->title }}">
+                                @elseif($dst!=null && $dst->svg!=null)
+                                    <img class="album-edit-image" src="{{ asset('storage/images/svg/'.$dst->svg)  }}">
                                 @else
                                     <p align="center"><i>Nincs feltöltött kép</i></p>
                                 @endif
                             </td>
                         </tr>
+                        @if($dst==null || $dst->svg==null)
                         <tr>
                             <td>
                                 @if($order->font)
@@ -140,6 +159,7 @@
                                 @endif
                             </td>
                         </tr>
+                        @endif
                     </table>
                 </div>
             </div>
@@ -205,7 +225,7 @@
                                     </td>
                                     <td align="right">
                                         @if($design->extension()=="dst")
-                                            <a data-toggle="tooltip" title="Terv kirajzolása" href="{{ route('designs.parse', ['design' => $design]) }}" class="btn btn-xs btn-default">
+                                            <a data-toggle="tooltip" title="Terv kirajzolása" href="{{ route('designs.parse', ['design' => $design, 'order' => $order]) }}" class="btn btn-xs btn-default">
                                                 <i class="fa fa-pencil"></i>
                                             </a>
                                         @endif
@@ -291,13 +311,13 @@
                 </div>
                 @if($dst!=null && $dst->colors->count()==0)
                     <div class="panel-footer">
-                        <a href="{{ route('designs.parse', ['design' => $dst]) }}" class="btn btn-primary">
+                        <a href="{{ route('designs.parse', ['design' => $dst, 'order' => $order]) }}" class="btn btn-primary">
                             <i class="fa fa-plus"></i> Színek hozzáadása
                         </a>
                     </div>
                 @elseif($dst!=null && $dst->colors->count()!=0)
                     <div class="panel-footer">
-                        <a href="{{ route('designs.parse', ['design' => $dst]) }}" class="btn btn-warning">
+                        <a href="{{ route('designs.parse', ['design' => $dst, 'order' => $order]) }}" class="btn btn-warning">
                             <i class="fa fa-edit"></i> Színek szerkesztése
                         </a>
                     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Background;
 use App\Models\Design;
+use App\Models\Order;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -60,7 +61,7 @@ class DSTController extends Controller
         return strToUpper($hex);
     }
 
-    public function parse(Design $design)
+    public function parse(Design $design, Order $order = null)
     {
         if($design->extension()!="dst"){
             abort(400);
@@ -171,7 +172,8 @@ class DSTController extends Controller
             'width' => $canvas_width,
             'color_count' => $color_count,
             'current_background' => $current_background,
-            'design' => $design
+            'design' => $design,
+            'order' => $order
         ]);
     }
 
@@ -263,7 +265,7 @@ class DSTController extends Controller
 
         $name = time().Str::random(16).'.svg';
 
-        Storage::put('/images/svg/'.$name,$svg);
+        Storage::put('public/images/svg/'.$name,$svg);
 
         return $name;
     }
@@ -272,7 +274,7 @@ class DSTController extends Controller
     {
         $name = $design->svg;
 
-        $file = Storage::get('images/svg/'.$name);
+        $file = Storage::get('public/images/svg/'.$name);
 
         $i = 0;
         foreach($colors as $color)
@@ -287,7 +289,7 @@ class DSTController extends Controller
         $background_replace = "$1fill:rgb($background->red, $background->green, $background->blue)$2";
         $file = preg_replace($background_pattern,$background_replace,$file);
 
-        Storage::put('images/svg/'.$name,$file);
+        Storage::put('public/images/svg/'.$name,$file);
 
         return $name;
     }
