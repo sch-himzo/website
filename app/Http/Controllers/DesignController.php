@@ -255,8 +255,15 @@ class DesignController extends Controller
     {
         $diameter = $request->input('diameter');
         $background = $request->input('background');
+        $width = $request->input('width');
+        $height = $request->input('height');
+        $minx = $request->input('xoffset');
+        $miny = $request->input('yoffset');
         if($design->colors->count()!=0){
             $count = $request->input('colors');
+
+            $colors = [];
+
             for($i = 0; $i<$count; $i++){
                 $r = $request->input('r_'.$i);
                 $g = $request->input('g_'.$i);
@@ -288,12 +295,18 @@ class DesignController extends Controller
                 $color->number = $i;
                 $color->save();
 
+                $colors[] = $color;
             }
+            $bg = Background::all()->find($background);
+            $design->svg = DSTController::updateSVG($design, $colors, $bg);
             $design->size = $diameter*2;
             $design->background_id = $background;
             $design->save();
         }else{
             $count = $request->input('colors');
+
+            $colors = [];
+
             for($i = 0; $i<$count; $i++){
                 $r = $request->input('r_'.$i);
                 $g = $request->input('g_'.$i);
@@ -324,7 +337,13 @@ class DesignController extends Controller
                 $color->number = $i;
                 $color->stitch_count = $stitches;
                 $color->save();
+
+                $colors[] = $color;
             }
+
+            $bg = Background::all()->find($background);
+
+            $design->svg = DSTController::updateSVG($design, $colors, $bg);
             $design->size = $diameter*2;
             $design->background_id = $background;
             $design->save();

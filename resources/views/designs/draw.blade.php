@@ -13,6 +13,10 @@
                     {{ csrf_field() }}
                     <input type="hidden" name="colors" value="{{ $color_count }}">
                     <input type="hidden" name="diameter" value="{{ $diameter }}">
+                    <input type="hidden" name="xoffset" value="{{ abs($minx) }}">
+                    <input type="hidden" name="yoffset" value="{{ abs($miny) }}">
+                    <input type="hidden" name="height" value="{{ $height }}">
+                    <input type="hidden" name="width" value="{{ $width }}">
                     <div class="panel-body">
                         <div class="color-select">
                             @if($design->colors->count()==0)
@@ -77,9 +81,9 @@
                     <svg style="@if($current_background!=null) background-color:rgb({{ $current_background->red }}, {{ $current_background->green }}, {{ $current_background->blue }} ); @endif" id="image" class="svg" viewBox="0 0 {{ $width }} {{ $height }}" preserveAspectRatio="none" style="margin:auto;">
                         @foreach($stitches as $id => $color)
                             @if($design->colors->count()==0)
-                                <g id="color_{{ $id }}" style="stroke:rgb(0,0,0)">
+                                <g id="color_{{ $id }}" style="stroke:rgb(0, 0, 0)">
                                     @else
-                                        <g id="color_{{ $id }}" style="stroke:rgb({{ $design->colors->where('number',$id)->first()->red }},{{ $design->colors->where('number',$id)->first()->green }},{{ $design->colors->where('number',$id)->first()->blue }});">
+                                        <g id="color_{{ $id }}" style="stroke:rgb({{ $design->colors->where('number',$id)->first()->red }}, {{ $design->colors->where('number',$id)->first()->green }}, {{ $design->colors->where('number',$id)->first()->blue }});">
                                             @endif
                                             @foreach($color as $stitch)
                                                 <line x1="{{ $stitch[0][0]+abs($minx)+5 }}" x2="{{ $stitch[1][0]+abs($minx)+5 }}" y1="{{ $stitch[0][1]+abs($miny)+5 }}" y2="{{ $stitch[1][1]+abs($miny)+5 }}" style="stroke-width:1;"></line>

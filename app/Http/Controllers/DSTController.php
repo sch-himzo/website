@@ -6,6 +6,9 @@ use App\Models\Background;
 use App\Models\Design;
 use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\View;
+use Str;
 
 class DSTController extends Controller
 {
@@ -149,6 +152,10 @@ class DSTController extends Controller
         $backgrounds = Background::all();
         $current_background = $design->background;
 
+
+        if($design->svg==null){
+            $design->svg = static::generateSVG($design, $stitches, $canvas_width, $canvas_height, $minx, $miny);
+        }
         $design->stitch_count = $stitch_count;
         $design->save();
 
@@ -234,5 +241,54 @@ class DSTController extends Controller
         }
 
         return [$x,$y];
+    }
+
+    public static function generateSVG(Design $design, $stitches, $width, $height, $x_offset, $y_offset)
+    {
+        if($design->extension()!="dst"){
+            abort(400);
+        }
+
+
+        $view = view('designs.svg', [
+            'design' => $design,
+            'stitches' => $stitches,
+            'x_offset' => $x_offset,
+            'y_offset' => $y_offset,
+            'width' => $width,
+            'height' => $height
+        ]);
+
+        $svg = $view->render();
+
+        $name = time().Str::random(16).'.svg';
+
+        Storage::put('/images/svg/'.$name,$svg);
+
+        return $name;
+    }
+
+    public static function updateSVG(Design $design, $colors, $background)
+    {
+        $name = $design->svg;
+
+        $file = Storage::get('images/svg/'.$name);
+
+        $i = 0;
+        foreach($colors as $color)
+        {
+            $color_pattern = "/(<g id=\"color_$i\" style=\")(stroke:rgb\([0-9]{1,3}, [0-9]{1,3}, [0-9]{1,3}\);)(\">)/";
+            $replace = "$1stroke:rgb($color->red, $color->green, $color->blue);$3";
+            $file = preg_replace($color_pattern,$replace,$file);
+            $i++;
+        }
+
+        $background_pattern = "/(<rect width=\"[0-9\.]*\" height=\"[0-9\.]*\" style=\")fill:rgb\([0-9]{1,3}, [0-9]{1,3}, [0-9]{1,3}\)(\"><\/rect>)/";
+        $background_replace = "$1fill:rgb($background->red, $background->green, $background->blue)$2";
+        $file = preg_replace($background_pattern,$background_replace,$file);
+
+        Storage::put('images/svg/'.$name,$file);
+
+        return $name;
     }
 }
