@@ -322,8 +322,8 @@
                 @endif
             </div>
         </div>
-        @if($order->joint || Auth::user()->assignedOrders->find($order->id)!=null)
         <div class="col-md-4">
+        @if($order->joint || Auth::user()->assignedOrders->find($order->id)!=null)
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Hozzárendelt körtagok</h3>
@@ -356,11 +356,7 @@
                     @endif
                 </div>
             </div>
-        </div>
         @endif
-    </div>
-    <div class="row">
-        <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Kommentek</h3>
