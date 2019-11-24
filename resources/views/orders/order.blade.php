@@ -126,12 +126,12 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel @if($dst!=null && $dst->svg!=null && $dst->colors->count()>0 && $dst->background!=null) panel-success @elseif($dst->colors->count()==0 || $dst->background==null) panel-warning @else panel-default @endif">
+            <div class="panel @if($dst!=null && $dst->svg!=null && $dst->colors!=null && $dst->background!=null) panel-success @elseif($dst->colors==null || $dst->background==null) panel-warning @else panel-default @endif">
                 <div class="panel-heading">
                     <h3 class="panel-title">
-                        @if($dst!=null && $dst->svg!=null && $dst->colors->count()>0 && $dst->background!=null)
+                        @if($dst!=null && $dst->svg!=null && $dst->colors!=null && $dst->background!=null)
                             Kész rendelés
-                        @elseif($dst->colors->count()==0 || $dst->background==null)
+                        @elseif($dst->colors==null || $dst->background==null)
                             Készülő rendelés
                         @else
                             Küldött fájlok
@@ -256,14 +256,14 @@
             </div>
         </div>
         <div class="col-md-4">
-            <div class="panel @if($dst!=null && $dst->colors->count()!=0) {{ "panel-success" }} @else {{ "panel-danger" }} @endif">
+            <div class="panel @if($dst!=null && $dst->colors!=null) {{ "panel-success" }} @else {{ "panel-danger" }} @endif">
                 <div class="panel-heading">
                     <h3 class="panel-title">Színek</h3>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         @if($dst!=null)
-                            @if($dst->colors->count()==0)
+                            @if($dst->colors!=null)
                                 <tr>
                                     <td align="center">
                                         <i class="fa fa-angry"></i> Nem adtál meg színeket
@@ -309,13 +309,13 @@
                         @endif
                     </table>
                 </div>
-                @if($dst!=null && $dst->colors->count()==0)
+                @if($dst!=null && $dst->colors!=null)
                     <div class="panel-footer">
                         <a href="{{ route('designs.parse', ['design' => $dst, 'order' => $order]) }}" class="btn btn-primary">
                             <i class="fa fa-plus"></i> Színek hozzáadása
                         </a>
                     </div>
-                @elseif($dst!=null && $dst->colors->count()!=0)
+                @elseif($dst!=null && $dst->color!=null)
                     <div class="panel-footer">
                         <a href="{{ route('designs.parse', ['design' => $dst, 'order' => $order]) }}" class="btn btn-warning">
                             <i class="fa fa-edit"></i> Színek szerkesztése
@@ -528,7 +528,7 @@
                                 <label class="input-group-addon">cm</label>
                             </div>
                         </div>
-                        @if(($dst!=null && $dst->background!=null && $dst->colors->count()!=0 && $order->assignedUsers->contains(Auth::user())) || Auth::user()->role_id>4)
+                        @if(($dst!=null && $dst->background!=null && $dst->colors!=null && $order->assignedUsers->contains(Auth::user())) || Auth::user()->role_id>4)
                         <div class="form-group">
                             <div class="input-group">
                                 <label class="input-group-addon" for="status">Státusz</label>
