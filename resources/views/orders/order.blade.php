@@ -2,7 +2,7 @@
 
 @section('title','Rendelés - '.$order->title)
 
-@section('orders.active.active','active')
+@section('members.active','active')
 
 @section('content')
     <h1 class="page-header with-description">{{ $order->title }} &raquo; <a href="javascript:history.back();">Vissza</a></h1>
