@@ -126,12 +126,12 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel @if($dst!=null && $dst->svg!=null && $dst->colors!=null && $dst->background!=null) panel-success @elseif($dst->colors==null || $dst->background==null) panel-warning @else panel-default @endif">
+            <div class="panel @if($dst!=null && $dst->svg!=null && $dst->colors!=null && $dst->background!=null) panel-success @elseif($dst!=null && ($dst->colors==null || $dst->background==null)) panel-warning @else panel-default @endif">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         @if($dst!=null && $dst->svg!=null && $dst->colors!=null && $dst->background!=null)
                             Kész rendelés
-                        @elseif($dst->colors==null || $dst->background==null)
+                        @elseif($dst!=null && ($dst->colors==null || $dst->background==null))
                             Készülő rendelés
                         @else
                             Küldött fájlok
@@ -263,7 +263,7 @@
                 <div class="table-responsive">
                     <table class="table table-striped">
                         @if($dst!=null)
-                            @if($dst->colors!=null)
+                            @if($dst->colors==null)
                                 <tr>
                                     <td align="center">
                                         <i class="fa fa-angry"></i> Nem adtál meg színeket
@@ -309,13 +309,13 @@
                         @endif
                     </table>
                 </div>
-                @if($dst!=null && $dst->colors!=null)
+                @if($dst!=null && $dst->colors==null)
                     <div class="panel-footer">
                         <a href="{{ route('designs.parse', ['design' => $dst, 'order' => $order]) }}" class="btn btn-primary">
                             <i class="fa fa-plus"></i> Színek hozzáadása
                         </a>
                     </div>
-                @elseif($dst!=null && $dst->color!=null)
+                @elseif($dst!=null && $dst->colors!=null)
                     <div class="panel-footer">
                         <a href="{{ route('designs.parse', ['design' => $dst, 'order' => $order]) }}" class="btn btn-warning">
                             <i class="fa fa-edit"></i> Színek szerkesztése
