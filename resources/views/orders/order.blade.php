@@ -126,7 +126,7 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="panel panel-default">
+            <div class="panel @if($dst!=null && $dst->svg!=null) panel-success @else panel-default @endif">
                 <div class="panel-heading">
                     <h3 class="panel-title">
                         @if($dst!=null && $dst->svg!=null)
