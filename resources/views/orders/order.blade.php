@@ -142,10 +142,10 @@
                     <table class="table table-striped">
                         <tr>
                             <td align="center">
-                                @if(!$order->image=="" && $dst==null && $dst->svg==null)
-                                <img class="album-edit-image" src="{{ route('orders.getImage', ['order' => $order]) }}" alt="{{ $order->title }}">
-                                @elseif($dst!=null && $dst->svg!=null)
+                                @if($dst!=null && $dst->svg!=null)
                                     <img class="album-edit-image" src="{{ asset('storage/images/svg/'.$dst->svg)  }}">
+                                @elseif(!$order->image=="")
+                                    <img class="album-edit-image" src="{{ route('orders.getImage', ['order' => $order]) }}" alt="{{ $order->title }}">
                                 @else
                                     <p align="center"><i>Nincs feltöltött kép</i></p>
                                 @endif
