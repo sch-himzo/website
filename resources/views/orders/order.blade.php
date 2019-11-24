@@ -10,7 +10,7 @@
 
     <div class="row">
         <div class="col-md-6">
-            <div class="panel panel-default">
+            <div class="panel @if($order->status=="finished") panel-success @else panel-default @endif">
                 <div class="panel-heading">
                     <h3 class="panel-title">Rendelés információk</h3>
                 </div>
@@ -167,7 +167,7 @@
     </div>
     <div class="row">
         <div class="col-md-4">
-            <div class="panel panel-info">
+            <div class="panel @if($order->status=="finished") panel-success @else panel-info @endif">
                 <div class="panel-heading">
                     <h3 class="panel-title">Rendelés állapota</h3>
                 </div>
