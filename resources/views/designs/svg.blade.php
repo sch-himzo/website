@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 {{ $width }} {{ $height }}">
     @if($design->background!=null)
-        <rect width="{{ $width }}" height="{{ $height }}" style="fill:rgb({{ $design->background->red }}, {{ $design->background->green }}, {{ $design->background->blue }})"></rect>
+        <rect width="{{ $width }}" height="{{ $height }}" style="fill:rgb({{ $design->background->red }}, {{ $design->background->green }}, {{ $design->background->blue }});"></rect>
     @else
-        <rect width="{{ $width }}" height="{{ $height }}" style="fill:rgb(255, 255, 255)"></rect>
+        <rect width="{{ $width }}" height="{{ $height }}" style="fill:rgb(255, 255, 255);"></rect>
     @endif
     @foreach($stitches as $id => $color)
         @if($design->colors->count()==0)
-            <g id="color_{{ $id }}" style="stroke:rgb(0,0,0);">
+            <g id="color_{{ $id }}" style="stroke:rgb(0, 0, 0);">
         @else
             <g id="color_{{ $id }}" style="stroke:rgb({{ $design->colors->where('number',$id)->first()->red }}, {{ $design->colors->where('number',$id)->first()->green }}, {{ $design->colors->where('number',$id)->first()->blue }});">
         @endif

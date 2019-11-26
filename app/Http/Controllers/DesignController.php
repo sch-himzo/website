@@ -84,7 +84,7 @@ class DesignController extends Controller
 
             $design->save();
 
-            return redirect()->route('designs.parse', ['design' => $design]);
+            return redirect()->route('designs.parse', ['design' => $design, 'order' => $order]);
         }else{
             abort(400);
         }
@@ -349,7 +349,6 @@ class DesignController extends Controller
             $design->background_id = $background;
             $design->save();
         }
-
 
         return redirect()->back();
     }
