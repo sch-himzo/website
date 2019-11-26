@@ -20,10 +20,11 @@
                     <th>Megrendelő</th>
                     <th>Rendelés időpontja</th>
                     <th>Hozzárendelt körtagok</th>
+                    <th>Műveletek</th>
                 </tr>
                 @if($orders == null)
                     <tr>
-                        <td colspan="4" align="center">Nincs archivált rendelés</td>
+                        <td colspan="5" align="center">Nincs archivált rendelés</td>
                     </tr>
                 @else
                     @foreach($orders as $order)
@@ -51,6 +52,11 @@
                                             <td>
                                                 {{ $user->name }}
                                             </td>
+                                            <td align="center" style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
+                                                <a data-toggle="tooltip" title="Nem archivált" href="{{ route('orders.unarchive', ['order' => $order]) }}" class="btn btn-xs btn-primary">
+                                                    <i class="fa fa-check"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                     @else
                                         <tr>
@@ -77,6 +83,11 @@
                                     </td>
                                     <td>
                                         <i>Nincs hozzárendelve senki</i>
+                                    </td>
+                                    <td align="center">
+                                        <a data-toggle="tooltip" title="Nem archivált" href="{{ route('orders.unarchive', ['order' => $order]) }}" class="btn btn-xs btn-primary">
+                                            <i class="fa fa-check"></i>
+                                        </a>
                                     </td>
                                 </tr>
                             @endif

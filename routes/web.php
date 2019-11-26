@@ -76,6 +76,8 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('update','OrdersController@updateTrello')->name('update');
 
         Route::get('{order}/albums','OrdersController@albums')->name('albums');
+
+        Route::get('{order}/unarchive', 'OrdersController@unarchive')->name('unarchive');
     });
 
 Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth'], function(){

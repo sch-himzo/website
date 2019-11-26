@@ -253,6 +253,18 @@ $size cm oldalhosszúság
         return redirect()->back();
     }
 
+    public function unarchive(Order $order)
+    {
+        if(Auth::user()->role_id<4){
+            abort(401);
+        }
+
+        $order->archived = 0;
+        $order->save();
+
+        return redirect()->back();
+    }
+
     public function edit(Order $order, Request $request)
     {
         $size = $request->input('size');
