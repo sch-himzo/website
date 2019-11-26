@@ -156,6 +156,84 @@
                     </table>
                 </div>
             </div>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Segítségre szoruló rendelések</h3>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Név</th>
+                            <th>Megrendelő</th>
+                            <th>Státusz</th>
+                            <th>Kortagok</th>
+                        </tr>
+                        @if($help==null || $help->count()==0)
+                            <tr>
+                                <td align="center" colspan="4">
+                                    <i>Nincs ilyen rendelés</i>
+                                </td>
+                            </tr>
+                        @else
+                            @foreach($help as $order)
+                                @if($order->assigned_users_count!=0)
+                                    <?php $i = 0; ?>
+                                    @foreach($order->assignedUsers as $user)
+                                        <?php $i++; ?>
+                                        @if($i==1)
+                                            <tr>
+                                                <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
+                                                    <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                                </td>
+                                                <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
+                                                    @if($order->user!=null)
+                                                        {{ $order->user->name }} <i class="fa fa-check" data-toggle="tooltip" title="Regisztrált felhasználó"></i>
+                                                    @elseif($order->tempUser!=null)
+                                                        {{ $order->tempUser->name }} <i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Nem létező felhasználó"></i>
+                                                    @else
+                                                        <i>N/A</i>
+                                                    @endif
+                                                </td>
+                                                <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
+                                                    {{ $order->getStatusInternal() }}
+                                                </td>
+                                                <td>
+                                                    {{ $user->name }}
+                                                </td>
+                                            </tr>
+                                        @else
+                                            <tr>
+                                                <td>{{ $user->name }}</td>
+                                            </tr>
+                                        @endif
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td>
+                                            <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                        </td>
+                                        <td>
+                                            @if($order->user!=null)
+                                                {{ $order->user->name }} <i class="fa fa-check" data-toggle="tooltip" title="Regisztrált felhasználó"></i>
+                                            @elseif($order->tempUser!=null)
+                                                {{ $order->tempUser->name }} <i class="fa fa-exclamation-circle" data-toggle="tooltip" title="Nem létező felhasználó"></i>
+                                            @else
+                                                <i>N/A</i>
+                                            @endif
+                                        </td>
+                                        <td>
+                                            {{ $order->getStatusInternal() }}
+                                        </td>
+                                        <td>
+                                            <i>N/A</i>
+                                        </td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        @endif
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 @endsection

@@ -145,20 +145,31 @@
                     </table>
                 </div>
                 <div class="panel-footer">
-                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#edit">
+                    <button type="button" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#edit">
                         <i class="fa fa-edit"></i> Szerkesztés
                     </button>
                     @if(Auth::user()->role_id>2 && $order->status=='finished' && !$order->archived)
-                    <button type="button" class="btn btn-info" data-toggle="modal" data-target="#archive">
+                    <button type="button" class="btn btn-xs btn-info" data-toggle="modal" data-target="#archive">
                         <i class="fa fa-archive"></i> Archiválás
                     </button>
                     @endif
                     @if(Auth::user()->role_id>4)
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">
+                        <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#delete">
                             <i class="fa fa-trash"></i> Törlés
                         </button>
                         @if($dst!=null)
-                            <a href="{{ route('designs.redraw', ['order' => $order]) }}" class="btn btn-info"><i class="fa fa-refresh"></i> SVG Újrarajzolása</a>
+                            <a href="{{ route('designs.redraw', ['order' => $order]) }}" class="btn btn-xs btn-info"><i class="fa fa-refresh"></i> SVG Újrarajzolása</a>
+                        @endif
+                    @endif
+                    @if($order->assignedUsers->contains(Auth::user()) && in_array($order->status,['arrived','approved','designed']))
+                        @if($order->help)
+                            <a href="{{ route('orders.help', ['order' => $order]) }}" class="btn btn-xs btn-success">
+                                <i class="fa fa-check"></i> Köszike
+                            </a>
+                        @else
+                            <a href="{{ route('orders.help', ['order' => $order]) }}" class="btn btn-xs btn-danger">
+                                <i class="fa fa-exclamation-circle"></i> HELP!!!!
+                            </a>
                         @endif
                     @endif
                 </div>
@@ -232,13 +243,13 @@
                 </div>
                 @if($order->status=='arrived')
                     <div class="panel-footer">
-                        <a href="{{ route('orders.approve', ['order' => $order, 'internal' => 1]) }}" class="btn btn-success">
+                        <a href="{{ route('orders.approve', ['order' => $order, 'internal' => 1]) }}" class="btn btn-xs btn-success">
                             <i class="fa fa-check"></i> Belsős
                         </a>
-                        <a href="{{ route('orders.approve', ['order' => $order, 'internal' => 0]) }}" class="btn btn-success">
+                        <a href="{{ route('orders.approve', ['order' => $order, 'internal' => 0]) }}" class="btn btn-xs btn-success">
                             <i class="fa fa-check"></i> Külsős
                         </a>
-                        <button data-toggle="modal" data-target="#delete" type="button" class="btn btn-danger">
+                        <button data-toggle="modal" data-target="#delete" type="button" class="btn btn-xs btn-danger">
                             <i class="fa fa-trash"></i> Törlés
                         </button>
                     </div>
@@ -284,10 +295,10 @@
                 </div>
                 @if($order->design==null)
                     <div class="panel-footer">
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#add_files">
+                        <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#add_files">
                             <i class="fa fa-plus"></i> Új tervfájl
                         </button>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#select_files">
+                        <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#select_files">
                             <i class="fa fa-plus"></i> Létező tervfájl
                         </button>
                     </div>
@@ -350,13 +361,13 @@
                 </div>
                 @if($dst!=null && $dst->colors==null)
                     <div class="panel-footer">
-                        <a href="{{ route('designs.parse', ['design' => $dst, 'order' => $order]) }}" class="btn btn-primary">
+                        <a href="{{ route('designs.parse', ['design' => $dst, 'order' => $order]) }}" class="btn btn-xs btn-primary">
                             <i class="fa fa-plus"></i> Színek hozzáadása
                         </a>
                     </div>
                 @elseif($dst!=null && $dst->colors!=null)
                     <div class="panel-footer">
-                        <a href="{{ route('designs.parse', ['design' => $dst, 'order' => $order]) }}" class="btn btn-warning">
+                        <a href="{{ route('designs.parse', ['design' => $dst, 'order' => $order]) }}" class="btn btn-xs btn-warning">
                             <i class="fa fa-edit"></i> Színek szerkesztése
                         </a>
                     </div>
@@ -387,11 +398,11 @@
                 </div>
                 <div class="panel-footer">
                     @if($order->assignedUsers->find(Auth::user()->id)!=null)
-                        <a href="{{ route('orders.assign', ['order' => $order]) }}" class="btn btn-danger">
+                        <a href="{{ route('orders.assign', ['order' => $order]) }}" class="btn btn-xs btn-danger">
                             <i class="fa fa-minus"></i> Kilépek
                         </a>
                     @else
-                        <a href="{{ route('orders.assign', ['order' => $order]) }}" class="btn btn-success">
+                        <a href="{{ route('orders.assign', ['order' => $order]) }}" class="btn btn-xs btn-success">
                             <i class="fa fa-plus"></i> Hozzárendelés
                         </a>
                     @endif

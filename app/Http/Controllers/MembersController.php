@@ -41,10 +41,17 @@ class MembersController extends Controller
             ->get()
             ->sortByDesc('id');
 
+        $help = Order::where('help','1')
+            ->where('archived',false)
+            ->withCount('assignedUsers')
+            ->get()
+            ->sortByDesc('id');
+
         return view('members.index',[
             'time_limit' => $time_limit,
             'recent' => $recent,
-            'ready' => $ready
+            'ready' => $ready,
+            'help' => $help
         ]);
     }
 
