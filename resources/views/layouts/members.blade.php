@@ -86,6 +86,15 @@
             $('.col-md-12').css('transition-duration','1s,1s,1s');
             $('.col-md-12').css('transform','rotate(' + getRandomInt(360) + 'deg)');
         },1000);
+        $('a').css('top',0);
+
+        $('a').hover(function(){
+            $(this).css('background','black');
+            $(this).css('position','relative');
+            $(this).css('transition-property','top');
+            $(this).css('transition-duration','2s');
+            $(this).css('top','2000px');
+        });
     </script>
     <audio autoplay loop>
         <source src="{{ asset('spazz.mp3') }}">
