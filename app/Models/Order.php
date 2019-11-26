@@ -139,80 +139,116 @@ class Order extends Model
         return null;
     }
 
-    public function getCost()
+    public function getDesignCost()
+    {
+        if(!$this->original){
+            return 0;
+        }else{
+            if($this->count>10){
+                if($this->internal){
+                    return 200;
+                }else{
+                    return 400;
+                }
+            }else{
+                if($this->internal){
+                    return 0;
+                }else{
+                    return 200;
+                }
+            }
+        }
+    }
+
+    public function getBasePrice()
     {
         $dst = $this->getDST();
         if($dst==null){
             return null;
         }
 
+        if($dst->size<=5){
+            if($this->internal){
+                return 100;
+            }else{
+                return 200;
+            }
+        }elseif($dst->size>5 && $dst->size<=10){
+            if($this->internal){
+                return 200;
+            }else{
+                return 300;
+            }
+        }else{
+            if($this->internal){
+                return 300;
+            }else{
+                return 400;
+            }
+        }
+    }
+
+    public function getJumperCost()
+    {
+        if($this->type==1){
+            return 0;
+        }
+        if($this->internal){
+            return 300;
+        }else{
+            return 400;
+        }
+    }
+
+    public function getEmbroideryCost()
+    {
+        $dst = $this->getDST();
+        if($dst==null){
+            return null;
+        }
         $colors = $dst->colors;
-        if($colors == null || $colors->count()==0){
+
+        if($colors==null || $colors->count()==0){
             return null;
         }
 
-        if($this->count>10 && $this->internal)
-            $cost = 200;
-
-        if($this->count<=10 && $this->internal)
-            $cost = 0;
-
-        if($this->count<=10 && !$this->internal)
-            $cost = 200;
-
-        if($this->count>10 && !$this->internal)
-            $cost = 400;
-
-        if($this->internal){
-            if($this->size<=5){
-                $add = 100;
-            }elseif($dst->size>5 && $dst->size<=10){
-                $add = 200;
-            }else{
-                $add = 300;
-            }
-            if($this->type>1){
-                $add = 300;
-            }
-        }else{
-            if($dst->size<=5){
-                $add = 200;
-            }elseif($dst->size>5 && $dst->size<=10){
-                $add = 300;
-            }else{
-                $add = 400;
-            }
-            if($this->type>1){
-                $add = 400;
-            }
-        }
-
-        if($this->original==1){
-            $cost_so_far = $cost+$add;
-        }else{
-            $cost_so_far = $add;
-        }
+        $sum = 0;
 
         foreach($colors as $color){
-            if($this->internal){
-                if($color->isacord){
-                    $d = 100;
+            if($color->fancy){
+                if($this->internal){
+                    $sum += $color->stitch_count/25;
                 }else{
-                    $d = 25;
+                    $sum += $color->stitch_count/15;
                 }
             }else{
-                if($color->isacord){
-                    $d = 50;
+                if($this->internal){
+                    $sum += $color->stitch_count/100;
                 }else{
-                    $d = 15;
+                    $sum += $color->stitch_count/50;
                 }
             }
-
-            $cost_so_far += $color->stitch_count/$d;
-
         }
 
-        return round($cost_so_far);
+        return $sum;
+    }
+
+    public function getTotalCost()
+    {
+        if($this->getCost()==null){
+            return null;
+        }
+
+        return round($this->getDesignCost() + $this->count * $this->getCost()-1);
+    }
+
+    public function getCost()
+    {
+        if($this->getEmbroideryCost()==null){
+            return null;
+        }
+
+        return $this->getEmbroideryCost() + $this->getBasePrice() + $this->getJumperCost();
     }
 
     public function originalDesign()

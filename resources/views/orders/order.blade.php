@@ -18,7 +18,7 @@
                     <table class="table table-striped">
                         <tr>
                             <th>Megrendelő</th>
-                            <td>
+                            <td colspan="2">
                                 @if($order->user)
                                      {{ $order->user->name }} (<i data-toggle="tooltip" title="Regisztrált felhasználó" class="fa fa-check"></i>)
                                 @elseif($order->tempUser)
@@ -30,12 +30,12 @@
                         </tr>
                         <tr>
                             <th>Leadás időpontja</th>
-                            <td>{{ $order->created_at }}</td>
+                            <td colspan="2">{{ $order->created_at }}</td>
                         </tr>
                         @if($dst!=null && $dst->svg!=null && $order->image!=null)
                             <tr>
                                 <th>Küldött kép</th>
-                                <td>
+                                <td colspan="2">
                                     <a data-toggle="tooltip" title="Kép megtekintése" href="{{ route('orders.getImage', ['order' => $order]) }}" class="btn btn-xs btn-primary">
                                         <i class="fa fa-image"></i>
                                     </a>
@@ -44,7 +44,7 @@
                         @endif
                         <tr>
                             <th>Darabszám</th>
-                            <td>
+                            <td colspan="2">
                                 @if($order->count)
                                     {{ $order->count }} db
                                 @else
@@ -54,7 +54,7 @@
                         </tr>
                         <tr>
                             <th>Határidő</th>
-                            <td>
+                            <td colspan="2">
                                 @if($order->time_limit)
                                     {{ $order->time_limit }}
                                 @else
@@ -64,13 +64,13 @@
                         </tr>
                         <tr>
                             <th>Típus</th>
-                            <td>
+                            <td colspan="2">
                                 {{ $order_types[$order->type] }}
                             </td>
                         </tr>
                         <tr>
                             <th>Belsős</th>
-                            <td>
+                            <td colspan="2">
                                 @if($order->internal)
                                     Igen <i class="fa fa-check"></i>
                                 @else
@@ -82,7 +82,7 @@
                             <th>
                                 Méret (<i class="fa fa-question" data-toggle="tooltip" title="Legnagyobb átmérő"></i>)
                             </th>
-                            <td>
+                            <td colspan="2">
                                 @if($order->size!=null)
                                     {{ $order->size }} cm
                                 @else
@@ -95,20 +95,52 @@
                                 <th>
                                     Végleges méret (<i class="fa fa-question" data-toggle="tooltip" title="A folt területe visszaosztva átmérőre (mintha kör lenne)"></i>)
                                 </th>
-                                <td>
+                                <td colspan="2">
                                     {{ number_format($order->getDST()->size,2,',','.') }} cm
                                 </td>
                             @endif
                         </tr>
                         @if($order->getCost()!=null)
                             <tr>
-                                <th>Darabár</th>
+                                <th rowspan="@if($order->getJumperCost()==0) {{ "4" }} @else {{ "5" }} @endif">Darabár</th>
+                            </tr>
+                            <tr>
+                                <td>Alapár</td>
+                                <td>{{ number_format($order->getBasePrice(),0,',','.') }} Ft</td>
+                            </tr>
+                            @if($order->getJumperCost()!=0)
+                            <tr>
+                                <td>Hozott anyag</td>
+                                <td>{{ number_format($order->getJumperCost(),0,',','.') }} Ft</td>
+                            </tr>
+                            @endif
+                            <tr>
+                                <td>Öltések ára</td>
+                                <td>{{ number_format($order->getEmbroideryCost(),0,',','.') }} Ft</td>
+                            </tr>
+                            <tr>
+                                <th>Szumma darabár</th>
                                 <td>{{ number_format($order->getCost(),0,',','.') }} Ft</td>
                             </tr>
                             <tr>
-                                <th>Szumma</th>
-                                <td>{{ number_format($order->count*$order->getCost(),0,',','.') }} Ft</td>
+                                <th rowspan="@if($order->original) {{ 3 }} @endif">Összesen</th>
+                                @if($order->original)
+                                    <td>Tervezési díj</td>
+                                    <td>{{ number_format($order->getDesignCost(),0,',','.') }} Ft</td>
+                                @else
+                                    <td colspan="2">{{ number_format($order->getTotalCost(),-1,',','.') }} Ft</td>
+                                @endif
                             </tr>
+                            @if($order->original)
+                                <tr>
+                                    <td>{{ $order->count }} &times; Darabár</td>
+                                    <td>{{ number_format($order->count*$order->getCost(),-1,',','.') }} Ft</td>
+                                </tr>
+                                <tr>
+                                    <th>Szumma</th>
+                                    <th>{{ number_format($order->getTotalCost(),0,',','.') }} Ft</th>
+                                </tr>
+                            @endif
                         @endif
                     </table>
                 </div>
@@ -125,6 +157,9 @@
                         <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">
                             <i class="fa fa-trash"></i> Törlés
                         </button>
+                        @if($dst!=null)
+                            <a href="{{ route('designs.redraw', ['order' => $order]) }}" class="btn btn-info"><i class="fa fa-refresh"></i> SVG Újrarajzolása</a>
+                        @endif
                     @endif
                 </div>
             </div>

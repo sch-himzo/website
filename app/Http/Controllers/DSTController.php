@@ -245,6 +245,33 @@ class DSTController extends Controller
         return [$x,$y];
     }
 
+    public static function deleteSVG(Design $design)
+    {
+        $svg = $design->svg;
+
+        if($svg == null){
+            return null;
+        }
+
+        Storage::delete('public/images/svg/'.$svg);
+        return null;
+    }
+
+    public function redraw(Order $order)
+    {
+        $dst = $order->getDST();
+
+        if($dst==null){
+            return redirect()->back();
+        }
+
+        static::deleteSVG($dst);
+        $dst->svg = null;
+        $dst->save();
+
+        return redirect()->route('designs.parse', ['design' => $dst, 'order' => $order]);
+    }
+
     public static function generateSVG(Design $design, $stitches, $width, $height, $x_offset, $y_offset)
     {
         if($design->extension()!="dst"){

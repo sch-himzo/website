@@ -95,6 +95,8 @@ Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth']
             Route::get('{group}/delete','DesignController@deleteGroup')->name('delete');
             Route::post('{group}/edit','DesignController@editGroup')->name('edit');
         });
+
+        Route::get('{order}/redraw','DSTController@redraw')->name('redraw');
     });
 
     Route::post('{design}/colors', 'DesignController@colors')->name('colors');
