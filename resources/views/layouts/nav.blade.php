@@ -27,28 +27,24 @@
                         </ul>
                     </li>
                 @endif
-                @if(Auth::check() && Auth::user()->role_id>3)
-                    <li class="@yield('designs.active')"><a href="{{ route('designs.index') }}">Tervek</a></li>
-                @endif
                 <li class="@yield('galleries.active')"><a class="@yield('galleries.active')" href="{{ route('gallery.index') }}">Képek</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::check())
                     @if(Auth::user()->role_id>3)
                         <li class="dropdown">
-                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Pénzügyek <span class="caret"></span></a>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">Admin <span class="caret"></span></a>
                             <ul class="dropdown-menu">
+                                <li class="@yield('designs.active')"><a href="{{ route('designs.index') }}">Tervek</a></li>
+                                <li class="dropdown-header">Pénzügyek</li>
                                 <li><a href="{{ route('transactions.teddy_bears') }}">Kasszák</a></li>
-                            </ul>
-                        </li>
-                    @endif
-                    @if(Auth::user()->role_id>4)
-                        <li class="dropdown">
-                            <a class="dropdonw-toggle" href="#" data-toggle="dropdown">Beállítások <span class="caret"></span></a>
-                            <ul class="dropdown-menu">
-                                <li><a href="{{ route('settings.index') }}">Főoldal</a></li>
-                                <li><a href="{{ route('settings.gallery') }}">Galériák</a></li>
-                                <li><a href="{{ route('settings.backgrounds') }}">Kordurák</a></li>
+                                @if(Auth::user()->role_id>4)
+                                    <li class="divider" role="separator"></li>
+                                    <li class="dropdown-header">Beállítások</li>
+                                    <li><a href="{{ route('settings.index') }}">Főoldal</a></li>
+                                    <li><a href="{{ route('settings.gallery') }}">Galériák</a></li>
+                                    <li><a href="{{ route('settings.backgrounds') }}">Kordurák</a></li>
+                                @endif
                             </ul>
                         </li>
                     @endif
