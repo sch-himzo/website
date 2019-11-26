@@ -11,9 +11,20 @@
 @section('carousel')
     <style>
         @foreach($slides as $slide)
+        @media screen and (max-width:768px) {
+
+            .slide-{{ $slide->id }}{
+                background: url("{{ $slide->image }}") no-repeat center;
+                background-size:cover;
+            }
+        }
+
+        @media screen and (min-width:768px) {
+
             .slide-{{ $slide->id }}{
                 background: url("{{ $slide->image }}") no-repeat center;
                 background-size:contain;
+            }
         }
         @endforeach
 
