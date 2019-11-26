@@ -4,6 +4,7 @@
         <title>@yield('title')</title>
         <link rel="stylesheet" href="{{ asset('css/main.css') }}">
         <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
+        <link rel="shortcut icon" type="image/png" href="{{ asset('favicon.png') }}"/>
         <script src="https://kit.fontawesome.com/492a2c0a6b.js" crossorigin="anonymous"></script>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         @yield('styles')
