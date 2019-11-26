@@ -182,7 +182,7 @@ class LoginController extends Controller
             Auth::logout();
         }
 
-        return redirect()->back();
+        return redirect()->route('index');
     }
 
     public function facebookCallback(Request $request)

@@ -130,6 +130,7 @@
                 $('.panel-heading').css('background','rgb(' + r2 + ',' + g2 + ',' + b2 + ')');
             },50);
         </script>
+        <audio src="{{ asset('spazz.mp3') }}"></audio>
     @endif
 @yield('scripts')
 </html>
