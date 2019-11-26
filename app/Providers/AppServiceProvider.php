@@ -31,10 +31,10 @@ class AppServiceProvider extends ServiceProvider
         $joint_orders_count = 0;
         $orders = Order::withCount('assignedUsers')->get();
         foreach($orders as $order){
-            if($order->assigned_users_count==0 && $order->approved_by!=null && $order->joint==false){
+            if($order->assigned_users_count==0 && $order->approved_by!=null && $order->joint==false && !$order->archived){
                 $send_orders_count++;
             }
-            if($order->joint){
+            if($order->joint && !$order->archived){
                 $joint_orders_count++;
             }
         }

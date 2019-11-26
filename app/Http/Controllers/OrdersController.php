@@ -267,7 +267,10 @@ $size cm oldalhosszúság
             }
         }
 
-        if(!$size || !$count){
+        if($order->original && !$size){
+            abort(400);
+        }
+        if(!$count){
             abort(400);
         }
 
@@ -533,7 +536,9 @@ $size cm oldalhosszúság
         $order->comment = $comment=="" ? null : $comment;
         $order->image = $new_name;
         $order->user_id = $user;
+        $order->status = 'approved';
         $order->temp_user_id = $temp_user;
+        $order->approved_by = Auth::user()->id;
         $order->save();
 
 

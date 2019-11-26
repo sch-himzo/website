@@ -56,7 +56,7 @@
                                             @if($order->joint)
                                                 <span data-toggle="tooltip" title="Nem nagy közös projekt">
                                                     <a class="btn btn-xs btn-danger" href="{{ route('orders.joint', ['order' => $order]) }}">
-                                                        <i class="fa fa-times"></i>
+                                                        <i class="fa fa-trash"></i>
                                                     </a>
                                                 </span>
                                             @else

@@ -19,7 +19,7 @@ class MembersController extends Controller
         $oneweekminus = date('Y-m-d H:i:s', time()-7*24*60*60);
 
         $time_limit = Order::where('time_limit','<',$oneweek)
-            ->where('archived',false)
+            ->where('archived',0)
             ->where('status','!=','finished')
             ->withCount('assignedUsers')
             ->get();
@@ -39,7 +39,10 @@ class MembersController extends Controller
     {
 
         Carbon::setLocale('hu');
-        $orders = Auth::user()->assignedOrders;
+        $orders = Auth::user()
+            ->assignedOrders
+            ->where('archived',0)
+            ->where('joint',0);
 
         return view('members.mine', [
             'orders' => $orders
@@ -48,7 +51,7 @@ class MembersController extends Controller
 
     public function unapproved()
     {
-        $orders = Order::where('approved_by',null)->get();
+        $orders = Order::where('approved_by',null)->where('archived',0)->get();
 
         return view('members.unapproved', [
             'orders' => $orders
@@ -60,7 +63,7 @@ class MembersController extends Controller
         Carbon::setLocale('hu');
 
         $orders = [];
-        $all_orders = Order::all()->sortByDesc('id')->all();
+        $all_orders = Order::all()->where('archived',0)->sortByDesc('id')->all();
         foreach($all_orders as $order){
             if($order->assignedUsers->count()==0 && $order->joint==false){
                 $orders[] = $order;
@@ -76,7 +79,11 @@ class MembersController extends Controller
     {
         Carbon::setLocale('hu');
 
-        $orders = Order::all()->where('joint',true)->sortByDesc('id')->all();
+        $orders = Order::all()
+            ->where('joint',true)
+            ->where('archived',false)
+            ->sortByDesc('id')
+            ->all();
 
         return view('members.joint', [
             'orders' => $orders
