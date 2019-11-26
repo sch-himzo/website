@@ -110,5 +110,20 @@
         $('[data-toggle="tooltip"]').tooltip()
     })
 </script>
+    @if(session('party')=='on')
+        <script>
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * Math.floor(max));
+            }
+
+            $('i').addClass('fa-spin');
+            setInterval(function(){
+                r = getRandomInt(255);
+                g = getRandomInt(255);
+                b = getRandomInt(255);
+                $('body').css('background','rgb(' + r + ',' + g + ',' + b + ')');
+            },50);
+        </script>
+    @endif
 @yield('scripts')
 </html>

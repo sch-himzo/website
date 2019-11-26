@@ -6,6 +6,7 @@ use App\Models\Slide;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
@@ -16,6 +17,17 @@ class HomeController extends Controller
         return view('index',[
             'slides' => $slides
         ]);
+    }
+
+    public function party()
+    {
+        if(session('party')=='on'){
+            Session::put('party','off');
+        }else{
+            Session::put('party','on');
+        }
+
+        return redirect()->back();
     }
 
     public function indexLogin(Request $request)

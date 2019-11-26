@@ -3,6 +3,8 @@
 Route::get('', 'HomeController@index')->name('index');
 Route::get('login','HomeController@indexLogin')->name('index.login');
 
+Route::get('party','HomeController@party')->name('party');
+
 Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
     Route::get('', 'LoginController@login')->name('login');
     Route::get('logout', 'LoginController@logout')->name('logout');
