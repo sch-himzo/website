@@ -46,7 +46,11 @@
             r = getRandomInt(255);
             g = getRandomInt(255);
             b = getRandomInt(255);
+            r2 = getRandomInt(255);
+            g2 = getRandomInt(255);
+            b2 = getRandomInt(255);
             $('body').css('background','rgb(' + r + ',' + g + ',' + b + ')');
+            $('.panel-body').css('background','rgb(' + r2 + ',' + g2 + ',' + b2 + ')');
         },50);
     </script>
 @endif
