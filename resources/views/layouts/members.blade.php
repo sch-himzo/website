@@ -58,33 +58,38 @@
             $('.col-md-3').css('position','relative');
             $('.col-md-3').css('top',200-getRandomInt(400) + 'px');
             $('.col-md-3').css('left',200-getRandomInt(400) + 'px');
-            $('.col-md-3').css('transition-property','top,left');
-            $('.col-md-3').css('transition-duration','1s,1s');
+            $('.col-md-3').css('transition-property','top,left,transform');
+            $('.col-md-3').css('transition-duration','1s,1s,1s');
+            $('.col-md-3').css('transform','rotate(' + getRandomInt(360) + 'deg)');
             $('.col-sm-3').css('position','relative');
             $('.col-sm-3').css('top',200-getRandomInt(400) + 'px');
             $('.col-sm-3').css('left',200-getRandomInt(400) + 'px');
-            $('.col-sm-3').css('transition-property','top,left');
-            $('.col-sm-3').css('transition-duration','1s,1s');
+            $('.col-sm-3').css('transition-property','top,left,transform');
+            $('.col-sm-3').css('transition-duration','1s,1s,1s');
+            $('.col-sm-3').css('transform','rotate(' + getRandomInt(360) + 'deg)');
             $('.col-md-4').css('position','relative');
             $('.col-md-4').css('top',200-getRandomInt(400) + 'px');
             $('.col-md-4').css('left',200-getRandomInt(400) + 'px');
-            $('.col-md-4').css('transition-property','top,left');
-            $('.col-md-4').css('transition-duration','1s,1s');
+            $('.col-md-4').css('transition-property','top,left,transform');
+            $('.col-md-4').css('transition-duration','1s,1s,1s');
+            $('.col-md-4').css('transform','rotate(' + getRandomInt(360) + 'deg)');
             $('.col-md-6').css('position','relative');
             $('.col-md-6').css('top',200-getRandomInt(400) + 'px');
             $('.col-md-6').css('left',200-getRandomInt(400) + 'px');
-            $('.col-md-6').css('transition-property','top,left');
-            $('.col-md-6').css('transition-duration','1s,1s');
+            $('.col-md-6').css('transition-property','top,left,transform');
+            $('.col-md-6').css('transition-duration','1s,1s,1s');
+            $('.col-md-6').css('transform','rotate(' + getRandomInt(360) + 'deg)');
             $('.col-md-12').css('position','relative');
             $('.col-md-12').css('top',200-getRandomInt(400) + 'px');
             $('.col-md-12').css('left',200-getRandomInt(400) + 'px');
-            $('.col-md-12').css('transition-property','top,left');
-            $('.col-md-12').css('transition-duration','1s,1s');
+            $('.col-md-12').css('transition-property','top,left,transform');
+            $('.col-md-12').css('transition-duration','1s,1s,1s');
+            $('.col-md-12').css('transform','rotate(' + getRandomInt(360) + 'deg)');
         },1000);
     </script>
     <audio autoplay loop>
         <source src="{{ asset('spazz.mp3') }}">
-    </audio>
+     </audio>
 @endif
 @yield('scripts')
 </html>
