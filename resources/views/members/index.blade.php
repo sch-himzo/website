@@ -166,7 +166,7 @@
                             <th>Név</th>
                             <th>Megrendelő</th>
                             <th>Státusz</th>
-                            <th>Kortagok</th>
+                            <th>Körtagok</th>
                         </tr>
                         @if($help==null || $help->count()==0)
                             <tr>
