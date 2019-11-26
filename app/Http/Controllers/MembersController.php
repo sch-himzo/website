@@ -44,8 +44,14 @@ class MembersController extends Controller
             ->where('archived',0)
             ->where('joint',0);
 
+        $archived = Auth::user()
+            ->assignedOrders
+            ->where('archived',1)
+            ->where('joint',0);
+
         return view('members.mine', [
-            'orders' => $orders
+            'orders' => $orders,
+            'archived' => $archived
         ]);
     }
 
