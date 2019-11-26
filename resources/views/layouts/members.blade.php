@@ -50,7 +50,9 @@
             g2 = getRandomInt(255);
             b2 = getRandomInt(255);
             $('body').css('background','rgb(' + r + ',' + g + ',' + b + ')');
-            $('.panel-body').css('background','rgb(' + r2 + ',' + g2 + ',' + b2 + ')');
+            $('td').css('background','rgb(' + r2 + ',' + g2 + ',' + b2 + ')');
+            $('th').css('background','rgb(' + r2 + ',' + g2 + ',' + b2 + ')');
+            $('.panel-heading').css('background','rgb(' + r2 + ',' + g2 + ',' + b2 + ')');
         },50);
     </script>
 @endif
