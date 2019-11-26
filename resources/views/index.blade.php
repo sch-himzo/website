@@ -51,6 +51,7 @@
                     </div>
                 </div>
             @endforeach
+        </div>
         <a style="line-height:500px;" class="left carousel-control" href="#carousel" role="button" data-slide="prev">
             <i class="fa fa-chevron-left"></i>
             <span class="sr-only">Previous</span>
@@ -93,4 +94,28 @@
         </script>
     @endif
 <script src="{{ asset('js/currently_in.js') }}"></script>
+    @if(env('APP_DEBUG')=='true' && !Auth::check())
+        <script>
+            $('#warning').modal('toggle');
+        </script>
+    @endif
+@endsection
+
+@section('modals')
+    @if(env('APP_DEBUG')=='true' && !Auth::check())
+        <div class="modal fade" id="warning">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Fejlesztés alatt</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>A weboldal jelenleg fejlesztés alatt áll! Minden itt leadott rendelést teszt jellegűnek veszünk!</p>
+                        <p><b>Rendelés leadás jelenleg a himzo@sch.bme.hu email címen keresztül történik</b></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 @endsection
