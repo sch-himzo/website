@@ -158,7 +158,7 @@
             </div>
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title">Segítségre szoruló rendelések</h3>
+                    <h3 class="panel-title"><i class="fa fa-wheelchair"></i> Segítségre szoruló rendelések</h3>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped">
