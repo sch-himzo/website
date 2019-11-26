@@ -8,7 +8,9 @@
     <div class="row">
         <div class="col-md-6 col-md-push-3">
             <form action="{{ route('orders.saveFake') }}" method="POST" enctype="multipart/form-data">
-                {{ csrf_field() }}
+                <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
+                <input type="hidden" id="url" value="{{ route('user.find') }}">
+                <input type="hidden" name="user_id" id="user_id" value="">
                 <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">Rendelés felvétele</h3>
@@ -22,6 +24,8 @@
                             <div class="input-group" data-toggle="tooltip" title="Kinek a nevében adod le a rendelést?">
                                 <label class="input-group-addon" for="name">Név<span class="required">*</span></label>
                                 <input required class="form-control" type="text" name="name" id="name" placeholder="Név">
+                                <div class="autocomplete" id="autocomplete">
+                                </div>
                             </div>
                         </div>
                         <div class="form-group">
@@ -41,20 +45,26 @@
                         </div>
                         <div class="form-group">
                             <div class="input-group" data-toggle="tooltip" title="Válaszd ki a tervezendő folt mintáját">
-                                <label class="input-group-addon" for="image">Tervrajz<span class="required">*</span></label>
-                                <input required class="form-control" type="file" id="image" name="image">
+                                <label id="image_label" class="input-group-addon" for="image">Tervrajz<span class="required">*</span></label>
+                                <input accept="image/*" required class="form-control" type="file" id="image" name="image">
+                            </div>
+                            <div class="checkbox">
+                                <label for="existing">
+                                    <input type="checkbox" id="existing" name="existing">
+                                    Már volt ilyen rendelve
+                                </label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group" data-toggle="tooltip" title="Hány darabot szeretnél rendelni?">
                                 <label class="input-group-addon" for="count">Darabszám<span class="required">*</span></label>
-                                <input class="form-control" type="number" id="count" name="count" placeholder="Darabszám">
+                                <input required class="form-control" type="number" id="count" name="count" placeholder="Darabszám">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <label class="input-group-addon" for="time_limit">Határidő</label>
-                                <input class="form-control" type="date" id="time_limit" name="time_limit">
+                                <input min="{{ date('Y-m-d') }}" class="form-control" type="date" id="time_limit" name="time_limit">
                             </div>
                         </div>
                         <div class="form-group" data-toggle="tooltip" title="Foltot rendelsz, vagy pólóra/pulcsira hímzendő mintát?">
@@ -62,16 +72,16 @@
                             <input class="badge-select btn btn-primary left" type="button" value="Folt" id="badge_button"><input class="badge-select btn btn-default center" type="button" value="Pólóra" id="shirt_button"><input class="badge-select btn btn-default right" type="button" value="Pulcsira" id="jumper_button">
                         </div>
                         <div class="form-group">
-                            <div class="input-group" data-toggle="tooltip" title="A folt mérete (cm-ben)">
-                                <label class="input-group-addon" for="size">Méret<span class="required">*</span></label>
-                                <input class="form-control" type="text" name="size" id="size" placeholder="Méret">
+                            <div class="input-group" data-toggle="tooltip" title="A folt átmérője (cm-ben)">
+                                <label id="size_label" class="input-group-addon" for="size">Méret<span class="required">*</span></label>
+                                <input required class="form-control" type="text" name="size" id="size" placeholder="Méret">
                                 <span class="input-group-addon">cm</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group" data-toggle="tooltip" title="Ha különleges betűtípust igényel a folt">
-                                <label class="input-group-addon" for="font">Betűtípus</label>
-                                <input class="form-control" type="text" name="font" id="font" placeholder="Betűtípus">
+                                <label id="font_label" class="input-group-addon" for="font">Betűtípus</label>
+                                <input accept=".ttf" class="form-control" type="file" name="font" id="font">
                             </div>
                         </div>
                         <div class="form-group" data-toggle="tooltip" title="Külsős vagy Belsős rendelés?">
@@ -83,6 +93,9 @@
                                 <label for="comment" class="input-group-addon">Megjegyzés</label>
                                 <input type="text" name="comment" id="comment" placeholder="Megjegyzés" class="form-control">
                             </div>
+                        </div>
+                        <div class="checkbox">
+                            <label for="public_albums"><input type="checkbox" name="public_albums" id="public_albums">A megrendelő hozzájárul ahhoz, hogy az elkészült rendeléséről készült képeket a weboldalon nyilvánosságra hozzuk.</label>
                         </div>
                     </div>
                     <div class="panel-footer">
@@ -96,4 +109,5 @@
 
 @section('scripts')
     <script src="{{ asset('js/order.js') }}"></script>
+    <script src="{{ asset('js/fake.js') }}"></script>
 @endsection

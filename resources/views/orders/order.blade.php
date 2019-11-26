@@ -83,7 +83,11 @@
                                 Méret (<i class="fa fa-question" data-toggle="tooltip" title="Legnagyobb átmérő"></i>)
                             </th>
                             <td>
-                                {{ $order->size }} cm
+                                @if($order->size!=null)
+                                    {{ $order->size }} cm
+                                @else
+                                    <i>N/A</i>
+                                @endif
                             </td>
                         </tr>
                         <tr>

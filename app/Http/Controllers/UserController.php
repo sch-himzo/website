@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,5 +39,28 @@ class UserController extends Controller
         Auth::user()->save();
 
         return redirect()->back();
+    }
+
+    public function find(Request $request)
+    {
+        $search = $request->input('name');
+
+        if($search == ""){
+            return response()->json([]);
+        }
+
+        $users = User::where('name', 'like','%' . $search . '%')->get();
+
+        $users_array = [];
+
+        foreach($users as $user){
+            $users_array[] = [
+                'name' => $user->name,
+                'id' => $user->id,
+                'email' => $user->email
+            ];
+        }
+
+        return response()->json($users);
     }
 }

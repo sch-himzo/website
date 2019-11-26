@@ -185,6 +185,10 @@ Route::group(['prefix' => 'albums', 'as' => 'albums.'], function(){
 Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], function(){
     Route::get('orders','UserController@orders')->name('orders');
 
+    Route::group(['middleware' => 'rookie'], function(){
+        Route::post('find','UserController@find')->name('find');
+    });
+
 
     Route::get('in', 'UserController@in')->name('in');
     Route::get('out','UserController@out')->name('out');

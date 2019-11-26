@@ -68,7 +68,6 @@
                             </div>
                         </div>
                         <div class="checkbox">
-
                             <label for="public_albums"><input type="checkbox" name="public_albums" id="public_albums">Hozzájárulok ahhoz, hogy az elkészült rendelésemről készült képeket a weboldalon nyilvánosságra hozzuk.</label>
                         </div>
                     </div>
