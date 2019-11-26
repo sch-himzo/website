@@ -25,7 +25,7 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
     Route::post('password', 'LoginController@password')->name('password');
 });
 
-Route::group(['prefix' => 'faq', 'as' => 'faq.'], function(){
+Route::group(['prefix' => 'faku', 'as' => 'faq.'], function(){
 
     Route::get('','FAQController@index')->name('index');
 
