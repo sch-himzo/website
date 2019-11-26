@@ -7,12 +7,15 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 class MembersController extends Controller
 {
     public function index()
     {
         Carbon::setLocale('hu');
+
+        Session::put('return_to','members.index');
 
         $oneweek = date('Y-m-d',time()+7*24*60*60);
 
@@ -38,6 +41,8 @@ class MembersController extends Controller
     public function mine()
     {
 
+        Session::put('return_to','members.mine');
+
         Carbon::setLocale('hu');
         $orders = Auth::user()
             ->assignedOrders
@@ -56,6 +61,8 @@ class MembersController extends Controller
 
     public function unapproved()
     {
+        Session::put('return_to','members.unapproved');
+
         $orders = Order::where('approved_by',null)->where('archived',0)->get();
 
         return view('members.unapproved', [
@@ -65,6 +72,8 @@ class MembersController extends Controller
 
     public function unassigned()
     {
+        Session::put('return_to','members.unassigned');
+
         Carbon::setLocale('hu');
 
         $orders = [];
@@ -82,6 +91,8 @@ class MembersController extends Controller
 
     public function joint()
     {
+        Session::put('return_to','members.joint');
+
         Carbon::setLocale('hu');
 
         $orders = Order::all()
@@ -97,6 +108,8 @@ class MembersController extends Controller
 
     public function active()
     {
+        Session::put('return_to','members.active');
+
         Carbon::setLocale('hu');
 
         $orders = Order::withCount('assignedUsers')->where('archived',false)->get()->sortByDesc('id');
@@ -108,6 +121,8 @@ class MembersController extends Controller
 
     public function archived()
     {
+        Session::put('return_to','members.archived');
+
         Carbon::setLocale('hu');
 
         $orders = Order::withCount('assignedUsers')->where('archived',true)->get()->sortByDesc('id');

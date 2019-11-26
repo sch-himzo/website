@@ -5,7 +5,7 @@
 @section('members.active','active')
 
 @section('content')
-    <h1 class="page-header with-description">{{ $order->title }} &raquo; <a href="javascript:history.back();">Vissza</a></h1>
+    <h1 class="page-header with-description">{{ $order->title }} &raquo; <a href="{{ route(session('return_to')) }}">Vissza</a></h1>
     <h2 class="page-description">Rendelés megtekintése</h2>
 
     <div class="row">
