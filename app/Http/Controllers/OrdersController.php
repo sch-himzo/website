@@ -265,6 +265,14 @@ $size cm oldalhosszúság
         return redirect()->back();
     }
 
+    public function done(Order $order)
+    {
+        $order->status = "finished";
+        $order->save();
+
+        return redirect()->back();
+    }
+
     public function edit(Order $order, Request $request)
     {
         $size = $request->input('size');

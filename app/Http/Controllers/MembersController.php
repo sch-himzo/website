@@ -32,9 +32,12 @@ class MembersController extends Controller
             ->withCount('assignedUsers')
             ->get();
 
+        $ready = Order::where('status','payed')->orWhere('status','embroidered')->get();
+
         return view('members.index',[
             'time_limit' => $time_limit,
-            'recent' => $recent
+            'recent' => $recent,
+            'ready' => $ready
         ]);
     }
 

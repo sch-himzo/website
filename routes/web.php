@@ -78,6 +78,7 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('{order}/albums','OrdersController@albums')->name('albums');
 
         Route::get('{order}/unarchive', 'OrdersController@unarchive')->name('unarchive');
+        Route::get('{order}/done', 'OrdersController@done')->name('done');
     });
 
 Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth'], function(){
