@@ -135,23 +135,34 @@ $size cm oldalhosszúság
 
     public function save(Request $request)
     {
-        if($request->file('image')){
+        if(!$request->file('image') && !$request->input('existing')){
+            return redirect()->back();
+        }
+
+        if(!$request->file('font') && !$request->input('existing')){
+            return redirect()->back();
+        }
+
+        if(!$request->input('size') && !$request->input('existing')){
+            return redirect()->back();
+        }
+
+        if(!$request->input('existing')){
             $file = $request->file('image');
             $extension = strtolower($file->getClientOriginalExtension());
             $size = $file->getSize()/1024/1024;
 
-            if($request->file('font')){
-                $font = $request->file('font');
-                $font_extension = strtolower($font->getClientOriginalExtension());
-                $font_size = $font->getSize()/1024/1024;
+            $font = $request->file('font');
+            $font_extension = strtolower($font->getClientOriginalExtension());
+            $font_size = $font->getSize()/1024/1024;
 
-                if($font_size>10 || $font_extension!="ttf"){
-                    return redirect()->back();
-                }
-
-                $new_font_name = 'fonts/uploads/' . time().$font->getClientOriginalName().'.'.$font_extension;
-                Storage::disk()->put($new_font_name, File::get($font));
+            if($font_size>10 || $font_extension!="ttf"){
+                return redirect()->back();
             }
+
+            $new_font_name = 'fonts/uploads/' . time().$font->getClientOriginalName().'.'.$font_extension;
+            Storage::disk()->put($new_font_name, File::get($font));
+
 
             if($size>10){
                 return redirect()->back();
@@ -165,49 +176,57 @@ $size cm oldalhosszúság
 
             Storage::disk()->put($new_name, File::get($file));
 
-            $title = $request->input('title');
-            $count = $request->input('count');
-            $time_limit = date("Y-m-d",strtotime($request->input('time_limit')));
-            $type = $request->input('type');
             $size = $request->input('size');
-            if(isset($new_font_name)){
-                $font = $new_font_name;
-            }else{
-                $font = null;
-            }
-            $comment = $request->input('comment');
-
-            $order = new Order();
-            $order->title = $title;
-            $order->count = $count;
-            $order->status = 'arrived';
-            $order->time_limit = $time_limit=="" ? null : $time_limit;
-            if(array_key_exists($type, $this->order_types)){
-                $order->type = $this->order_types[$type];
-            }else{
-                $order->type = 1;
-            }
-            if($request->input('public_albums')!=null){
-                $order->public_albums=true;
-            }else{
-                $order->public_albums=false;
-            }
-            $order->internal = false;
-            $order->size = $size;
-            $order->font = $font=="" ? null : $font;
-            $order->comment = $comment=="" ? null : $comment;
-            $order->image = $new_name;
-            $order->user_id = Auth::id();
-            $order->save();
-
-            EmailController::orderReceivedClient($order);
-
-            EmailController::orderReceivedInternal($order);
-
-            return redirect()->route('user.orders');
-        }else{
-            return redirect()->back();
         }
+
+
+        $title = $request->input('title');
+        $count = $request->input('count');
+        $time_limit = date("Y-m-d",strtotime($request->input('time_limit')));
+        $type = $request->input('type');
+        if(isset($new_font_name)){
+            $font = $new_font_name;
+        }else{
+            $font = null;
+        }
+        if(!isset($size)){
+            $size = null;
+        }
+        if(!isset($new_name)){
+            $new_name = null;
+        }
+
+        $comment = $request->input('comment');
+
+        $order = new Order();
+        $order->title = $title;
+        $order->count = $count;
+        $order->status = 'arrived';
+        $order->time_limit = $time_limit=="" ? null : $time_limit;
+        if(array_key_exists($type, $this->order_types)){
+            $order->type = $this->order_types[$type];
+        }else{
+            $order->type = 1;
+        }
+        if($request->input('public_albums')!=null){
+            $order->public_albums=true;
+        }else{
+            $order->public_albums=false;
+        }
+        $order->original = $request->input('existing')==null;
+        $order->internal = false;
+        $order->size = $size;
+        $order->font = $font=="" ? null : $font;
+        $order->comment = $comment=="" ? null : $comment;
+        $order->image = $new_name;
+        $order->user_id = Auth::id();
+        $order->save();
+
+        EmailController::orderReceivedClient($order);
+
+        EmailController::orderReceivedInternal($order);
+
+        return redirect()->route('user.orders');
     }
 
     public function unapproved()

@@ -22,20 +22,26 @@
                         </div>
                         <div class="form-group">
                             <div class="input-group" data-toggle="tooltip" title="Válaszd ki a tervezendő folt mintáját">
-                                <label class="input-group-addon" for="image">Tervrajz<span class="required">*</span></label>
-                                <input required class="form-control" type="file" id="image" name="image">
+                                <label id="image_label" class="input-group-addon" for="image">Tervrajz<span class="required">*</span></label>
+                                <input accept="image/*" required class="form-control" type="file" id="image" name="image">
+                            </div>
+                            <div class="checkbox">
+                                <label for="existing">
+                                    <input type="checkbox" id="existing" name="existing">
+                                    Már volt ilyen rendelve
+                                </label>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group" data-toggle="tooltip" title="Hány darabot szeretnél rendelni?">
                                 <label class="input-group-addon" for="count">Darabszám<span class="required">*</span></label>
-                                <input class="form-control" type="number" id="count" name="count" placeholder="Darabszám">
+                                <input required class="form-control" type="number" id="count" name="count" placeholder="Darabszám">
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group">
                                 <label class="input-group-addon" for="time_limit">Határidő</label>
-                                <input class="form-control" type="date" id="time_limit" name="time_limit">
+                                <input min="{{ date('Y-m-d') }}" class="form-control" type="date" id="time_limit" name="time_limit">
                             </div>
                         </div>
                         <div class="form-group" data-toggle="tooltip" title="Foltot rendelsz, vagy pólóra/pulcsira hímzendő mintát?">
@@ -44,15 +50,15 @@
                         </div>
                         <div class="form-group">
                             <div class="input-group" data-toggle="tooltip" title="A folt átmérője (cm-ben)">
-                                <label class="input-group-addon" for="size">Méret<span class="required">*</span></label>
-                                <input class="form-control" type="text" name="size" id="size" placeholder="Méret">
+                                <label id="size_label" class="input-group-addon" for="size">Méret<span class="required">*</span></label>
+                                <input required class="form-control" type="text" name="size" id="size" placeholder="Méret">
                                 <span class="input-group-addon">cm</span>
                             </div>
                         </div>
                         <div class="form-group">
                             <div class="input-group" data-toggle="tooltip" title="Ha különleges betűtípust igényel a folt">
-                                <label class="input-group-addon" for="font">Betűtípus</label>
-                                <input class="form-control" type="file" name="font" id="font">
+                                <label id="font_label" class="input-group-addon" for="font">Betűtípus</label>
+                                <input accept=".ttf" class="form-control" type="file" name="font" id="font">
                             </div>
                         </div>
                         <div class="form-group">
