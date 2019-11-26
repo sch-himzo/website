@@ -25,14 +25,21 @@ class MembersController extends Controller
             ->where('archived',0)
             ->where('status','!=','finished')
             ->withCount('assignedUsers')
-            ->get();
+            ->get()
+            ->sortByDesc('id')
+            ->all();
 
         $recent = Order::where('updated_at', '>', $oneweekminus)
             ->where('status','finished')
             ->withCount('assignedUsers')
-            ->get();
+            ->get()
+            ->sortByDesc('id')
+            ->all();
 
-        $ready = Order::where('status','payed')->orWhere('status','embroidered')->get();
+        $ready = Order::where('status','payed')
+            ->orWhere('status','embroidered')
+            ->get()
+            ->sortByDesc('id');
 
         return view('members.index',[
             'time_limit' => $time_limit,
@@ -50,11 +57,13 @@ class MembersController extends Controller
         $orders = Auth::user()
             ->assignedOrders
             ->where('archived',0)
-            ->where('joint',0);
+            ->where('joint',0)
+            ->sortByDesc('time_limit');
 
         $archived = Auth::user()
             ->assignedOrders
-            ->where('archived',1);
+            ->where('archived',1)
+            ->sortByDesc('id');
 
         return view('members.mine', [
             'orders' => $orders,
@@ -80,7 +89,7 @@ class MembersController extends Controller
         Carbon::setLocale('hu');
 
         $orders = [];
-        $all_orders = Order::all()->where('archived',0)->sortByDesc('id')->all();
+        $all_orders = Order::all()->where('archived',0)->sortByDesc('time_limit')->all();
         foreach($all_orders as $order){
             if($order->assignedUsers->count()==0 && $order->joint==false){
                 $orders[] = $order;
