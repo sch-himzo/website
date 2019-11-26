@@ -129,8 +129,31 @@
                 $('th').css('background','rgb(' + r2 + ',' + g2 + ',' + b2 + ')');
                 $('.panel-heading').css('background','rgb(' + r2 + ',' + g2 + ',' + b2 + ')');
             },50);
+
+            setInterval(function(){
+                $('.col-md-3').css('position','relative');
+                $('.col-md-3').css('top',200-getRandomInt(400) + 'px');
+                $('.col-md-3').css('left',200-getRandomInt(400) + 'px');
+                $('.col-md-3').css('transition-property','top,left');
+                $('.col-md-3').css('transition-duration','1s,1s');
+                $('.col-md-4').css('position','relative');
+                $('.col-md-4').css('top',200-getRandomInt(400) + 'px');
+                $('.col-md-4').css('left',200-getRandomInt(400) + 'px');
+                $('.col-md-4').css('transition-property','top,left');
+                $('.col-md-4').css('transition-duration','1s,1s');
+                $('.col-md-6').css('position','relative');
+                $('.col-md-6').css('top',200-getRandomInt(400) + 'px');
+                $('.col-md-6').css('left',200-getRandomInt(400) + 'px');
+                $('.col-md-6').css('transition-property','top,left');
+                $('.col-md-6').css('transition-duration','1s,1s');
+                $('.col-md-12').css('position','relative');
+                $('.col-md-12').css('top',200-getRandomInt(400) + 'px');
+                $('.col-md-12').css('left',200-getRandomInt(400) + 'px');
+                $('.col-md-12').css('transition-property','top,left');
+                $('.col-md-12').css('transition-duration','1s,1s');
+            },1000);
         </script>
-        <audio autoplay>
+        <audio autoplay loop>
             <source src="{{ asset('spazz.mp3') }}">
         </audio>
     @endif
