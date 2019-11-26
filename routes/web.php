@@ -25,6 +25,18 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
     Route::post('password', 'LoginController@password')->name('password');
 });
 
+Route::group(['prefix' => 'faq', 'as' => 'faq.'], function(){
+
+    Route::get('','FAQController@index')->name('index');
+
+    Route::group(['middleware' => 'admin'], function(){
+        Route::post('{faq}/edit','FAQController@edit')->name('edit');
+        Route::post('create', 'FAQController@create')->name('create');
+
+        Route::get('{faq}/delete','FAQController@delete')->name('delete');
+    });
+});
+
 Route::get('logout', 'LoginController@logout')->name('logout');
 
 Route::get('activate/{token}','LoginController@activate')->name('user.activate');

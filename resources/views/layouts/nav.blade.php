@@ -28,6 +28,7 @@
                     </li>
                 @endif
                 <li class="@yield('galleries.active')"><a class="@yield('galleries.active')" href="{{ route('gallery.index') }}">Képek</a></li>
+                <li class="@yield('faq.active')"><a class="@yield('faq.active')" href="{{ route('faq.index') }}">GYIK</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::check())
