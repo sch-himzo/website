@@ -63,4 +63,34 @@ class UserController extends Controller
 
         return response()->json($users);
     }
+
+    public function disableEmail($token)
+    {
+        $user = User::where('email_token',$token)->first();
+        $user->allow_emails = false;
+        $user->save();
+
+        return view('user.disable_emails');
+    }
+
+    public function profile()
+    {
+        return view('user.profile');
+    }
+
+    public function disableEmails()
+    {
+        Auth::user()->allow_emails = false;
+        Auth::user()->save();
+
+        return redirect()->back();
+    }
+
+    public function enableEmails()
+    {
+        Auth::user()->allow_emails = true;
+        Auth::user()->save();
+
+        return redirect()->back();
+    }
 }

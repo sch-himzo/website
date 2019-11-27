@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Gallery\Image;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Str;
 
 class User extends Authenticatable
 {
@@ -75,5 +76,20 @@ class User extends Authenticatable
     public function assignedOrders()
     {
         return $this->belongsToMany(Order::class,'user_order','user_id','order_id');
+    }
+
+    public function emails()
+    {
+        return $this->hasMany(Email::class);
+    }
+
+    public function generateEmailToken()
+    {
+        if($this->email_token == null){
+            $this->email_token = Str::random(60);
+            $this->save();
+        }
+
+        return $this->email_token;
     }
 }

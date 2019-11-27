@@ -52,6 +52,8 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">{{ Auth::user()->name }} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
+                            <li><a href="{{ route('user.profile') }}">Profilom</a></li>
+                            <li class="divider" role="separator"></li>
                             <li><a href="{{ route('logout') }}">Kijelentkezés</a></li>
                         </ul>
                     </li>

@@ -42,6 +42,7 @@ Route::group(['prefix' => 'faku', 'as' => 'faq.'], function(){
 Route::get('logout', 'LoginController@logout')->name('logout');
 
 Route::get('activate/{token}','LoginController@activate')->name('user.activate');
+Route::get('user/disable_email/{token}','UserController@disableEmail')->name('user.disable_email');
 
 Route::get('activate','LoginController@emailSent')->name('activate');
 
@@ -197,6 +198,9 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], func
         Route::post('find','UserController@find')->name('find');
     });
 
+    Route::get('profile','UserController@profile')->name('profile');
+    Route::get('emails/enable','UserController@enableEmails')->name('emails.enable');
+    Route::get('emails/disable','UserController@disableEmails')->name('emails.disable');
 
     Route::get('in', 'UserController@in')->name('in');
     Route::get('out','UserController@out')->name('out');

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Email;
 use App\Models\Order;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -365,5 +367,61 @@ class EmailController extends Controller
 
             $message->from($from_email, $from_name);
         });
+    }
+
+    public static function sendPings()
+    {
+        Carbon::setLocale('hu');
+
+        $threedays = date('Y-m-d H:i:s',time()+3*24*60*60);
+
+        $orders = Order::all()
+            ->where('time_limit','<',$threedays)
+            ->where('archived',false)
+            ->where('status','!=','finished')
+            ->where('status','!=','payed')
+            ->where('status','!=','embroidered')
+            ->all();
+
+        if(env('APP_DEBUG')==true){
+            return null;
+        }
+
+        foreach($orders as $order){
+            $assigned_users = $order->assignedUsers;
+            if($assigned_users!=null && $assigned_users->count()!=0){
+                foreach($assigned_users as $user){
+                    if($user->allow_emails == false){
+                        continue;
+                    }
+                    $to_name = $user->name;
+                    $to_email = $user->email;
+
+                    $data = [
+                        'user' => $user,
+                        'assigned_users' => $assigned_users,
+                        'order' => $order
+                    ];
+
+                    $order_name = $order->title;
+
+                    $email = new Email();
+                    $email->to = $to_email;
+                    $email->subject = "";
+                    $email->message = view('emails.ping', $data)->render();
+                    $email->from = "Rendszeres ping";
+                    $email->user_id = null;
+                    $email->automated = true;
+                    $email->save();
+
+                    Mail::send('emails.ping', $data, function($message) use ($to_name,$to_email, $order_name){
+                        $message->to($to_email,$to_name)
+                            ->subject('Közelgő határidejű rendelés - '.$order_name);
+
+                        $message->from('himzobot@gmail.com','Pulcsi és Foltmékör');
+                    });
+                }
+            }
+        }
     }
 }
