@@ -20,7 +20,9 @@
                     <th>Megrendelő</th>
                     <th>Rendelés időpontja</th>
                     <th>Hozzárendelt körtagok</th>
+                    @if(Auth::user()->role_id>4)
                     <th>Műveletek</th>
+                    @endif
                 </tr>
                 @if($orders == null)
                     <tr>
@@ -52,11 +54,13 @@
                                             <td>
                                                 {{ $user->name }}
                                             </td>
+                                            @if(Auth::user()->role_id>4)
                                             <td align="center" style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
                                                 <a data-toggle="tooltip" title="Nem archivált" href="{{ route('orders.unarchive', ['order' => $order]) }}" class="btn btn-xs btn-primary">
                                                     <i class="fa fa-check"></i>
                                                 </a>
                                             </td>
+                                                @endif
                                         </tr>
                                     @else
                                         <tr>
@@ -84,11 +88,13 @@
                                     <td>
                                         <i>Nincs hozzárendelve senki</i>
                                     </td>
+                                    @if(Auth::user()->role_id>4)
                                     <td align="center">
                                         <a data-toggle="tooltip" title="Nem archivált" href="{{ route('orders.unarchive', ['order' => $order]) }}" class="btn btn-xs btn-primary">
                                             <i class="fa fa-check"></i>
                                         </a>
                                     </td>
+                                    @endif
                                 </tr>
                             @endif
                     @endforeach

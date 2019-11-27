@@ -137,10 +137,10 @@ Route::group(['prefix' => 'members','as' => 'members.', 'middleware' => 'rookie'
     Route::get('unapproved','MembersController@unapproved')->name('unapproved');
 
     Route::get('joint','MembersController@joint')->name('joint');
+    Route::get('archived','MembersController@archived')->name('archived');
 
     Route::group(['middleware' => 'leader'], function(){
         Route::get('active','MembersController@active')->name('active');
-        Route::get('archived','MembersController@archived')->name('archived');
     });
 
 });
