@@ -35,7 +35,7 @@
                                 <td>@if($order->time_limit!=null) {{ $order->time_limit }} @else <i>nincs</i> @endif</td>
                                 <td>
                                     <span data-toggle="tooltip" title="Kép megtekintése">
-                                        <a target="_blank" href="{{ route('orders.getImage', ['order' => $order]) }}" class="btn btn-xs btn-primary">
+                                        <a data-lightbox="roadtrip" href="{{ route('orders.getImage', ['order' => $order]) }}" class="btn btn-xs btn-primary">
                                             <i class="fa fa-image"></i>
                                         </a>
                                     </span>
