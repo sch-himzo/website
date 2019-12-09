@@ -116,6 +116,9 @@
                         <button type="submit" class="btn btn-primary">
                             Véglegesítés <i class="fa fa-check"></i>
                         </button>
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete_order">
+                            Rendelés törlése <i class="fa fa-trash"></i>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -126,6 +129,26 @@
 
 
 @section('modals')
+    <div class="modal fade" id="delete_order">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">&times;</button>
+                    <h4>Rendelés törlése</h4>
+                </div>
+                <div class="modal-body">
+                    Biztosan törlöd a rendelésed?<br>
+                    <i>Minden feltöltött adat elveszik!</i>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" type="button" data-dismiss="modal">Mégse <i class="fa fa-times"></i></button>
+                    <a href="{{ route('orders.deleteGroup', ['group' => $group]) }}" class="btn btn-danger">
+                        Törlés <i class="fa fa-trash"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
     @foreach($group->orders as $order)
         <div class="modal fade" id="delete_order_{{ $order->id }}">
             <div class="modal-dialog">

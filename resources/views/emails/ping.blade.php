@@ -6,15 +6,15 @@ Rendelés adatai:<br>
 <table>
     <tr>
         <th align="right">Rendelés</th>
-        <td>{{ $order->title }}</td>
+        <td>{{ $group->title }}</td>
     </tr>
     <tr>
         <th align="right">Megrendelő neve</th>
         <td>
-            @if($order->user!=null)
-                {{ $order->user->name }}
-            @elseif($order->tempUser!=null)
-                {{ $order->tempUser->name }}
+            @if($group->user!=null)
+                {{ $group->user->name }}
+            @elseif($group->tempUser!=null)
+                {{ $group->tempUser->name }}
             @else
                 <i>Nincs megadva</i>
             @endif
@@ -22,11 +22,11 @@ Rendelés adatai:<br>
     </tr>
     <tr>
         <th align="right">Határidő</th>
-        <td>{{ \Carbon\Carbon::create($order->time_limit)->diffForHumans() }}</td>
+        <td>{{ \Carbon\Carbon::create($group->time_limit)->diffForHumans() }}</td>
     </tr>
 </table>
 
-A rendelést <a style="color:#069;" href="{{ route('orders.view', ['order' => $order]) }}">itt</a> tudod megtekinteni, ha úgy érzed segítség kell, kattints <a style="color:#069;" href="{{ route('orders.help', ['order' => $order]) }}">ide</a>.<br>
+A rendelést <a style="color:#069;" href="{{ route('orders.view', ['group' => $group]) }}">itt</a> tudod megtekinteni@if(!$group->help), ha úgy érzed segítség kell, kattints <a style="color:#069;" href="{{ route('groups.help', ['order' => $group]) }}">ide</a>@endif.<br>
 
 Üdv,<br>
 <i>Pulcsi és Foltmékör</i><br><br>

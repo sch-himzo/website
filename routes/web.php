@@ -91,6 +91,8 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('{order}/done', 'OrdersController@done')->name('done');
         Route::get('{order}/help', 'OrdersController@help')->name('help');
 
+        Route::get('{group}/delete','OrdersController@deleteGroup')->name('deleteGroup');
+
         Route::get('{order}/existing', 'OrdersController@existing')->name('existing');
 
         Route::post('{order}/testImage', 'OrdersController@testImage')->name('testImage');

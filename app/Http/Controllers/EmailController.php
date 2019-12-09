@@ -400,7 +400,7 @@ class EmailController extends Controller
                     $data = [
                         'user' => $user,
                         'assigned_users' => $assigned_users,
-                        'order' => $order
+                        'group' => $order
                     ];
 
                     $order_name = $order->title;

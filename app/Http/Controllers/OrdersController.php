@@ -242,12 +242,26 @@ $size cm oldalhosszúság
         return redirect()->back();
     }
 
-    public function help(Order $order)
+    public function help(Group $order)
     {
         $order->help = !$order->help;
         $order->save();
 
         return redirect()->back();
+    }
+
+    public function deleteGroup(Group $group)
+    {
+        foreach($group->orders as $order){
+            foreach($order->images as $image){
+                File::delete(public_path('storage/images/real/').$image->image);
+                File::delete(public_path('storage/images/thumbnails/').$image->image);
+            }
+        }
+
+        $group->delete();
+
+        return redirect()->route('index');
     }
 
     public function done(Order $order)
