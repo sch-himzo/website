@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Email;
-use App\Models\Order;
 use App\Models\Order\Group;
 use App\Models\User;
 use Carbon\Carbon;
@@ -376,15 +375,15 @@ class EmailController extends Controller
 
         $threedays = date('Y-m-d H:i:s',time()+3*24*60*60);
 
-        $orders = Order::all()
+        $orders = Group::all()
             ->where('time_limit','<',$threedays)
             ->where('archived',false)
-            ->where('status','!=','finished')
-            ->where('status','!=','payed')
-            ->where('status','!=','embroidered')
+            ->where('status','!=','5')
+            ->where('status','!=','4')
+            ->where('status','!=','3')
             ->all();
 
-        if(env('APP_DEBUG')==true){
+        if(env('APP_DEBUG')=='true'){
             return null;
         }
 
