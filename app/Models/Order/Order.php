@@ -1,83 +1,22 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Order;
 
+use App\Models\Comment;
+use App\Models\Design;
+use App\Models\DesignGroup;
 use App\Models\Gallery\Album;
+use App\Models\TempUser;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+    protected $table = "orders";
+
     protected $fillable = [
-        'user_id','title','count','time_limit','type','internal','size','font','comment'
+        'user_id','title','count','time_limit','type','internal','size','font','comment','existing_design'
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function tempUser()
-    {
-        return $this->belongsTo(TempUser::class);
-    }
-
-    public function approvedBy()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function trelloCard()
-    {
-        return $this->belongsTo(TrelloCard::class,'trello_card');
-    }
-
-    public function updateStatus()
-    {
-        $this->status = $this->getStatus();
-        $this->save();
-    }
-
-    public function getStatus()
-    {
-        $checklists = $this->trelloCard->getChecklist();
-
-        if(sizeof($checklists)<1){
-            if($this->approved_by==null){
-                return "arrived";
-            }else{
-                return "approved";
-            }
-        }
-
-        $checklist = $checklists[0];
-
-        $items = $checklist->checkItems;
-
-        if($this->approved_by==null){
-            return "arrived";
-        }
-
-        if($items[0]->name =="tervezve" && $items[0]->state=="complete"){
-            if($items[1]->name == "hímezve" && $items[1]->state=="complete"){
-                if($items[2]->name == "fizetve" && $items[2]->state == "complete"){
-                    if($items[3]->name == "átadva" && $items[3]->state == "complete"){
-                        return "finished";
-                    }else{
-                        return "payed";
-                    }
-                }else{
-                    return "embroidered";
-                }
-            }else{
-                return "designed";
-            }
-        }else{
-            return "approved";
-        }
-    }
 
     public function getStatusInternal()
     {
@@ -86,12 +25,12 @@ class Order extends Model
         }
 
         switch($this->status){
-            case "arrived": return "Elfogadásra vár";
-            case "approved": return "Elfogadva";
-            case "payed": return "Fizetve";
-            case "embroidered": return "Hímezve";
-            case "designed" : return "Tervezve";
-            case "finished": return "Kész";
+            case "0": return "Beérkezett";
+            case "1": return "Tervezve";
+            case "2": return "Próbahímzés kész";
+            case "3": return "Hímezve";
+            case "4": return "Fizetve";
+            case "5": return "Átadva";
             default: return "Folyamatban";
         }
     }
@@ -99,12 +38,12 @@ class Order extends Model
     public function getStatusClient()
     {
         switch($this->status){
-            case "arrived": return "Elfogadásra vár";
-            case "approved": return "Folyamatban";
-            case "payed": return "Átadásra vár";
-            case "embroidered": return "Fizetésre vár";
-            case "designed": return "Folyamatban";
-            case "finished": return "Átadva";
+            case "0": return "Beérkezett";
+            case "1": return "Tervezve";
+            case "2": return "Próbahímzés kész";
+            case "3": return "Hímezve";
+            case "4": return "Fizetve";
+            case "5": return "Átadva";
             default: return "Folyamatban";
         }
     }
@@ -116,7 +55,7 @@ class Order extends Model
 
     public function design()
     {
-        return $this->belongsTo(DesignGroup::class,'design_id');
+        return $this->belongsTo(DesignGroup::class,'design_group_id');
     }
 
     public function getDST()
@@ -145,13 +84,13 @@ class Order extends Model
             return 0;
         }else{
             if($this->count>10){
-                if($this->internal){
+                if($this->group->internal){
                     return 200;
                 }else{
                     return 400;
                 }
             }else{
-                if($this->internal){
+                if($this->group->internal){
                     return 0;
                 }else{
                     return 200;
@@ -168,19 +107,19 @@ class Order extends Model
         }
 
         if($dst->size<=5){
-            if($this->internal){
+            if($this->group->internal){
                 return 100;
             }else{
                 return 200;
             }
         }elseif($dst->size>5 && $dst->size<=10){
-            if($this->internal){
+            if($this->group->internal){
                 return 200;
             }else{
                 return 300;
             }
         }else{
-            if($this->internal){
+            if($this->group->internal){
                 return 300;
             }else{
                 return 400;
@@ -193,7 +132,7 @@ class Order extends Model
         if($this->type==1){
             return 0;
         }
-        if($this->internal){
+        if($this->group->internal){
             return 300;
         }else{
             return 400;
@@ -216,13 +155,13 @@ class Order extends Model
 
         foreach($colors as $color){
             if($color->fancy){
-                if($this->internal){
+                if($this->group->internal){
                     $sum += $color->stitch_count/25;
                 }else{
                     $sum += $color->stitch_count/15;
                 }
             }else{
-                if($this->internal){
+                if($this->group->internal){
                     $sum += $color->stitch_count/100;
                 }else{
                     $sum += $color->stitch_count/50;
@@ -256,12 +195,19 @@ class Order extends Model
         return $this->hasOne(Design::class,'original_order_id');
     }
 
-    public function comments()
+
+    public function images()
     {
-        return $this->hasMany(Comment::class);
+        return $this->hasMany(Image::class);
     }
-    public function assignedUsers()
+
+    public function group()
     {
-        return $this->belongsToMany(User::class,'user_order','order_id','user_id');
+        return $this->belongsTo(Group::class,'order_group_id');
+    }
+
+    public function testAlbum()
+    {
+        return $this->belongsTo(Album::class, 'test_album_id');
     }
 }

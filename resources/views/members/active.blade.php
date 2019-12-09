@@ -35,7 +35,7 @@
                                 @if($i==1)
                                     <tr>
                                         <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
-                                            <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                            <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                         </td>
                                         <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
                                             @if($order->user!=null)
@@ -53,15 +53,15 @@
                                             {{ $user->name }}
                                         </td>
                                         <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
-                                            @if($order->joint)
+                                            @if($order->joint_project)
                                                 <span data-toggle="tooltip" title="Nem nagy közös projekt">
-                                                    <a class="btn btn-xs btn-danger" href="{{ route('orders.joint', ['order' => $order]) }}">
+                                                    <a class="btn btn-xs btn-danger" href="{{ route('orders.joint', ['group' => $order]) }}">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 </span>
                                             @else
                                                 <span data-toggle="tooltip" title="Nagy közös projektté avatás">
-                                                    <a class="btn btn-xs btn-success" href="{{ route('orders.joint', ['order' => $order]) }}">
+                                                    <a class="btn btn-xs btn-success" href="{{ route('orders.joint', ['group' => $order]) }}">
                                                         <i class="fa fa-check"></i>
                                                     </a>
                                                 </span>
@@ -77,7 +77,7 @@
                         @else
                             <tr>
                                 <td>
-                                    <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                    <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                 </td>
                                 <td>
                                     @if($order->user!=null)
@@ -95,15 +95,15 @@
                                     <i>N/A</i>
                                 </td>
                                 <td>
-                                    @if($order->joint)
+                                    @if($order->joint_project)
                                         <span data-toggle="tooltip" title="Nem nagy közös projekt">
-                                                    <a class="btn btn-xs btn-danger" href="{{ route('orders.joint', ['order' => $order]) }}">
+                                                    <a class="btn btn-xs btn-danger" href="{{ route('orders.joint', ['group' => $order]) }}">
                                                         <i class="fa fa-trash"></i>
                                                     </a>
                                                 </span>
                                     @else
                                         <span data-toggle="tooltip" title="Nagy közös projektté avatás">
-                                                    <a class="btn btn-xs btn-success" href="{{ route('orders.joint', ['order' => $order]) }}">
+                                                    <a class="btn btn-xs btn-success" href="{{ route('orders.joint', ['group' => $order]) }}">
                                                         <i class="fa fa-check"></i>
                                                     </a>
                                                 </span>

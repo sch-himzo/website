@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Models\Order\Group;
 use Illuminate\Database\Eloquent\Model;
 
 class Design extends Model
 {
     public function originalOrder()
     {
-        return $this->belongsTo(Order::class,'original_order_id');
+        return $this->belongsTo(Group::class,'original_order_id');
     }
 
     public function group()

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Gallery\Image;
+use App\Models\Order\Group;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Str;
@@ -45,12 +46,12 @@ class User extends Authenticatable
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Group::class);
     }
 
     public function approvedOrders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Group::class);
     }
 
     public function transactions()
@@ -75,7 +76,7 @@ class User extends Authenticatable
 
     public function assignedOrders()
     {
-        return $this->belongsToMany(Order::class,'user_order','user_id','order_id');
+        return $this->belongsToMany(Group::class,'user_order','user_id','order_group_id');
     }
 
     public function emails()

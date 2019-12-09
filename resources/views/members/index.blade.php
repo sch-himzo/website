@@ -32,7 +32,7 @@
                                     @if($i==1)
                                         <tr>
                                             <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
-                                                <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                                <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                             </td>
                                             <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
                                                 {{ \Carbon\Carbon::create($order->time_limit)->diffForHumans() }}
@@ -50,7 +50,7 @@
                             @else
                                 <tr>
                                     <td>
-                                        <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                        <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                     </td>
                                     <td>
                                         {{ \Carbon\Carbon::create($order->time_limit)->diffForHumans() }}
@@ -79,7 +79,7 @@
                         @foreach($ready as $order)
                             <tr>
                                 <td>
-                                    <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                    <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                 </td>
                                 <td>
                                     @if($order->user!=null)
@@ -124,7 +124,7 @@
                                     @if($i==1)
                                         <tr>
                                             <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
-                                                <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                                <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                             </td>
                                             <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
                                                 {{ $order->updated_at->diffForHumans() }}
@@ -142,7 +142,7 @@
                             @else
                                 <tr>
                                     <td>
-                                        <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                        <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                     </td>
                                     <td>
                                         {{ $order->updated_at->diffForHumans() }}
@@ -183,7 +183,7 @@
                                         @if($i==1)
                                             <tr>
                                                 <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
-                                                    <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                                    <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                                 </td>
                                                 <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
                                                     @if($order->user!=null)
@@ -210,7 +210,7 @@
                                 @else
                                     <tr>
                                         <td>
-                                            <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                            <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                         </td>
                                         <td>
                                             @if($order->user!=null)
@@ -253,7 +253,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Mégse</button>
-                        <a href="{{ route('orders.done', ['order' => $order]) }}" class="btn btn-primary"><i class="fa fa-check"></i> Késznek jelölés</a>
+                        <a href="{{ route('orders.done', ['group' => $order]) }}" class="btn btn-primary"><i class="fa fa-check"></i> Késznek jelölés</a>
                     </div>
                 </div>
             </div>

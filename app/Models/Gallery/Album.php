@@ -2,7 +2,7 @@
 
 namespace App\Models\Gallery;
 
-use App\Models\Order;
+use App\Models\Order\Order;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 
@@ -38,5 +38,10 @@ class Album extends Model
     public function getCover()
     {
         return $this->images->random();
+    }
+
+    public function orderTest()
+    {
+        return $this->hasOne(Order::class,'test_album_id');
     }
 }

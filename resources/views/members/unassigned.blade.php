@@ -34,7 +34,7 @@
                 @foreach($orders as $order)
                     <tr>
                         <td>
-                            <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                            <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
                         </td>
                         <td>
                             @if($order->user!=null)
@@ -82,7 +82,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Mégse <i class="fa fa-frown"></i></button>
-                        <a href="{{ route('orders.assign', ['order' => $order]) }}" class="btn btn-primary"><i class="fa fa-check"></i> Igen!</a>
+                        <a href="{{ route('orders.assign', ['group' => $order]) }}" class="btn btn-primary"><i class="fa fa-check"></i> Igen!</a>
                     </div>
                 </div>
             </div>

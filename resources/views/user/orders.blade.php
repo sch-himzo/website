@@ -15,54 +15,34 @@
                             <th>Cím</th>
                             <th>Leadva</th>
                             <th>Határidő</th>
-                            <th>Képek</th>
-                            <th>Darabszám</th>
-                            <th>Állapot</th>
-                            <th>Képek</th>
-                            <th>Ár</th>
+                            <th>Státusz</th>
+                            <th>Műveletek</th>
                         </tr>
                     </thead>
                     <tbody>
                         @if($orders->count() == 0)
                             <tr>
-                                <td align="center" colspan="7"><i>Nincs rendelésed</i></td>
+                                <td align="center" colspan="4"><i>Nincs rendelésed</i></td>
                             </tr>
                         @endif
-                        @foreach($orders as $order)
+                        @foreach($orders as $group)
                             <tr>
-                                <td>{{ $order->title }}</td>
-                                <td>{{ $order->created_at }}</td>
-                                <td>@if($order->time_limit!=null) {{ $order->time_limit }} @else <i>nincs</i> @endif</td>
+                                <td>{{ $group->title }}</td>
+                                <td>{{ $group->created_at }}</td>
+                                <td>@if($group->time_limit!=null) {{ $group->time_limit }} @else <i>nincs</i> @endif</td>
+                                <td>{{ $group->getStatusClient() }}</td>
                                 <td>
-                                    <span data-toggle="tooltip" title="Kép megtekintése">
-                                        <a data-lightbox="roadtrip" href="{{ route('orders.getImage', ['order' => $order]) }}" class="btn btn-xs btn-primary">
-                                            <i class="fa fa-image"></i>
-                                        </a>
+                                    <span data-toggle="tooltip" title="Megtekintés">
+                                        <button class="btn btn-xs btn-default" type="button" data-toggle="modal" data-target="#group_{{ $group->id }}">
+                                            <i class="fa fa-eye"></i>
+                                        </button>
                                     </span>
-                                    @if($order->getDST()!=null)
-                                        <span data-toggle="tooltip" title="Elkészült tervfájl megtekintése">
-                                            <button type="button" data-toggle="modal" data-target="#svg_{{ $order->id }}" class="btn btn-xs btn-primary">
-                                                <i class="fa fa-pencil"></i>
-                                            </button>
-                                        </span>
-                                    @endif
+                                    <span data-toggle="tooltip" title="Minták">
+                                        <button class="btn btn-xs btn-default" type="button" data-toggle="modal" data-target="#orders_{{ $group->id }}">
+                                            <i class="fa fa-pen-alt"></i>
+                                        </button>
+                                    </span>
                                 </td>
-                                <td>{{ $order->count }}</td>
-                                <td>{{ $order->getStatusClient() }}</td>
-                                <td>
-                                    @if($order->albums->count()!=0)
-                                        <a class="btn btn-xs btn-primary" data-toggle="tooltip" title="Albumok" href="{{ route('orders.albums', ['order' => $order]) }}">
-                                            <i class="fa fa-image"></i>
-                                        </a>
-                                    @else
-                                        <i>Nincs feltöltött kép</i>
-                                    @endif
-                                </td>
-                                @if($order->getCost()!=null)
-                                    <td>@if($order->original) {{ $order->getDesignCost() }} + @endif {{ $order->count }} &times; {{ $order->getCost() }} = {{ number_format($order->getTotalCost(),0,',','.') }} Ft</td>
-                                @else
-                                    <td><i>Nem készült még el</i></td>
-                                @endif
                             </tr>
                         @endforeach
                     </tbody>
@@ -72,24 +52,79 @@
 @endsection
 
 @section('modals')
-    @foreach($orders as $order)
-        @if($order->getDST()!=null)
-            <div class="modal fade" id="svg_{{ $order->id }}">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button class="close" type="button" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Tervrajz megtekintése</h4>
-                        </div>
-                        <div class="modal-body">
-                            <img class="album-edit-image" src="{{ asset('storage/images/svg/'. $order->getDST()->svg) }}" alt="{{ $order->title }}">
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Bezárás</button>
-                        </div>
+    @foreach($orders as $group)
+        <div class="modal fade" id="orders_{{ $group->id }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">{{ $group->title }} - Minták</h4>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            @foreach($group->orders as $order)
+                                @if($order->existing_design)
+                                    <tr>
+                                        <th colspan="2" style="text-align:center;">Létező minta</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Megnevezés</th>
+                                        <td>{{ $order->title }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Darabszám</th>
+                                        <td>{{ $order->count }}</td>
+                                    </tr>
+                                @else
+                                    <tr>
+                                        <th colspan="2" style="text-align:center;">Új minta</th>
+                                    </tr>
+                                    <tr>
+                                        <th>Megnevezés</th>
+                                        <td>{{ $order->title }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Darabszám</th>
+                                        <td>{{ $order->count }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Méret</th>
+                                        <td>{{ $order->size }} cm</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Képek</th>
+                                        <td>
+                                            <?php $i=0; ?>
+                                            @foreach($order->images as $image)
+                                                <a rel="lightbox[modal_{{ $order->id }}]" href="{{ asset($image->getImage()) }}">
+                                                    <?php $i++; if($i==1){ ?>
+                                                    <span class="btn btn-primary btn-xs" data-toggle="tooltip" title="Képek megtekintése" data-lightbox="{{ $order->id }}">
+                                                    <i class="fa fa-image"></i>
+                                                </span>
+                                                    <?php } ?>
+                                                    <lg/a>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        @if($order->font!=null)
+                                            <th>Betűtípus</th>
+                                            <td>{{ $order->font }}</td>
+                                    </tr>
+                                    <tr>
+                                        @endif
+                                        <th>Elképzelés</th>
+                                        <td>{{ $order->comment }}</td>
+                                    </tr>
+                                @endif
+                            @endforeach
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal">Bezárás</button>
                     </div>
                 </div>
             </div>
-        @endif
+        </div>
     @endforeach
 @endsection

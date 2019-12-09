@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
+use App\Models\Order\Group;
+use App\Models\Order\Order;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,27 +22,27 @@ class MembersController extends Controller
 
         $oneweekminus = date('Y-m-d H:i:s', time()-7*24*60*60);
 
-        $time_limit = Order::where('time_limit','<',$oneweek)
+        $time_limit = Group::where('time_limit','<',$oneweek)
             ->where('archived',0)
-            ->where('status','!=','finished')
+            ->where('status','!=','5')
             ->withCount('assignedUsers')
             ->get()
             ->sortByDesc('id')
             ->all();
 
-        $recent = Order::where('updated_at', '>', $oneweekminus)
-            ->where('status','finished')
+        $recent = Group::where('updated_at', '>', $oneweekminus)
+            ->where('status','5')
             ->withCount('assignedUsers')
             ->get()
             ->sortByDesc('id')
             ->all();
 
-        $ready = Order::where('status','payed')
-            ->orWhere('status','embroidered')
+        $ready = Group::where('status','4')
+            ->orWhere('status','3')
             ->get()
             ->sortByDesc('id');
 
-        $help = Order::where('help','1')
+        $help = Group::where('help','1')
             ->where('archived',false)
             ->withCount('assignedUsers')
             ->get()
@@ -64,7 +65,7 @@ class MembersController extends Controller
         $orders = Auth::user()
             ->assignedOrders
             ->where('archived',0)
-            ->where('joint',0)
+            ->where('joint_project',0)
             ->sortByDesc('time_limit');
 
         $archived = Auth::user()
@@ -82,7 +83,7 @@ class MembersController extends Controller
     {
         Session::put('return_to','members.unapproved');
 
-        $orders = Order::where('approved_by',null)->where('archived',0)->get();
+        $orders = Group::where('approved_by',null)->where('archived',0)->get();
 
         return view('members.unapproved', [
             'orders' => $orders
@@ -96,9 +97,9 @@ class MembersController extends Controller
         Carbon::setLocale('hu');
 
         $orders = [];
-        $all_orders = Order::all()->where('archived',0)->sortByDesc('time_limit')->all();
+        $all_orders = Group::all()->where('archived',0)->where('approved_by','!=',null)->sortByDesc('time_limit')->all();
         foreach($all_orders as $order){
-            if($order->assignedUsers->count()==0 && $order->joint==false){
+            if($order->assignedUsers->count()==0 && $order->joint_project==false){
                 $orders[] = $order;
             }
         }
@@ -114,8 +115,8 @@ class MembersController extends Controller
 
         Carbon::setLocale('hu');
 
-        $orders = Order::all()
-            ->where('joint',true)
+        $orders = Group::all()
+            ->where('joint_project',true)
             ->where('archived',false)
             ->sortByDesc('id')
             ->all();
@@ -131,7 +132,7 @@ class MembersController extends Controller
 
         Carbon::setLocale('hu');
 
-        $orders = Order::withCount('assignedUsers')->where('archived',false)->get()->sortByDesc('id');
+        $orders = Group::withCount('assignedUsers')->where('archived',false)->get()->sortByDesc('id');
 
         return view('members.active', [
             'orders' => $orders
@@ -144,7 +145,7 @@ class MembersController extends Controller
 
         Carbon::setLocale('hu');
 
-        $orders = Order::withCount('assignedUsers')->where('archived',true)->get()->sortByDesc('id');
+        $orders = Group::withCount('assignedUsers')->where('archived',true)->get()->sortByDesc('id');
 
         return view('members.archived', [
             'orders' => $orders

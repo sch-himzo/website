@@ -7,8 +7,8 @@
             <li><a href="{{ route('members.index') }}" class="@yield('members.index.active')">Irányítópult</a></li>
             <li><a href="{{ route('members.unapproved') }}" class="@yield('members.unapproved.active')">
                     Elfogadásra váró rendelések
-                    @if(\App\Models\Order::all()->where('approved_by',null)->count()!=0)
-                    <span class="sidebar-notification">{{ \App\Models\Order::all()->where('approved_by',null)->count() }}</span>
+                    @if(\App\Models\Order\Group::all()->where('approved_by',null)->count()!=0)
+                    <span class="sidebar-notification">{{ \App\Models\Order\Group::all()->where('approved_by',null)->count() }}</span>
                     @endif
                 </a></li>
             <li><a href="{{ route('members.unassigned') }}" class="@yield('members.unassigned.active')">
@@ -20,7 +20,7 @@
             <li><a href="{{ route('members.mine') }}" class="@yield('members.mine.active')">
                         Saját rendeléseim
                     @if(Auth::user()->assignedOrders->count()!=0)
-                        <span class="sidebar-notification">{{ Auth::user()->assignedOrders->where('archived',0)->where('joint',0)->count() }}</span>
+                        <span class="sidebar-notification">{{ Auth::user()->assignedOrders->where('archived',0)->where('joint_project',0)->count() }}</span>
                     @endif
                 </a></li>
             <li><a href="{{ route('members.joint') }}" class="@yield('members.joint.active')">

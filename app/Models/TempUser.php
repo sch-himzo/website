@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Order\Group;
 use Illuminate\Database\Eloquent\Model;
 
 class TempUser extends Model
@@ -10,6 +11,6 @@ class TempUser extends Model
 
     public function orders()
     {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Group::class);
     }
 }

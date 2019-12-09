@@ -37,7 +37,7 @@
                                     @if($i==1)
                                         <tr>
                                             <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
-                                                <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                                <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                             </td>
                                             <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
                                                 @if($order->user!=null)

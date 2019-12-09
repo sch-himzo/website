@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Email;
 use App\Models\Order;
+use App\Models\Order\Group;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -174,7 +175,7 @@ class EmailController extends Controller
 
     }
 
-    public static function orderApprovedClient(Order $order)
+    public static function orderApprovedClient(Group $order)
     {
         if($order->user==null){
             $user = $order->tempUser;

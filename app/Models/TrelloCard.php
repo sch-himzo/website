@@ -12,11 +12,6 @@ class TrelloCard extends Model
         return $this->belongsTo(TrelloList::class,'list_id');
     }
 
-    public function order()
-    {
-        return $this->hasOne(Order::class,'trello_card');
-    }
-
     public function getChecklist(){
         $card = $this->trello_id;
         $key = env('TRELLO_ID');

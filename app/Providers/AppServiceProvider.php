@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Models\Order;
+use App\Models\Order\Group;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
@@ -29,12 +29,12 @@ class AppServiceProvider extends ServiceProvider
     {
         $send_orders_count = 0;
         $joint_orders_count = 0;
-        $orders = Order::withCount('assignedUsers')->get();
+        $orders = Group::withCount('assignedUsers')->get();
         foreach($orders as $order){
             if($order->assigned_users_count==0 && $order->approved_by!=null && $order->joint==false && !$order->archived){
                 $send_orders_count++;
             }
-            if($order->joint && !$order->archived){
+            if($order->joint_project && !$order->archived){
                 $joint_orders_count++;
             }
         }

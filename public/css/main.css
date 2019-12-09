@@ -230,3 +230,18 @@ img.modal-album-cover{
 .autocomplete a.auto-link:hover{
     background:rgba(0,0,0,0.1);
 }
+.bg-default {
+    color: #666 !important;
+    background-color: #eee !important;
+}
+.progress-bar{
+    border-bottom:none;
+}
+.progress{
+    border-bottom:none;
+}
+
+.include-progress{
+    padding-bottom:0 !important;
+    margin-bottom:-15px;
+}
