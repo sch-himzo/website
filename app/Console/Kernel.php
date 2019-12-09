@@ -29,7 +29,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function(){
             EmailController::sendPings();
-        })->everyMinute();
+        })->dailyAt('8:00');
     }
 
     /**
