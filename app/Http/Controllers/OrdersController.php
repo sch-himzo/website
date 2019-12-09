@@ -759,19 +759,19 @@ $size cm oldalhosszúság
 
     private static function thumbnail(UploadedFile $file)
     {
-        $image_name = time() . '.' . Str::random(5) . '.' . $file->getClientOriginalExtension();
+        $image_name = time() . '.' . Str::random(5) . '.jpg';
 
         $destination_path = public_path('storage/images/thumbnails');
         $img = \Intervention\Image\Facades\Image::make($file->path());
         $img->resize(150,150, function($constraint){
             $constraint->aspectRatio();
-        })->save($destination_path.'/'.$image_name);
+        })->encode('jpg',90)->save($destination_path.'/'.$image_name);
 
         $destination_path = public_path('storage/images/real');
         $img = \Intervention\Image\Facades\Image::make($file->path());
         $img->resize(500,500, function($constraint){
             $constraint->aspectRatio();
-        })->save($destination_path.'/'.$image_name);
+        })->encode('jpg',90)->save($destination_path.'/'.$image_name);
 
         return $image_name;
     }
