@@ -763,13 +763,13 @@ $size cm oldalhosszúság
 
         $destination_path = public_path('storage/images/thumbnails');
         $img = \Intervention\Image\Facades\Image::make($file->path());
-        $img->resize(200,200, function($constraint){
+        $img->resize(150,150, function($constraint){
             $constraint->aspectRatio();
         })->save($destination_path.'/'.$image_name);
 
         $destination_path = public_path('storage/images/real');
         $img = \Intervention\Image\Facades\Image::make($file->path());
-        $img->resize(1000,1000, function($constraint){
+        $img->resize(500,500, function($constraint){
             $constraint->aspectRatio();
         })->save($destination_path.'/'.$image_name);
 
