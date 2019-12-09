@@ -93,6 +93,8 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
 
         Route::get('{group}/delete','OrdersController@deleteGroup')->name('deleteGroup');
 
+        Route::post('{group}/changeETA','OrdersController@changeETA')->name('changeETA')->middleware('rookie');
+
         Route::get('{order}/existing', 'OrdersController@existing')->name('existing');
 
         Route::post('{order}/testImage', 'OrdersController@testImage')->name('testImage');

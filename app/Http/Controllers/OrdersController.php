@@ -592,8 +592,26 @@ $size cm oldalhosszúság
     {
 
         $dst = $order->getDST();
+        $order_types = [
+            1 => 'Folt',
+            2 => 'Pólóra hímzendő',
+            3 => 'Pulcsira hímzendő'
+        ];
 
-        return view('orders.order', ['group' => $group, 'order' => $order, 'dst' => $dst]);
+        return view('orders.order', [
+            'group' => $group,
+            'order' => $order,
+            'dst' => $dst,
+            'order_types' => $order_types
+        ]);
+    }
+
+    public function changeETA(Request $request, Group $group)
+    {
+        $group->eta = $request->input('eta');
+        $group->save();
+
+        return redirect()->back();
     }
 
     public function group(Group $group)

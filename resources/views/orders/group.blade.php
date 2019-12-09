@@ -56,11 +56,20 @@
                             <th>Állapot</th>
                             <td colspan="2">{{ $group->getStatusInternal() }}</td>
                         </tr>
+                        @if($group->eta!=null)
+                            <tr>
+                                <th>Várható elkészülés</th>
+                                <td>{{ \Carbon\Carbon::create($group->eta)->diffForHumans() }}</td>
+                            </tr>
+                        @endif
                     </table>
                 </div>
                 <div class="panel-footer">
                     <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#change_status">
                         <i class="fa fa-edit"></i> Státusz szerkesztése
+                    </button>
+                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#change_eta">
+                        <i class="fa fa-calendar"></i> ETA megadása
                     </button>
                 </div>
             </div>
@@ -255,6 +264,31 @@
                                         <option value="{{ $key }}" @if($group->status==$key) selected @endif>{{ $status }}</option>
                                     @endforeach
                                 </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Mégse <i class="fa fa-times"></i></button>
+                        <button type="submit" class="btn btn-primary">Mentés <i class="fa fa-save"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="change_eta">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">ETA Megadása</h4>
+                </div>
+                <form action="{{ route('orders.changeETA', ['group' => $group]) }}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label class="input-group-addon" for="eta">ETA</label>
+                                <input @if($group->eta) value="{{ $group->eta }}" @endif type="date" id="eta" name="eta" class="form-control" required>
                             </div>
                         </div>
                     </div>

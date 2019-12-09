@@ -21,6 +21,10 @@
                             <th>Darabszám</th>
                             <td>{{ $order->count }}</td>
                         </tr>
+                        <tr>
+                            <th>Típus</th>
+                            <td>{{ $order_types[$order->type] }}</td>
+                        </tr>
                         @if($order->existing_design)
                         <tr>
                             <th style="text-align:center;" colspan="2">Létező minta</th>
