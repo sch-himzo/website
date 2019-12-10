@@ -5,6 +5,17 @@
 @section('members.active','active')
 
 @section('content')
+    @if($group->archived)
+        <div class="row">
+            <div class="col-md-4 col-md-push-4">
+                <div class="alert alert-info alert-dismissable">
+                    <button class="close" data-dismiss="alert" type="button">&times</button>
+                    <h4><i class="fa fa-exclamation-circle"></i> Archív rendelés</h4>
+                    <p>Ez a rendelés archiválva van! Módosításrokról nem kap emailt a felhasználó.</p>
+                </div>
+            </div>
+        </div>
+    @endif
     <h1 class="page-header with-description">{{ $group->title }} &raquo; <a href="{{ route(session('return_to')) }}">Vissza</a></h1>
     <h2 class="page-description">Rendelés megtekintése</h2>
 
@@ -54,7 +65,13 @@
                         </tr>
                         <tr>
                             <th>Állapot</th>
-                            <td colspan="2">{{ $group->getStatusInternal() }}</td>
+                            <td colspan="2">
+                                @if(!$group->archived)
+                                    {{ $group->getStatusInternal() }}
+                                @else
+                                    {{ 'Archivált' }}
+                                @endif
+                            </td>
                         </tr>
                         @if($group->eta!=null)
                             <tr>
@@ -71,6 +88,13 @@
                     <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#change_eta">
                         <i class="fa fa-calendar"></i> ETA megadása
                     </button>
+                    @if($group->status>3 && ($group->assignedUsers->contains(Auth::id()) || Auth::user()->role_id>4))
+                        @if(!$group->archived)
+                            <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#archive">
+                                <i class="fa fa-archive"></i> Archiválás
+                            </button>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>
@@ -300,4 +324,25 @@
             </div>
         </div>
     </div>
+    @if($group->status>3 && ($group->assignedUsers->contains(Auth::id()) || Auth::user()->role_id>4))
+        @if(!$group->archived)
+            <div class="modal fade" id="archive">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Archiválás</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Biztosan archiválod ezt a rendelést?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" type="button" data-dismiss="modal">Mégse <i class="fa fa-times"></i></button>
+                            <a href="{{ route('orders.archive', ['order' => $group]) }}" class="btn btn-primary">Archiválás <i class="fa fa-archive"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+    @endif
 @endsection
