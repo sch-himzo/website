@@ -132,7 +132,7 @@
                                             @endif
                                         </td>
                                         <td>{{ $color->code }}</td>
-                                        <td style="background:rgb({{ $color->red }}, {{ $color->green }}, {{ $color->blue }});">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <td style="background:{{ $color->red }};">&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                         <td>{{ number_format($color->stitch_count,0,',','.') }} öltés</td>
                                     </tr>
                                 @endforeach
