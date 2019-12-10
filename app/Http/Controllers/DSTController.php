@@ -306,8 +306,8 @@ class DSTController extends Controller
         $i = 0;
         foreach($colors as $color)
         {
-            $color_pattern = "/(<g id=\"color_$i\" style=\")(stroke:rgb\([0-9]{1,3}, [0-9]{1,3}, [0-9]{1,3}\);)(\">)/";
-            $replace = "$1stroke:rgb($color->red, $color->green, $color->blue);$3";
+            $color_pattern = "/(<g id=\"color_$i\" style=\")(stroke:\#[A-Fa-f0-9]{6};)(\">)/";
+            $replace = "$1stroke:$color->red;$3";
             $file = preg_replace($color_pattern,$replace,$file);
             $i++;
         }

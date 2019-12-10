@@ -287,8 +287,6 @@ class DesignController extends Controller
 
                 $color = $design->colors->where('number',$i)->first();
                 $color->red = $r;
-                $color->green = $g;
-                $color->blue = $b;
                 $color->isacord = $isacord;
                 $color->code = $code;
                 $color->design_id = $design->id;
@@ -330,8 +328,6 @@ class DesignController extends Controller
 
                 $color = new Color();
                 $color->red = $r;
-                $color->green = $g;
-                $color->blue = $b;
                 $color->isacord = $isacord;
                 $color->code = $code;
                 $color->design_id = $design->id;
