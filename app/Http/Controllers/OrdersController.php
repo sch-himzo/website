@@ -141,6 +141,7 @@ $size cm oldalhosszúság
 
     public function save(Request $request, Group $group)
     {
+        set_time_limit(300);
         $order = new Order();
         $order->title = $request->input('title');
         $order->count = $request->input('count');
@@ -707,6 +708,7 @@ $size cm oldalhosszúság
 
     public function step2(Request $request, Group $group = null)
     {
+        set_time_limit(300);
         if($request->input('form_type')=='first'){
             $title = $request->input('title');
             $time_limit = $request->input('time_limit');
