@@ -88,6 +88,15 @@
                     <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#change_eta">
                         <i class="fa fa-calendar"></i> ETA megadása
                     </button>
+                    @if(!$group->help)
+                        <a href="{{ route('orders.help', ['order' => $group]) }}" class="btn btn-danger btn-xs">
+                            <i class="fa fa-exclamation"></i> HELP!
+                        </a>
+                    @else
+                        <a href="{{ route('orders.help', ['order' => $group]) }}" class="btn btn-success btn-xs">
+                            <i class="fa fa-check"></i> Megvagyok
+                        </a>
+                    @endif
                     @if($group->status>3 && ($group->assignedUsers->contains(Auth::id()) || Auth::user()->role_id>4))
                         @if(!$group->archived)
                             <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#archive">

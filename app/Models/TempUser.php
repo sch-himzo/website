@@ -11,6 +11,6 @@ class TempUser extends Model
 
     public function orders()
     {
-        return $this->hasMany(Group::class);
+        return $this->hasMany(Group::class,'temp_user_id');
     }
 }
