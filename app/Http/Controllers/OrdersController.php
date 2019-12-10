@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Admin\TrelloController;
 use App\Models\Comment;
 use App\Models\DesignGroup;
+use App\Models\Email;
 use App\Models\Gallery\Album;
 use App\Models\Order\Group;
 use App\Models\Order\Image;
@@ -266,36 +267,7 @@ $size cm oldalhosszúság
 
     public function done(Order $order)
     {
-        $order->status = "finished";
-        $order->save();
-
-        return redirect()->back();
-    }
-
-    public function edit(Order $order, Request $request)
-    {
-        $size = $request->input('size');
-        $count = $request->input('count');
-        $status = $request->input('status');
-
-        $dst = $order->getDST();
-
-        if($status){
-            if(($dst!=null && $dst->colors->count()!=0 && $dst->background!=null && $order->assignedUsers->contains(Auth::user())) || Auth::user()->role_id>4){
-                $order->status = $status;
-            }
-        }
-
-        if($order->original && !$size){
-            abort(400);
-        }
-        if(!$count){
-            abort(400);
-        }
-
-        $order->size = $size;
-        $order->count = $count;
-
+        $order->status = 5;
         $order->save();
 
         return redirect()->back();
@@ -314,18 +286,6 @@ $size cm oldalhosszúság
 //        EmailController::orderApprovedClient($order);
 //        EmailController::orderApprovedInternal($order, Auth::user());
 
-
-//        $card = $this->trello($order);
-//
-//        $trello_card = new TrelloCard();
-//        $trello_card->trello_id = $card->id;
-//        $trello_card->desc = $card->desc;
-//        $trello_card->name = $card->name;
-//        $trello_card->idLabels = implode(',',$card->idLabels);
-//        $trello_card->list_id = 1;
-//        $trello_card->save();
-//
-//        $order->trello_card = $trello_card->id;
         $order->approved_by = Auth::id();
         $order->status = 1;
         $order->save();
@@ -383,20 +343,6 @@ $size cm oldalhosszúság
         return redirect()->back();
     }
 
-    public function active()
-    {
-        $cards = TrelloCard::all()
-//            ->where('status','NOT LIKE','%fizetve%')
-//            ->where('status','NOT LIKE','%Fizetve%')
-            ->where('list_id','<','5')
-            ->sortByDesc('id')
-            ->all();
-
-        $orders = Order::where('archived',false)->get()->sortByDesc('id');
-
-        return view('orders.active', ['orders' => $orders]);
-    }
-
     public function setUser(Request $request, Order $order)
     {
         if($order->user!=null || $order->tempUser != null){
@@ -443,6 +389,23 @@ $size cm oldalhosszúság
             $reason = $request->input('reason_'.$order->id);
         }
 
+        if($order->user!=null){
+            $user = $order->user;
+        }elseif($order->tempUser!=null){
+            $user = $order->tempUser;
+        }else{
+            $user = null;
+        }
+
+        if($user!=null){
+            $email = new Email();
+            $email->automated = 1;
+            $email->to = $user->email;
+            $email->from = "himzobot@gmail.com";
+            $email->message = "Rendelés törölve lett";
+            $email->subject = "Rendelés törölve";
+            $email->save();
+        }
 
 //        EmailController::orderDeletedClient($order, $reason);
 
@@ -598,11 +561,33 @@ $size cm oldalhosszúság
             3 => 'Pulcsira hímzendő'
         ];
 
+        $statuses = [
+            0 => 'Beérkezett',
+            1 => 'Tervezve',
+            2 => 'Próbahímzés kész',
+            3 => 'Hímezve',
+            4 => 'Fizetve',
+            5 => 'Átadva'
+        ];
+
+        if($dst==null){
+            $statuses = array_slice($statuses,0,1);
+        }
+
+        if($dst!=null && $dst->colors->count()==0){
+            $statuses = array_slice($statuses,0,2);
+        }
+
+        if($dst!=null && $dst->colors->count()!=0 && $order->testAlbum==null){
+            $statuses = array_slice($statuses, 0, 2);
+        }
+
         return view('orders.order', [
             'group' => $group,
             'order' => $order,
             'dst' => $dst,
-            'order_types' => $order_types
+            'order_types' => $order_types,
+            'statuses' => $statuses
         ]);
     }
 
@@ -610,6 +595,14 @@ $size cm oldalhosszúság
     {
         $group->eta = $request->input('eta');
         $group->save();
+
+        return redirect()->back();
+    }
+
+    public function editStatus(Request $request, Order $order)
+    {
+        $order->status = $request->input('status');
+        $order->save();
 
         return redirect()->back();
     }
@@ -641,17 +634,24 @@ $size cm oldalhosszúság
             }
         }
 
+        $status_parse = [
+            0 => 0,
+            1 => 2,
+            2 => 2,
+            3 => 4,
+            4 => 5
+        ];
+
         $statuses = [
             0 => 'Elfogadásra vár',
             1 => 'Elfogadva',
             2 => 'Tervezve',
             3 => 'Hímezve',
             4 => 'Fizetve',
-            5 => 'Átadva',
-            6 => 'Kész'
+            5 => 'Kész'
         ];
 
-        $statuses = array_slice($statuses,0,$max_status+2);
+        $statuses = array_slice($statuses,0,$status_parse[$max_status]+1);
 
         Carbon::setLocale('hu');
 

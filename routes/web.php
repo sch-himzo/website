@@ -91,6 +91,8 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('{order}/done', 'OrdersController@done')->name('done');
         Route::get('{order}/help', 'OrdersController@help')->name('help');
 
+        Route::post('{order}/edit/status', 'OrdersController@editStatus')->name('editStatus')->middleware('rookie');
+
         Route::get('{group}/delete','OrdersController@deleteGroup')->name('deleteGroup');
 
         Route::post('{group}/changeETA','OrdersController@changeETA')->name('changeETA')->middleware('rookie');

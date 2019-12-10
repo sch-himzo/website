@@ -25,6 +25,18 @@
                             <th>Típus</th>
                             <td>{{ $order_types[$order->type] }}</td>
                         </tr>
+                        <tr>
+                            <th>Állapot</th>
+                            <td>{{ $statuses[$order->status] }}</td>
+                        </tr>
+                        @if($order->font)
+                            <tr>
+                                <td>Betűtípus</td>
+                                <td><a class="btn btn-default" href="{{ route('orders.getFont', ['order' => $order]) }}">
+                                        <i class="fa fa-download"></i>
+                                    </a></td>
+                            </tr>
+                        @endif
                         @if($order->existing_design)
                         <tr>
                             <th style="text-align:center;" colspan="2">Létező minta</th>
@@ -83,9 +95,14 @@
                         <a href="{{ route('orders.existing', ['order' => $order]) }}" class="btn btn-success btn-xs">
                             <i class="fa fa-check"></i> Nem igényel tervezést
                         </a>
-                    @elseif($order->existing_design && $dst!=null)
-                        <button type="button" data-toggle="modal" data-target="#add_design" class="btn btn-warning btn-xs">
+                    @elseif($dst!=null)
+                        <button type="button" data-toggle="modal" data-target="#add_design" class="btn btn-primary btn-xs">
                             <i class="fa fa-paperclip"></i> Másik tervfájl kiválasztása
+                        </button>
+                    @endif
+                    @if($order->status>1)
+                        <button type="button" data-toggle="modal" data-target="#edit_status" class="btn btn-default btn-xs">
+                            <i class="fa fa-edit"></i> Állapot módosítása
                         </button>
                     @endif
                 </div>
@@ -333,7 +350,37 @@
             </div>
         </div>
     @endif
-    @if(($order->existing_design && $dst==null) || ($order->existing_design && $dst!=null))
+    <div class="modal fade" id="edit_status">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button class="close" type="button" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Állapot szerkesztése</h4>
+                </div>
+                <form action="{{ route('orders.editStatus', ['order' => $order]) }}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label class="input-group-addon" for="status">Állapot</label>
+                                <select class="form-control" name="status" id="status">
+                                    <option disabled selected>Válassz egyet</option>
+                                    @foreach($statuses as $key => $status)
+                                        <option value="{{ $key }}" @if($order->status==$key) selected @endif>{{ $status }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-dismiss="modal" class="btn btn-default">Mégse <i class="fa fa-times"></i></button>
+                        <button type="submit" class="btn btn-primary">Mentés <i class="fa fa-save"></i></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    @if(($order->existing_design && $dst==null) || ($dst!=null))
         <input type="hidden" id="design_url" value="{{ route('designs.find') }}">
         <input type="hidden" id="_token" value="{{ csrf_token() }}">
         <input type="hidden" id="order_id" value="{{ $order->id }}">
@@ -393,7 +440,7 @@
 @endsection
 
 @section('scripts')
-    @if($order->existing_design)
+    @if($order->existing_design || $dst!=null)
         <script src="{{ asset('js/design.js') }}"></script>
     @endif
     <script>
