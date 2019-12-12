@@ -207,7 +207,6 @@ $size cm oldalhosszúság
         return view('orders.final', ['group' => $group, 'order_types' => $order_types]);
     }
 
-
     public function unapproved()
     {
         if(Auth::user()->role_id<2)
@@ -419,6 +418,7 @@ $size cm oldalhosszúság
     {
         return view('orders.fake');
     }
+
     public function saveFake(Request $request)
     {
         $image = $request->file('image');
@@ -572,15 +572,15 @@ $size cm oldalhosszúság
         ];
 
         if($dst==null){
-            $statuses = array_slice($statuses,0,1);
+            $allowed = array_slice($statuses,0,1);
         }
 
         if($dst!=null && $dst->colors->count()==0){
-            $statuses = array_slice($statuses,0,2);
+            $allowed = array_slice($statuses,0,2);
         }
 
         if($dst!=null && $dst->colors->count()!=0 && $order->testAlbum==null){
-            $statuses = array_slice($statuses, 0, 2);
+            $allowed = array_slice($statuses, 0, 2);
         }
 
         return view('orders.order', [
@@ -588,7 +588,8 @@ $size cm oldalhosszúság
             'order' => $order,
             'dst' => $dst,
             'order_types' => $order_types,
-            'statuses' => $statuses
+            'statuses' => $statuses,
+            'allowed_statuses' => $allowed
         ]);
     }
 
@@ -816,6 +817,7 @@ $size cm oldalhosszúság
             'group' => $group
         ]);
     }
+
     public function existing(Order $order)
     {
         $order->existing_design = !$order->existing_design;
