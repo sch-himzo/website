@@ -365,7 +365,7 @@
                                 <label class="input-group-addon" for="status">Állapot</label>
                                 <select class="form-control" name="status" id="status">
                                     <option disabled selected>Válassz egyet</option>
-                                    @foreach($statuses as $key => $status)
+                                    @foreach($allowed_statuses as $key => $status)
                                         <option value="{{ $key }}" @if($order->status==$key) selected @endif>{{ $status }}</option>
                                     @endforeach
                                 </select>

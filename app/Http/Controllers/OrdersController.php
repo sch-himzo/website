@@ -573,14 +573,12 @@ $size cm oldalhosszúság
 
         if($dst==null){
             $allowed = array_slice($statuses,0,1);
-        }
-
-        if($dst!=null && $dst->colors->count()==0){
+        }elseif($dst!=null && $dst->colors->count()==0){
             $allowed = array_slice($statuses,0,2);
-        }
-
-        if($dst!=null && $dst->colors->count()!=0 && $order->testAlbum==null){
+        }elseif($dst!=null && $dst->colors->count()!=0 && $order->testAlbum==null){
             $allowed = array_slice($statuses, 0, 2);
+        }else{
+            $allowed = $statuses;
         }
 
         return view('orders.order', [
