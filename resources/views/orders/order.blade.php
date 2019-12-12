@@ -302,7 +302,7 @@
                         {{ csrf_field() }}
                         <div class="modal-body">
                             <div class="form-group">
-                                <div class="input-group">
+                                <div class="input-group" data-toggle="tooltip" title="Max. 3MB">
                                     <label class="input-group-addon" for="image">Kép</label>
                                     <input type="file" accept="image/*" name="image" id="image" class="form-control">
                                 </div>

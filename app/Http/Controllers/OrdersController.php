@@ -174,7 +174,7 @@ $size cm oldalhosszúság
                 $ext = $file->getClientOriginalExtension();
                 $size = $file->getSize()/1024/1024;
 
-                if($size>5){
+                if($size>3){
                     continue;
                 }
 
@@ -758,7 +758,7 @@ $size cm oldalhosszúság
                     $ext = $file->getClientOriginalExtension();
                     $size = $file->getSize()/1024/1024;
 
-                    if($size>5){
+                    if($size>3){
                         continue;
                     }
 
@@ -864,8 +864,8 @@ $size cm oldalhosszúság
             if(!in_array($extension,$this->allowed_extensions)){
                 abort(400);
             }
-            if($size>5){
-                abort(400);
+            if($size>3){
+                return redirect()->back();
             }
 
             $name = time().Str::random(2).'.'.$image->getClientOriginalExtension();

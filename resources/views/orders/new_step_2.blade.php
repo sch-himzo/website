@@ -73,7 +73,7 @@
                                     Már volt ilyen rendelve
                                 </label>
                             </div>
-                            <div class="input-group" data-toggle="tooltip" title="Válaszd ki a tervezendő folt mintáját">
+                            <div class="input-group" data-toggle="tooltip" title="Képenként Max. 3MB">
                                 <label id="image_label" class="input-group-addon" for="image">Tervrajzok<span class="required">*</span></label>
                                 <input accept="image/*" required class="form-control" type="file" id="image" name="image[]" multiple>
                             </div>
