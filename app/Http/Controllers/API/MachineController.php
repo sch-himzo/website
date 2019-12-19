@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Setting;
 use Illuminate\Http\Request;
 
 class MachineController extends Controller
@@ -16,13 +17,14 @@ class MachineController extends Controller
         68 => 'running'
     ];
 
-    public function updateStatus(Request $request, $machine_key, $code, $stitches)
+    public function updateStatus(Request $request)
     {
-        if(!key_exists($code,static::$machine_states)){
-            return response()->json(['error' => 'unknown machine state']);
-        }
+        $state = $request->input('state');
 
+        $setting = Setting::where('name','machine_state')->first();
 
+        $setting->setting = $state;
+        $setting->save();
 
         return response()->json(['ok']);
     }

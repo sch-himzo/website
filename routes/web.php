@@ -234,7 +234,7 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'admin'], fu
 
 Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], function(){
     Route::group(['prefix' => 'machine', 'as' => 'machine.'], function(){
-        Route::get('status/{machine_key}/{code}/{stitches}','API\MachineController@updateStatus')->name('status');
+        Route::post('status','API\MachineController@updateStatus')->name('status');
     });
 });
 

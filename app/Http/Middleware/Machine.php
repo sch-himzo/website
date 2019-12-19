@@ -15,7 +15,7 @@ class Machine
      */
     public function handle($request, Closure $next)
     {
-        if($request->route('machine_key')!=env('MACHINE_KEY')){
+        if($request->input('machine_key')!=env('MACHINE_KEY')){
             abort(403);
         }
 
