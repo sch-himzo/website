@@ -174,7 +174,7 @@ class EmailController extends Controller
 
     }
 
-    public static function orderApprovedClient(Group $order)
+    public static function orderApproved(Group $order)
     {
         if($order->user==null){
             $user = $order->tempUser;
@@ -194,93 +194,28 @@ class EmailController extends Controller
         $to_name = $user->name;
         $to_email = $user->email;
 
-        $order_title = $order->title;
-
         $data = [
-            'name' => $to_name,
-            'title' => $order->title,
-            'image' => route('orders.getImage', ['order' => $order]),
-            'time_limit' => $order->time_limit,
-            'count' => $order->count,
+            'user' => $user,
             'types' => $types,
-            'type' => $order->type,
-            'size' => $order->size
+            'order' => $order
         ];
 
-        if($order->font!=null){
-            $data['font'] = $order->font;
-        }
-
-        if($order->comment!=null){
-            $data['comment'] = $order->comment;
-        }
-
-        if(env('APP_DEBUG')!='true') {
-            Mail::send('emails.approved.client', $data, function ($message) use ($to_name, $to_email, $order_title) {
-                $message->to($to_email, $to_name)
-                    ->subject('Rendelés elfogadva (' . $order_title . ')')
-                    ->replyTo('himzo@sch.bme.hu');
-
-                $message->from('himzobot@gmail.com', 'Pulcsi és Foltmékör');
-            });
-        }
-    }
-
-    public static function orderApprovedInternal(Order $order, $approver)
-    {
-        if($order->user==null){
-            $user = $order->tempUser;
+        $email = new Email();
+        if($user){
+            $email->to = $to_email;
+            $email->to_name = $to_name;
         }else{
-            $user = $order->user;
+            $email->to_name = "Pulcsi és Foltmékör";
+            $email->to = "himzobot@gmail.com";
         }
-        if($user==null){
-            return;
-        }
+        $email->from = "himzobot@gmail.com";
+        $email->from_name = "Pulcsi és Foltmékör";
+        $email->automated = true;
+        $email->message = view('emails.approved.client', $data)->render();
+        $email->subject = "";
+        $email->send = env('APP_DEBUG')==false;
 
-        $user_email = $user->email;
-        $user_name = $user->name;
-
-        $types = [
-            1 => 'Folt',
-            3 => 'Pulcsira hímzendő',
-            2 => 'Pólóra hímzendő'
-        ];
-
-        $to_name = 'himzo@sch.bme.hu';
-        $to_email = 'himzo@sch.bme.hu';
-
-        $order_title = $order->title;
-
-        $data = [
-            'user_name' => $user_name,
-            'user_email' => $user_email,
-            'title' => $order->title,
-            'image' => route('orders.getImage', ['order' => $order]),
-            'time_limit' => $order->time_limit,
-            'count' => $order->count,
-            'types' => $types,
-            'type' => $order->type,
-            'size' => $order->size,
-            'approver' => $approver
-        ];
-
-        if($order->font!=null){
-            $data['font'] = $order->font;
-        }
-
-        if($order->comment!=null){
-            $data['comment'] = $order->comment;
-        }
-
-        if(env('APP_DEBUG')!='true') {
-            Mail::send('emails.approved.internal', $data, function ($message) use ($to_name, $to_email, $order_title, $user_email) {
-                $message->to($to_email, $to_name)
-                    ->subject('Rendelés beérkezett (' . $order_title . ')')
-                    ->replyTo('himzo@sch.bme.hu');
-
-                $message->from('himzobot@gmail.com', 'Pulcsi és Foltmékör');
-            });
-        }
+        $email->save();
     }
 
     public static function orderQuestion(Order $order, $message)
@@ -336,7 +271,7 @@ class EmailController extends Controller
         }
 
 
-        if(env('APP_DEBUG')!='true') {
+        if(env('APP_DEBUG')!=true) {
             Mail::send('emails.question', $data, function ($message) use ($to_name, $to_email, $order_title, $from_email, $from_name) {
                 $message->to($to_email, $to_name)
                     ->subject('Rendeléssel kapcsolatos kérdés (' . $order_title . ')')
@@ -423,5 +358,43 @@ class EmailController extends Controller
                 }
             }
         }
+    }
+
+    public static function orderArchived(Group $order, User $user)
+    {
+
+        $data = [
+            'order' => $order,
+            'user' => $user
+        ];
+
+        $email = new Email();
+
+        $email->to_name = $user->name;
+        $email->to = $user->email;
+
+        $email->from_name = "Pulcsi és Foltmékör";
+        $email->from = "himzobot@gmail.com";
+
+        $email->subject = "Rendelés archiválva";
+        $email->message = view('emails.archived', $data)->render();
+
+        $email->send = env('APP_DEBUG')==false;
+        $email->automated = true;
+        $email->save();
+    }
+
+    public static function sendUnsent()
+    {
+        $emails = Email::where('send',true)
+            ->where('sent_at',null)
+            ->get();
+
+        foreach($emails as $email)
+        {
+            $email->send();
+        }
+
+        return;
     }
 }

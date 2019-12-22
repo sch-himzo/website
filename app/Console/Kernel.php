@@ -29,6 +29,7 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function(){
             EmailController::sendPings();
+            EmailController::sendUnsent();
         })->dailyAt('8:00');
     }
 

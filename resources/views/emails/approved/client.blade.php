@@ -1,6 +1,6 @@
-<h4>Kedves {{ $name }}!</h4>
+<h4>Kedves {{ $user->name }}!</h4>
 
-{{ $title }} nevű rendelésed el lett fogadva!<br>
+{{ $order->title }} nevű rendelésed el lett fogadva!<br>
 <br>
 Hamarosan elkezd rendeléseddel foglalkozni egy körtagunk. Ha valamilyen kérdése van feléd a megadott email címeden fog keresni.<br>
 <br>
@@ -9,40 +9,20 @@ Hamarosan elkezd rendeléseddel foglalkozni egy körtagunk. Ha valamilyen kérd�
 <table>
     <tr>
         <th align="right">Név</th>
-        <td>{{ $title }}</td>
-    </tr>
-    <tr>
-        <th align="right">Kép</th>
-        <td>
-            <a href="{{ $image }}" style="text-decoration:none; color:#069;" target="_blank">Megnyitás</a>
-        </td>
+        <td>{{ $order->title }}</td>
     </tr>
     <tr>
         <th align="right">Határidő</th>
-        <td>{{ $time_limit }}</td>
-    </tr>
-    <tr>
-        <th align="right">Darabszám</th>
-        <td>{{ $count }}</td>
+        <td>{{ $order->time_limit }}</td>
     </tr>
     <tr>
         <th align="right">Típus</th>
-        <td>{{ $types[$type] }}</td>
+        <td>{{ $types[$order->type] }}</td>
     </tr>
-    <tr>
-        <th align="right">Méret</th>
-        <td>{{ $size }}</td>
-    </tr>
-    @if(isset($font))
-        <tr>
-            <th align="right">Betűtípus</th>
-            <td>{{ $font }}</td>
-        </tr>
-    @endif
-    @if(isset($comment))
+    @if($order->comment)
         <tr>
             <th align="right">Megjegyzés</th>
-            <td>{{ $comment }}</td>
+            <td>{{ $order->comment }}</td>
         </tr>
     @endif
 </table>

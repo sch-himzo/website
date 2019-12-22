@@ -283,8 +283,7 @@ $size cm oldalhosszúság
         $order->internal = $internal;
         $order->save();
 
-//        EmailController::orderApprovedClient($order);
-//        EmailController::orderApprovedInternal($order, Auth::user());
+        EmailController::orderApproved($order);
 
         $order->approved_by = Auth::id();
         $order->status = 1;
@@ -373,6 +372,10 @@ $size cm oldalhosszúság
     {
         $order->archived = true;
         $order->save();
+
+        foreach($order->assignedUsers as $user){
+            EmailController::orderArchived($order, $user);
+        }
 
         return redirect()->back();
     }
