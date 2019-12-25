@@ -38,7 +38,7 @@
                             <ul class="dropdown-menu">
                                 <li style="padding:10px; width:200px; margin-bottom:-15px;">
                                     <div class="progress">
-                                        <div class="{{ $current_machine->getProgressBar() }}" style="width:{{ min($current_machine->current_stitch/$current_machine->total_stitches,1)*100 }}%">
+                                        <div class="{{ $current_machine->getProgressBar() }}" style="text-align:center;width:{{ min($current_machine->current_stitch/$current_machine->total_stitches,1)*100 }}%">
                                             {{ min($current_machine->current_stitch/$current_machine->total_stitches,1)*100 }}%
                                         </div>
                                     </div>
