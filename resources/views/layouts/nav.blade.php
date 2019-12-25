@@ -32,6 +32,26 @@
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 @if(Auth::check())
+                    @if(Auth::user()->role_id>1)
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cash-register"></i> &raquo; {{ $current_machine->getState() }} @if($current_machine->state==1) &raquo; {{ $current_machine->current_stitch/$current_machine->total_stitches*100 }}% @endif</a>
+                            <ul class="dropdown-menu">
+                                <li style="padding:10px; width:200px; margin-bottom:-15px;">
+                                    <div class="progress">
+                                        <div class="{{ $current_machine->getProgressBar() }}" style="width:{{ max($current_machine->current_stitch/$current_machine->total_stitches,1)*100 }}%">
+                                            {{ max($current_machine->current_stitch/$current_machine->total_stitches,1)*100 }}%
+                                        </div>
+                                    </div>
+                                </li>
+                                <li style="padding:10px;">
+                                    {{ $current_machine->getState() }}
+                                </li>
+                                <li style="padding:10px;">
+                                    {{ $current_machine->current_stitch }} / {{ $current_machine->total_stitches }} öltés
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
                     @if(Auth::user()->role_id>3)
                         <li class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Admin <span class="caret"></span></a>

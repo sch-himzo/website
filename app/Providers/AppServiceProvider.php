@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Machine;
 use App\Models\Order\Group;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\View;
@@ -38,6 +40,10 @@ class AppServiceProvider extends ServiceProvider
                 $joint_orders_count++;
             }
         }
+
+        $machine = Machine::first();
+//
+        View::share('current_machine',$machine);
 
         View::share('send_orders_count', $send_orders_count);
         View::share('joint_orders_count', $joint_orders_count);

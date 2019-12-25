@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Models\Machine;
 use App\Models\Setting;
 use Illuminate\Http\Request;
 
@@ -22,23 +23,29 @@ class MachineController extends Controller
         $state = $request->input('state');
         $stitches = $request->input('stitches');
 
-        $setting = Setting::where('name','machine_state')->first();
+        $setting = Setting::where('name','current_machine')->first();
 
-        $setting->setting = $state;
-        $setting->save();
+        if($setting==null){
+            $machine = Machine::all()->first();
 
-        if($stitches){
-            $stitch_setting = Setting::where('name','machine_stitches')->first();
-            if($stitch_setting==null){
-                $stitch_setting = new Setting();
-                $stitch_setting->name='machine_stitches';
-                $stitch_setting->setting=0;
-                $stitch_setting->description='Hányadik öltésnél jár a hímzőgép';
-                $stitch_setting->save();
+            if($machine==null){
+                $machine = new Machine();
+                $machine->save();
             }
-            $stitch_setting->setting = $stitches;
-            $stitch_setting->save();
+
+            $setting = new Setting();
+            $setting->name = "current_machine";
+            $setting->setting = $machine->id;
+            $setting->description = "Az aktuális gép";
+            $setting->save();
+
         }
+
+        $machine = Machine::all()->find($setting->setting);
+        $machine->state = $state;
+        $machine->current_stitch = $stitches;
+        $machine->total_stitches = 1;
+        $machine->save();
 
         return response()->json(['ok']);
     }
