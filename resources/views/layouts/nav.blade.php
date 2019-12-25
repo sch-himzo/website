@@ -47,7 +47,7 @@
                                     {{ $current_machine->getState() }}
                                 </li>
                                 <li style="padding:10px;">
-                                    {{ $current_machine->current_stitch }} / {{ $current_machine->total_stitches }} öltés
+                                    {{ $current_machine->total_stitches . "/" . $current_machine->current_stitch }} öltés
                                 </li>
                             </ul>
                         </li>
