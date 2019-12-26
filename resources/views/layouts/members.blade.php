@@ -32,6 +32,9 @@
 <script src="{{ asset('js/bootstrap.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
 <script src="{{ asset('js/lightbox.js') }}"></script>
+@if(Auth::check() && Auth::user()->role_id>1)
+    <script src="{{ asset('js/machine.js') }}"></script>
+@endif
 <script>
     $(function () {
         $('[data-toggle="tooltip"]').tooltip()

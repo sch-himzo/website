@@ -110,4 +110,17 @@ class HomeController extends Controller
             ]);
         }
     }
+
+    public function getProgressBar()
+    {
+        $setting = Setting::where('name','current_machine')->first();
+        $machine = Machine::find($setting->setting);
+
+        return response()->json([
+            'state' => $machine->getState(),
+            'progress_bar' => $machine->getProgressBar(),
+            'current_stitch' => $machine->current_stitch,
+            'total_stitches' => $machine->total_stitches
+        ]);
+    }
 }

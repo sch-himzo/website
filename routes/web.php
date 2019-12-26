@@ -242,6 +242,7 @@ Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], func
 Route::group(['prefix' => 'machines', 'as' => 'machines.', 'middleware' => 'rookie'], function(){
     Route::get('status', 'HomeController@machineStatus')->name('status');
     Route::post('getStatus','HomeController@getMachineStatus')->name('getStatus');
+    Route::post('getProgressBar', 'HomeController@getProgressBar')->name('getProgressBar');
 });
 
 Route::post('get/users','HomeController@getUsers')->name('getUsers');

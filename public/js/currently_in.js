@@ -24,8 +24,6 @@ function currentUsers(){
                 button_container.html(button);
             }
 
-            console.log(c.users);
-
             c.users.forEach(function(e){
                 out += "<tr>" +
                     "<td style='padding:10px; font-size:16px;'>" + e + "</td>" +
@@ -38,8 +36,6 @@ function currentUsers(){
                     "</td>" +
                     "</tr>";
             }
-
-            console.log(out);
 
             users_table.html(out);
         },

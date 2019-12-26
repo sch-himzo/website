@@ -34,19 +34,19 @@
                 @if(Auth::check())
                     @if(Auth::user()->role_id>1)
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-cash-register"></i> &raquo; {{ $current_machine->getState() }} @if($current_machine->state==1) &raquo; {{ round(min($current_machine->current_stitch/$current_machine->total_stitches,1)*100,2) }}% @endif</a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="machine_dropdown"><i class="fa fa-cash-register"></i> &raquo; {{ $current_machine->getState() }} @if($current_machine->state==1) &raquo; {{ round(min($current_machine->current_stitch/$current_machine->total_stitches,1)*100,2) }}% @endif</a>
                             <ul class="dropdown-menu">
                                 <li style="padding:10px; width:200px; margin-bottom:-15px;">
                                     <div class="progress">
-                                        <div class="{{ $current_machine->getProgressBar() }}" style="text-align:center;width:{{ min($current_machine->current_stitch/$current_machine->total_stitches,1)*100 }}%">
+                                        <div id="machine_progress" class="{{ $current_machine->getProgressBar() }}" style="text-align:center;width:{{ min($current_machine->current_stitch/$current_machine->total_stitches,1)*100 }}%">
                                             {{ round(min($current_machine->current_stitch/$current_machine->total_stitches,1)*100,2) }}%
                                         </div>
                                     </div>
                                 </li>
-                                <li style="padding:10px;">
+                                <li style="padding:10px;" id="machine_state">
                                     {{ $current_machine->getState() }}
                                 </li>
-                                <li style="padding:10px;">
+                                <li style="padding:10px;" id="machine_stitches">
                                     {{ $current_machine->total_stitches . "/" . $current_machine->current_stitch }} öltés
                                 </li>
                                 <li>
@@ -90,3 +90,7 @@
         </div>
     </div>
 </nav>
+@if(Auth::check() && Auth::user()->role_id>1)
+    <input type="hidden" id="asdf_url" value="{{ route('machines.getProgressBar') }}">
+    <input type="hidden" id="asdf_token" value="{{ csrf_token() }}">
+@endif
