@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Machine;
+use App\Models\Setting;
 use App\Models\Slide;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -61,5 +63,51 @@ class HomeController extends Controller
             'users' => $users,
             'ids' => $ids
         ]);
+    }
+
+    public function machineStatus()
+    {
+        $setting = Setting::where('name','current_machine')->first();
+        $machine = Machine::find($setting->setting);
+
+        return view('machines.status', [
+            'machine' => $machine
+        ]);
+    }
+
+    public function getMachineStatus(Request $request)
+    {
+
+        $setting = Setting::where('name','current_machine')->first();
+
+        $machine = Machine::find($setting->setting);
+
+        $total_stitches = $request->input('total_stitches');
+        $actual_total_stitches = $machine->total_stitches;
+
+        $stitches = [];
+
+        foreach(json_decode($machine->current_dst) as $color){
+            foreach($color as $stitch){
+                $stitches[] = $stitch;
+            }
+        }
+
+        $current_offset = $stitches[$machine->current_stitch];
+
+        if($total_stitches!=$actual_total_stitches){
+            return response()->json([
+                'new_design' => true
+            ]);
+        }else{
+            return response()->json([
+                'state' => $machine->state,
+                'current_stitch' => $machine->current_stitch,
+                'status' => $machine->getState(),
+                'current_offset' => $current_offset,
+                'x_offset' => abs($machine->x_offset),
+                'y_offset' => abs($machine->y_offset)
+            ]);
+        }
     }
 }

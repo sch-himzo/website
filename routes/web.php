@@ -235,7 +235,13 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'admin'], fu
 Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], function(){
     Route::group(['prefix' => 'machine', 'as' => 'machine.'], function(){
         Route::post('status','API\MachineController@updateStatus')->name('status');
+        Route::post('dst', 'API\MachineController@updateDST')->name('dst');
     });
+});
+
+Route::group(['prefix' => 'machines', 'as' => 'machines.', 'middleware' => 'rookie'], function(){
+    Route::get('status', 'HomeController@machineStatus')->name('status');
+    Route::post('getStatus','HomeController@getMachineStatus')->name('getStatus');
 });
 
 Route::post('get/users','HomeController@getUsers')->name('getUsers');

@@ -32,4 +32,9 @@ class Design extends Model
     {
         return $this->belongsTo(Background::class);
     }
+
+    public function machines()
+    {
+        return $this->hasMany(Machine::class);
+    }
 }

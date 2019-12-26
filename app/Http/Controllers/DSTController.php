@@ -13,7 +13,7 @@ use Str;
 
 class DSTController extends Controller
 {
-    private $control_bytes = [
+    private static $control_bytes = [
         '0' => 'normal',
         '1' => 'normal',
         '2' => 'normal',
@@ -32,7 +32,7 @@ class DSTController extends Controller
         'F' => 'color'
     ];
 
-    private $hex2bin = [
+    private static $hex2bin = [
         '0' => '0000',
         '1' => '0001',
         '2' => '0010',
@@ -50,6 +50,81 @@ class DSTController extends Controller
         'E' => '1110',
         'F' => '1111'
     ];
+
+    public static function parseDST(Design $design)
+    {
+        $contents = File::get(storage_path('app/images/uploads/designs/'. $design->image));
+
+        $hex_contents = static::strToHex($contents);
+        $stitches = [];
+        $color_count = 0;
+        $stitch_count = 0;
+        $maxx = 0;
+        $minx = 0;
+        $miny = 0;
+        $maxy = 0;
+        $pos = [0,0];
+        $asd = 0;
+        for($i = 0; $i<strlen($hex_contents); $i = $i+6){
+            $current = substr($hex_contents,$i,6);
+            if(strlen($current)!=6){
+                continue;
+            }
+            $current_array = str_split($current,1);
+
+            $byte1 = static::$hex2bin[$current_array[0]].static::$hex2bin[$current_array[1]];
+            $byte2 = static::$hex2bin[$current_array[2]].static::$hex2bin[$current_array[3]];
+            $byte3 = static::$hex2bin[$current_array[4]].static::$hex2bin[$current_array[5]];
+
+
+            if(static::$control_bytes[$current_array[4]]=='') {
+                $pos = static::posChange($pos[0], $pos[1], $byte1, $byte2, $byte3);
+
+                $asd = 0;
+            }
+
+            if(static::$control_bytes[$current_array[4]]=='color'){
+                $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
+                $color_count++;
+                $asd = 0;
+            }
+
+            if(static::$control_bytes[$current_array[4]]=='normal'){
+                if($asd>1){
+                    $stitch_count++;
+                    $stitches[$color_count][] = [$pos,static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3)];
+                }
+                $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
+                $asd++;
+                if($pos[0]>$maxx){
+                    $maxx = $pos[0];
+                }
+                if($pos[0]<$minx){
+                    $minx = $pos[0];
+                }
+                if($pos[1]>$maxy){
+                    $maxy = $pos[1];
+                }
+                if($pos[1]<$miny){
+                    $miny = $pos[1];
+                }
+            }
+
+            if(static::$control_bytes[$current_array[4]]=='jump'){
+                $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
+                $asd = 0;
+            }
+        }
+
+        $canvas_height = abs($miny) + abs($maxy) + 10;
+        $canvas_width = abs($minx) + abs($maxx) + 10;
+
+        $design->svg = static::generateSVG($design, $stitches, $canvas_width,$canvas_height,$minx,$miny);
+        $design->stitch_count = $stitch_count;
+        $design->save();
+
+        return [$stitches, $canvas_height, $canvas_width, $minx, $miny];
+    }
 
     private static function strToHex($string){
         $hex = '';
@@ -87,24 +162,24 @@ class DSTController extends Controller
 
             $current_array = str_split($current,1);
 
-            $byte1 = $this->hex2bin[$current_array[0]].$this->hex2bin[$current_array[1]];
-            $byte2 = $this->hex2bin[$current_array[2]].$this->hex2bin[$current_array[3]];
-            $byte3 = $this->hex2bin[$current_array[4]].$this->hex2bin[$current_array[5]];
+            $byte1 = static::$hex2bin[$current_array[0]].static::$hex2bin[$current_array[1]];
+            $byte2 = static::$hex2bin[$current_array[2]].static::$hex2bin[$current_array[3]];
+            $byte3 = static::$hex2bin[$current_array[4]].static::$hex2bin[$current_array[5]];
 
 
-            if($this->control_bytes[$current_array[4]]=='') {
+            if(static::$control_bytes[$current_array[4]]=='') {
                 $pos = static::posChange($pos[0], $pos[1], $byte1, $byte2, $byte3);
 
                 $asd = 0;
             }
 
-            if($this->control_bytes[$current_array[4]]=='color'){
+            if(static::$control_bytes[$current_array[4]]=='color'){
                 $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
                 $color_count++;
                 $asd = 0;
             }
 
-            if($this->control_bytes[$current_array[4]]=='normal'){
+            if(static::$control_bytes[$current_array[4]]=='normal'){
                 if($asd>1){
                     $stitch_count++;
                     $stitches[$color_count][] = [$pos,static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3)];
@@ -125,7 +200,7 @@ class DSTController extends Controller
                 }
             }
 
-            if($this->control_bytes[$current_array[4]]=='jump'){
+            if(static::$control_bytes[$current_array[4]]=='jump'){
                 $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
                 $asd = 0;
             }

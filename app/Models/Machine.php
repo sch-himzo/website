@@ -36,4 +36,9 @@ class Machine extends Model
     {
         return static::$progress_bars[$this->state];
     }
+
+    public function design()
+    {
+        return $this->belongsTo(Design::class);
+    }
 }
