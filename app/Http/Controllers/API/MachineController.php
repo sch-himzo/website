@@ -123,7 +123,6 @@ class MachineController extends Controller
         $machine = Machine::all()->find($setting->setting);
         $machine->state = $state;
         $machine->current_stitch = $stitches;
-        $machine->total_stitches = 1;
         $machine->save();
 
         return response()->json(['ok']);
