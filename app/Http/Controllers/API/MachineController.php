@@ -90,6 +90,7 @@ class MachineController extends Controller
         $machine->design_width = $width;
         $machine->design_height = $height;
         $machine->x_offset = $xoffset;
+        $machine->state = 0;
         $machine->y_offset = $yoffset;
         $machine->current_stitch = 0;
         $machine->save();
