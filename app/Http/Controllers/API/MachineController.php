@@ -102,6 +102,8 @@ class MachineController extends Controller
     {
         $state = $request->input('state');
         $stitches = $request->input('stitches');
+        $designs = $request->input('designs');
+        $current_design = $request->input('current_design');
 
         $setting = Setting::where('name','current_machine')->first();
 
@@ -125,6 +127,10 @@ class MachineController extends Controller
         $machine->state = $state;
         if($state==0){
             $machine->current_stitch = $machine->total_stitches;
+        }elseif($stitches!=null && $current_design!=null && $designs!=null){
+            $machine->current_stitch = $stitches;
+            $machine->current_design = $current_design;
+            $machine->design_count = $designs;
         }elseif($stitches!=null){
             $machine->current_stitch = $stitches;
         }
