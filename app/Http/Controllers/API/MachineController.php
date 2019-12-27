@@ -123,7 +123,9 @@ class MachineController extends Controller
 
         $machine = Machine::all()->find($setting->setting);
         $machine->state = $state;
-        if($stitches!=null){
+        if($state==0){
+            $machine->current_stitch = $machine->total_stitches;
+        }elseif($stitches!=null){
             $machine->current_stitch = $stitches;
         }
         $machine->save();
