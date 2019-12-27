@@ -93,7 +93,11 @@ class HomeController extends Controller
             }
         }
 
-        $current_offset = $stitches[$machine->current_stitch];
+        if($machine->current_stitch!=$machine->total_stitches){
+            $current_offset = $stitches[$machine->current_stitch];
+        }else{
+            $current_offset = $stitches[0];
+        }
 
         if($total_stitches!=$actual_total_stitches){
             return response()->json([
