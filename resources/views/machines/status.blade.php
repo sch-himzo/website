@@ -75,9 +75,8 @@
                     if('new_design' in e){
                         document.location.reload();
                     }else{
-                        console.log(e);
                         if(current_state!==e.state){
-                            $('#state').html(e.status);
+                            $('#status').html(e.status);
                             $('#current_state').val(e.state);
                         }
                         if(current_stitch!==e.current_stitch){

@@ -8,7 +8,6 @@ function updateProgressBar(){
         dataType: 'json',
         method: "POST",
         success: function(e){
-            console.log(e);
             let dropdown = "";
             let percentage = Math.round(e.current_stitch*10000/e.total_stitches)/100;
             if(e.state==="Fut"){
