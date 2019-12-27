@@ -80,7 +80,7 @@
                             $('#current_state').val(e.state);
                         }
                         if(current_stitch!==e.current_stitch){
-                            $('#stitches').html(total_stitches + "/" + e.current_stitch);
+                            $('#stitches').html(total_stitches + "/" + e.current_stitch + " öltés");
                             let x_transform = e.current_offset[0][0] + e.x_offset + 5;
                             let y_transform = e.current_offset[0][1] + e.y_offset + 5;
                             $('#crosshair').attr('transform', 'translate(' + x_transform + " " + y_transform + ")");
