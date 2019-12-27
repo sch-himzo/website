@@ -100,6 +100,7 @@
                             percentage += "%";
                             $('#machine_progress_bar_status').css('width',percentage);
                             $('#machine_progress_bar_status').html(percentage);
+                            $('#machine_progress_bar_status').attr('class',e.progress_bar);
                             if(e.current_design===e.total_designs){
                                 $('#machine_designs_progress_bar_current_status').css('display','none');
                                 $('#machine_designs_progress_bar_status').css('width','100%');
