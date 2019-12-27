@@ -106,7 +106,11 @@ class HomeController extends Controller
                 'status' => $machine->getState(),
                 'current_offset' => $current_offset,
                 'x_offset' => abs($machine->x_offset),
-                'y_offset' => abs($machine->y_offset)
+                'y_offset' => abs($machine->y_offset),
+                'current_design' => $machine->current_design,
+                'total_designs' => $machine->design_count,
+                'progress_bar' => $machine->getProgressBar(),
+                'total_stitches' => $machine->total_stitches
             ]);
         }
     }
@@ -120,7 +124,9 @@ class HomeController extends Controller
             'state' => $machine->getState(),
             'progress_bar' => $machine->getProgressBar(),
             'current_stitch' => $machine->current_stitch,
-            'total_stitches' => $machine->total_stitches
+            'total_stitches' => $machine->total_stitches,
+            'current_design' => $machine->current_design,
+            'total_designs' => $machine->design_count
         ]);
     }
 }

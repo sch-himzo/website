@@ -19,6 +19,22 @@
                             <th>Öltések</th>
                             <td id="stitches">{{ $machine->total_stitches."/".$machine->current_stitch }} öltés</td>
                         </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="progress" style="text-align:center; margin-bottom:0;">
+                                    <div id="machine_progress_bar_status" class="{{ $machine->getProgressBar() }}" style="text-align:center;width:{{ round($machine->current_stitch*100/$machine->total_stitches) . "%;" }}">{{ round($machine->current_stitch/$machine->total_stitches,2)*100 . "%" }}</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="2">
+                                <div class="progress" style="text-align:center; margin-bottom:0;">
+                                    <div id="machine_designs_progress_bar_status" class="progress-bar" style="width:{{ ($machine->current_design-1)*100/$machine->design_count . "%;" }}">{{ $machine->current_design-1 }}</div>
+                                    <div id="machine_designs_progress_bar_current_status" class="progress-bar progress-bar-warning progress-bar-striped active" style="width:{{ 100/$machine->design_count . "%;" }}">Aktuális</div>
+                                    <span id="machine_designs_left_status">{{ $machine->design_count-$machine->current_design }}</span>
+                                </div>
+                            </td>
+                        </tr>
                     </table>
                 </div>
             </div>
@@ -80,6 +96,20 @@
                             $('#current_state').val(e.state);
                         }
                         if(current_stitch!==e.current_stitch){
+                            let percentage = Math.round(e.current_stitch*10000/e.total_stitches)/100;
+                            percentage += "%";
+                            $('#machine_progress_bar_status').css('width',percentage);
+                            $('#machine_progress_bar_status').html(percentage);
+                            if(e.current_design===e.total_designs){
+                                $('#machine_designs_progress_bar_current_status').css('display','none');
+                                $('#machine_designs_progress_bar_status').css('width','100%');
+                                $('#machine_designs_progress_bar_status').html(e.total_designs + "/" + e.total_designs);
+                            }else{
+                                $('#machine_designs_progress_bar_current_status').css('display','block');
+                                $('#machine_designs_progress_bar_status').css('width',(e.current_design-1)*100/e.total_designs + "%");
+                                $('#machine_designs_progress_bar_status').html(e.current_design-1);
+                                $('#machine_designs_left_status').html(e.total_designs-e.current_design);
+                            }
                             $('#stitches').html(total_stitches + "/" + e.current_stitch + " öltés");
                             let x_transform = e.current_offset[0][0] + e.x_offset + 5;
                             let y_transform = e.current_offset[0][1] + e.y_offset + 5;
