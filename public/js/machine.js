@@ -25,32 +25,33 @@ channel.bind('machine-update', function(data){
     if(previous_state !== data.message.state){
         console.log('fasz');
         let n;
+        console.log(data.message.state);
         switch(data.message.state){
-            case 0:
+            case "0":
                 n = new Notification('Hímzés kész', {body: 'Végzett a hímzéssel a hímzőgép :)', dir: 'ltr'});
                 break;
 
-            case 1:
+            case "1":
                 n = new Notification('Hímzés elindítva', {body: 'El lett indítva a hímzőgép', dir: 'ltr'});
                 break;
 
-            case 2:
+            case "2":
                 n = new Notification('Géphiba! :(', {body: 'Valami elbaszódott a hímzőgéppel :( Ajánlott a hímzőgép megtekintése in real life, nehogy para legyen', dir: 'ltr'});
                 break;
 
-            case 3:
+            case "3":
                 n = new Notification('Hímzés kész', {body: 'Végzett a hímzéssel a hímzőgép :)', dir: 'ltr'});
                 break;
 
-            case 4:
+            case "4":
                 n = new Notification('Hímzés megállítva', {body: 'Meg lett állítva a hímzőgép a gombbal', dir: 'ltr'})
                 break;
 
-            case 5:
+            case "5":
                 n = new Notification('Tervezett stop', {body: 'Előre beállított stop következett be, ideje applikálni/cérnát cserélni :)', dir: 'ltr'})
                 break;
 
-            case 6:
+            case "6":
                 n = new Notification('Szálszakadás', {body: 'Szálszakadás more :(', dir:'ltr'});
                 break;
         }
