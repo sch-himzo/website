@@ -227,11 +227,8 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], func
     Route::get('notifications/disable','UserController@disableNotifications')->name('disable_notifications');
 });
 
-Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'admin'], function(){
-    Route::group(['prefix' => 'trello','as' => 'trello.'], function(){
-        Route::get('lists','Admin\TrelloController@lists')->name('lists');
-        Route::get('lists/{trello_list}/cards','Admin\TrelloController@cards')->name('cards');
-    });
+Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], function(){
+
 });
 
 Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], function(){
