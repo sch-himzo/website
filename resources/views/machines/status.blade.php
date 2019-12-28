@@ -75,8 +75,6 @@
 
 @section('scripts')
     <script>
-        Pusher.logToConsole = true
-
         channel.bind('machine-update', function(data){
             let total_stitches = $('#total_stitches').val();
             let current_stitch = $('#current_stitch').val();
@@ -91,8 +89,6 @@
             $('#machine_progress_bar_status').css('width', percentage);
             $('#machine_progress_bar_status').html(percentage);
             $('#machine_progress_bar_status').attr('class', data.message.progress_bar);
-            console.log(data.message.current_design);
-            console.log(data.message.total_designs);
             if (data.message.current_design === data.message.total_designs && data.message.current_stitch===data.message.total_stitches) {
                 $('#machine_designs_progress_bar_current_status').css('display', 'none');
                 $('#machine_designs_progress_bar_status').css('width', '100%');

@@ -23,9 +23,7 @@ channel.bind('machine-update', function(data){
     $('#machine_stitches').html(data.message.total_stitches + "/" + data.message.current_stitch + " öltés");
 
     if(previous_state !== data.message.state){
-        console.log('fasz');
         let n;
-        console.log(data.message.state);
         switch(data.message.state){
             case "0":
                 n = new Notification('Hímzés kész', {body: 'Végzett a hímzéssel a hímzőgép :)', dir: 'ltr'});
