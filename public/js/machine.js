@@ -53,10 +53,6 @@ channel.bind('machine-update', function(data){
             case 6:
                 n = new Notification('Szálszakadás', {body: 'Szálszakadás more :(', dir:'ltr'});
                 break;
-
-            default:
-                n = new Notification('Tudjafasz', {body: 'Tudja fasz hogy mi történt :(, ismeretlen errort küldött a gép', dir:'ltr'});
-                break;
         }
         n.onclick = function(event){
             event.preventDefault();
