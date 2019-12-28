@@ -93,4 +93,5 @@
 @if(Auth::check() && Auth::user()->role_id>1)
     <input type="hidden" id="asdf_url" value="{{ route('machines.getProgressBar') }}">
     <input type="hidden" id="asdf_token" value="{{ csrf_token() }}">
+    <input type="hidden" id="asdf_state" value="{{ $current_machine->state }}">
 @endif
