@@ -1,5 +1,3 @@
-Pusher.logToConsole = true;
-
 let pusher = new Pusher('a34e80fa301ec595567d', {
     cluster: 'eu',
     forceTLS: true
@@ -21,6 +19,14 @@ channel.bind('machine-update', function(data){
     $('#machine_progress').attr('class',data.message.progress_bar);
     $('#machine_state').html(data.message.status);
     $('#machine_stitches').html(data.message.total_stitches + "/" + data.message.current_stitch + " öltés");
+
+    if(data.message.state==0){
+        console.log('fasz');
+        let n = new Notification('Hímzés kész', {body:'Végzett a hímzéssel a hímzőgép :)', dir:'ltr'});
+        n.onclick = function(){
+            window.location = 'http://himzo.sch.bme.hu/machines/status';
+        }
+    }
 });
 
 channel.bind('machine-dst', function(data){

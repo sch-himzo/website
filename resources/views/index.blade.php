@@ -99,9 +99,47 @@
             $('#warning').modal('toggle');
         </script>
     @endif
+    @if(Auth::check() && Auth::user()->role_id>1 && Auth::user()->notifications_disabled!=1)
+    <script>
+        if(window.Notification){
+            if(Notification.permission!=="granted"){
+                $('#notifications').modal('toggle');
+            }
+        }
+
+        function enableNotifications()
+        {
+            if(window.Notification){
+                Notification.requestPermission(function(status){
+                    let n = new Notification('Köszi', {body:'Értesítések bekapcsolva', dir:'ltr'})
+                });
+            }
+        }
+    </script>
+    @endif
 @endsection
 
 @section('modals')
+    @if(Auth::check() && Auth::user()->role_id>1 && Auth::user()->notifications_disabled!=1)
+        <div class="modal fade" id="notifications">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Értesítések engedélyezése</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        Kérlek engedélyezd az értesítéseket, hogy megtudd, hogy vége van-e egy hímzésnek :)
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" onclick="enableNotifications()" data-dismiss="modal" type="button">Engedélyezés</button>
+                        <a class="btn btn-default" href="{{ route('user.disable_notifications') }}">Mégse</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    @endif
     @if(env('APP_DEBUG')=='true' && !Auth::check())
         <div class="modal fade" id="warning">
             <div class="modal-dialog">

@@ -223,6 +223,8 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], func
 
     Route::get('in', 'UserController@in')->name('in');
     Route::get('out','UserController@out')->name('out');
+
+    Route::get('notifications/disable','UserController@disableNotifications')->name('disable_notifications');
 });
 
 Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'admin'], function(){

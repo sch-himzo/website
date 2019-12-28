@@ -41,6 +41,14 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    public function disableNotifications()
+    {
+        Auth::user()->notifications_disabled = true;
+        Auth::user()->save();
+
+        return redirect()->back();
+    }
+
     public function find(Request $request)
     {
         $search = $request->input('name');
