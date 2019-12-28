@@ -77,7 +77,6 @@ class HomeController extends Controller
 
     public function getMachineStatus(Request $request)
     {
-
         $setting = Setting::where('name','current_machine')->first();
 
         $machine = Machine::find($setting->setting);

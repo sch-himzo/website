@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Events\MachineDST;
+use App\Events\MachineUpdate;
 use App\Http\Controllers\Controller;
 use App\Models\Design;
 use App\Models\DesignGroup;
@@ -95,7 +97,9 @@ class MachineController extends Controller
         $machine->current_stitch = 0;
         $machine->save();
 
-        return response()->json($stitches);
+        event(new MachineDST());
+
+        return response()->json('200 Response OK');
     }
 
     public function updateStatus(Request $request)
@@ -136,6 +140,8 @@ class MachineController extends Controller
         }
         $machine->save();
 
-        return response()->json(['ok']);
+        event(new MachineUpdate($machine));
+
+        return response()->json('200 Response OK');
     }
 }

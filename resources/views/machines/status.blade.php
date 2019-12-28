@@ -75,69 +75,49 @@
 
 @section('scripts')
     <script>
-        function update(){
-            let current_stitch = $('#current_stitch').val();
-            let url = $('#ajax_url').val();
+        channel.bind('machine-update', function(data){
             let total_stitches = $('#total_stitches').val();
-            let token = $('#_token').val();
+            let current_stitch = $('#current_stitch').val();
             let current_state = $('#current_state').val();
 
-            $.ajax({
-                url: url,
-                method: "POST",
-                data: {total_stitches: total_stitches, _token: token},
-                dataType: 'json',
-                success: function(e){
-                    if('new_design' in e){
-                        document.location.reload();
-                    }else{
-                        if(current_state!==e.state){
-                            $('#status').html(e.status);
-                            $('#current_state').val(e.state);
-                        }
-                        if(current_stitch!==e.current_stitch){
-                            let percentage = Math.round(e.current_stitch*10000/e.total_stitches)/100;
-                            percentage += "%";
-                            $('#machine_progress_bar_status').css('width',percentage);
-                            $('#machine_progress_bar_status').html(percentage);
-                            $('#machine_progress_bar_status').attr('class',e.progress_bar);
-                            if(e.current_design===e.total_designs){
-                                $('#machine_designs_progress_bar_current_status').css('display','none');
-                                $('#machine_designs_progress_bar_status').css('width','100%');
-                                $('#machine_designs_progress_bar_status').html(e.total_designs + "/" + e.total_designs);
-                            }else{
-                                $('#machine_designs_progress_bar_current_status').css('display','block');
-                                $('#machine_designs_progress_bar_status').css('width',(e.current_design-1)*100/e.total_designs + "%");
-                                $('#machine_designs_progress_bar_status').html(e.current_design-1);
-                                $('#machine_designs_left_status').html(e.total_designs-e.current_design);
-                            }
-                            $('#stitches').html(total_stitches + "/" + e.current_stitch + " öltés");
-                            let x_transform = e.current_offset[0][0] + e.x_offset + 5;
-                            let y_transform = e.current_offset[0][1] + e.y_offset + 5;
-                            $('#crosshair').attr('transform', 'translate(' + x_transform + " " + y_transform + ")");
-
-                            let diff = e.current_stitch-current_stitch;
-                            if(diff>0){
-                                for(let i=current_stitch; i<e.current_stitch; i++){
-                                    $('#stitch_' + i).css('stroke','rgba(0,0,0,1)');
-                                }
-                            }else{
-                                for(let i=current_stitch; i>e.current_stitch-1; i--){
-                                    $('#stitch_' + i).css('stroke','rgba(0,0,0,0.2)');
-                                }
-                            }
-
-                            $('#current_stitch').val(e.current_stitch);
-                        }
-                    }
-
-                },
-                error: function(e){
-                    console.log(e);
+            if(current_state!==data.message.state){
+                $('#status').html(data.message.status);
+                $('#current_state').val(data.message.state);
+            }
+            if(current_stitch!==data.message.current_stitch) {
+                let percentage = Math.round(data.message.current_stitch * 10000 / data.message.total_stitches) / 100;
+                percentage += "%";
+                $('#machine_progress_bar_status').css('width', percentage);
+                $('#machine_progress_bar_status').html(percentage);
+                $('#machine_progress_bar_status').attr('class', data.message.progress_bar);
+                if (data.message.current_design === data.message.total_designs) {
+                    $('#machine_designs_progress_bar_current_status').css('display', 'none');
+                    $('#machine_designs_progress_bar_status').css('width', '100%');
+                    $('#machine_designs_progress_bar_status').html(data.message.total_designs + "/" + data.message.total_designs);
+                } else {
+                    $('#machine_designs_progress_bar_current_status').css('display', 'block');
+                    $('#machine_designs_progress_bar_status').css('width', (data.message.current_design - 1) * 100 / data.message.total_designs + "%");
+                    $('#machine_designs_progress_bar_status').html(data.message.current_design - 1);
+                    $('#machine_designs_left_status').html(data.message.total_designs - data.message.current_design);
                 }
-            });
-        }
+                $('#stitches').html(total_stitches + "/" + data.message.current_stitch + " öltés");
+                let x_transform = data.message.current_offset[0][0] + data.message.x_offset + 5;
+                let y_transform = data.message.current_offset[0][1] + data.message.y_offset + 5;
+                $('#crosshair').attr('transform', 'translate(' + x_transform + " " + y_transform + ")");
 
-        setInterval(update, 2000);
+                let diff = data.message.current_stitch - current_stitch;
+                if (diff > 0) {
+                    for (let i = current_stitch; i < data.message.current_stitch; i++) {
+                        $('#stitch_' + i).css('stroke', 'rgba(0,0,0,1)');
+                    }
+                } else {
+                    for (let i = current_stitch; i > data.message.current_stitch - 1; i--) {
+                        $('#stitch_' + i).css('stroke', 'rgba(0,0,0,0.2)');
+                    }
+                }
+
+                $('#current_stitch').val(data.message.current_stitch);
+            }
+        });
     </script>
 @endsection

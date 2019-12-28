@@ -1,33 +1,30 @@
-function updateProgressBar(){
-    let token = $('#asdf_token').val();
-    let url = $('#asdf_url').val();
+Pusher.logToConsole = true;
 
-    $.ajax({
-        url: url,
-        data: {_token: token},
-        dataType: 'json',
-        method: "POST",
-        success: function(e){
-            let dropdown = "";
-            let percentage = Math.round(e.current_stitch*10000/e.total_stitches)/100;
-            if(e.state==="Fut"){
-                dropdown = '<i class="fa fa-cash-register"></i> &raquo; ' + e.state + ' &raquo; ' + percentage + '%';
-            }else{
-                dropdown = '<i class="fa fa-cash-register"></i> &raquo; ' + e.state;
-            }
+let pusher = new Pusher('a34e80fa301ec595567d', {
+    cluster: 'eu',
+    forceTLS: true
+});
 
-            $('#machine_dropdown').html(dropdown);
-            $('#machine_progress').html(percentage + '%');
-            $('#machine_progress').css('width',percentage + '%');
-            $('#machine_progress').attr('class',e.progress_bar);
-            $('#machine_state').html(e.state);
-            $('#machine_stitches').html(e.total_stitches + "/" + e.current_stitch + " öltés");
-        },
-        error: function(e){
-            console.log(e);
-        }
-    });
-}
+let channel = pusher.subscribe('machine-update');
+channel.bind('machine-update', function(data){
+    let dropdown = "";
+    let percentage = Math.round(data.message.current_stitch*10000/data.message.total_stitches)/100;
+    if(data.message.status==="Fut"){
+        dropdown = '<i class="fa fa-cash-register"></i> &raquo; ' + data.message.status + ' &raquo; ' + percentage + '%';
+    }else{
+        dropdown = '<i class="fa fa-cash-register"></i> &raquo; ' + data.message.status;
+    }
 
-setInterval(updateProgressBar, 2000);
+    $('#machine_dropdown').html(dropdown);
+    $('#machine_progress').html(percentage + '%');
+    $('#machine_progress').css('width',percentage + '%');
+    $('#machine_progress').attr('class',data.message.progress_bar);
+    $('#machine_state').html(data.message.status);
+    $('#machine_stitches').html(data.message.total_stitches + "/" + data.message.current_stitch + " öltés");
+});
 
+channel.bind('machine-dst', function(data){
+    if(data.message.new_design === true){
+        document.location.reload();
+    }
+});
