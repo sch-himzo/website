@@ -7,10 +7,10 @@
 @section('content')
     <h1 class="page-header with-description">Tervek &raquo; {{ $group->name }}</h1>
     <h2 class="page-description">
-        <a href="{{ route('designs.index') }}">Tervek</a>
+        <a href="{{ route('admin.designs.index') }}">Tervek</a>
         @foreach($route as $i)
             @if($i->id != $group->id)
-            &raquo; <a href="{{ route('designs.groups.view', ['group' => $i]) }}">{{ $i->name }}</a>
+            &raquo; <a href="{{ route('admin.designs.group', ['design_group' => $i]) }}">{{ $i->name }}</a>
             @endif
         @endforeach &raquo;
         <button type="button" data-toggle="modal" data-target="#new_design" class="btn btn-default">
@@ -34,7 +34,7 @@
         <?php $i++; if($i%3==1){ ?><div class="row"><?php } ?>
             <div class="col-md-4">
                 <div class="panel panel-default">
-                    <a class="panel-link" href="{{ route('designs.groups.view',['group' => $groupi]) }}">
+                    <a class="panel-link" href="{{ route('admin.designs.group',['design_group' => $groupi]) }}">
                         <div style="border-bottom:1px solid rgba(0,0,0,0.15); background:rgba(0,0,0,0.04" class="panel-heading">
                             <h3 class="panel-title">{{ $groupi->name }}</h3>
                         </div>
@@ -58,10 +58,10 @@
                     @if($groupi->hasPermission(Auth::user()))
                     <div class="panel-footer">
                         <span data-toggle="tooltip" title="Törlés">
-                            <button type="button" class="btn btn-sm btn-danger" data-toggle="modal" data-target="#delete_{{ $groupi->id }}"><i class="fa fa-trash"></i></button>
+                            <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#delete_{{ $groupi->id }}"><i class="fa fa-trash"></i></button>
                         </span>
                         <span data-toggle="tooltip" title="Szerkesztés">
-                            <button type="button" class="btn btn-sm btn-default" data-toggle="modal" data-target="#edit_{{ $groupi->id }}"><i class="fa fa-edit"></i></button>
+                            <button type="button" class="btn btn-xs btn-default" data-toggle="modal" data-target="#edit_{{ $groupi->id }}"><i class="fa fa-edit"></i></button>
                         </span>
                     </div>
                     @endif
@@ -80,6 +80,11 @@
                     <div class="panel-body">
                         <p><i class="fa fa-file"></i> <a href="{{ route('designs.get', ['design' => $design]) }}">{{ $design->image }}</a></p>
                     </div>
+                    <div class="panel-footer">
+                        <button class="btn btn-danger btn-xs" type="button" data-toggle="modal" data-target="#delete_file_{{ $design->id }}">
+                            <i class="fa fa-trash"></i> Törlés
+                        </button>
+                    </div>
                 </div>
             </div>
         <?php if($i%4==0){ ?></div><?php } ?>
@@ -87,10 +92,33 @@
 @endsection
 
 @section('modals')
+    @foreach($group->designs as $design)
+        <div class="modal fade" id="delete_file_{{ $design->id }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" type="button" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Fájl törlése</h4>
+                    </div>
+                    <div class="modal-body">
+                        Biztosan törlöd ezt a fájlt?
+                    </div>
+                    <div class="modal-footer">
+                        <a href="{{ route('admin.designs.deleteDesign', ['design' => $design]) }}" class="btn btn-danger">
+                            <i class="fa fa-trash"></i> Igen
+                        </a>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">
+                            <i class="fa fa-times"></i> Mégse
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
     <div class="modal fade" id="new_design">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('designs.save', ['group' => $group]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.designs.save', ['design_group' => $group]) }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" type="button">&times;</button>
@@ -121,7 +149,7 @@
     <div class="modal fade" id="new_group">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('designs.groups.new') }}" method="POST">
+                <form action="{{ route('admin.designs.new') }}" method="POST">
                     {{ csrf_field() }}
                     <input type="hidden" name="parent" value="{{ $group->id }}">
                     <div class="modal-header">
@@ -149,7 +177,7 @@
         <div class="modal fade" id="edit_{{ $child->id }}">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form action="{{ route('designs.groups.edit', ['group' => $child]) }}" method="POST">
+                    <form action="{{ route('admin.designs.edit', ['design_group' => $child]) }}" method="POST">
                         {{ csrf_field() }}
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -184,7 +212,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Mégse</button>
-                            <a href="{{ route('designs.groups.delete',['group' => $child]) }}" class="btn btn-danger">Igen!</a>
+                            <a href="{{ route('admin.designs.delete',['design_group' => $child]) }}" class="btn btn-danger">Igen!</a>
                         </div>
                     </div>
                 </div>

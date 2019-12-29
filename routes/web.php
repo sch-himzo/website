@@ -108,18 +108,9 @@ Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth']
     Route::get('{design}/order/{order}','DesignController@attachGroupToOrder')->name('attach')->middleware('rookie');
 
     Route::group(['middleware' => 'member'], function(){
-        Route::get('','DesignController@index')->name('index');
-
         Route::get('{design}/svg', 'DesignController@getSVGFile')->name('getSVG');
 
         Route::post('{group}/save','DesignController@save')->name('save');
-        Route::group(['prefix' => 'groups', 'as' => 'groups.'], function(){
-            Route::post('new','DesignController@newGroup')->name('new');
-
-            Route::get('{group}/view','DesignController@viewGroup')->name('view');
-            Route::get('{group}/delete','DesignController@deleteGroup')->name('delete');
-            Route::post('{group}/edit','DesignController@editGroup')->name('edit');
-        });
 
         Route::get('{order}/redraw','DSTController@redraw')->name('redraw');
     });
@@ -235,6 +226,18 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
 
         Route::get('{user}', 'Admin\UsersController@user')->name('user');
         Route::get('{user}/admin/toggle', 'Admin\UsersController@toggleAdmin')->name('admin');
+    });
+
+    Route::group(['prefix' => 'designs', 'as' => 'designs.'], function(){
+        Route::get('', 'Admin\DesignsController@index')->name('index');
+
+        Route::get('{design_group}', 'Admin\DesignsController@group')->name('group');
+        Route::post('new', 'Admin\DesignsController@newGroup')->name('new');
+        Route::post('{design_group}/edit', 'Admin\DesignsController@editGroup')->name('edit');
+        Route::get('{design_group}/delete', 'Admin\DesignsController@deleteGroup')->name('delete');
+        Route::post('{design_group}/save', 'Admin\DesignsController@upload')->name('save');
+
+        Route::get('design/{design}/delete', 'Admin\DesignsController@deleteDesign')->name('deleteDesign');
     });
 });
 
