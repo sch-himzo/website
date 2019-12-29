@@ -44,7 +44,6 @@ class MachineUpdate implements ShouldBroadcast
         $stitches_so_far = ($machine->current_design-1)*$machine->total_stitches + $machine->current_stitch;
         $stitches_to_go = $machine->design_count*$machine->total_stitches - $stitches_so_far;
 
-
         $speed = $stitches_so_far/$machine->seconds_passed*60;
         $eta = $stitches_to_go/$speed;
 
