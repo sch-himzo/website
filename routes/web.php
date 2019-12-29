@@ -245,6 +245,12 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
 
         Route::post('new', 'Admin\GalleryController@new')->name('new');
     });
+
+    Route::group(['prefix' => 'albums', 'as' => 'albums.'], function() {
+        Route::get('{album}', 'Admin\AlbumController@album')->name('album');
+
+        Route::post('new', 'Admin\AlbumController@new')->name('new');
+    });
 });
 
 Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], function(){
