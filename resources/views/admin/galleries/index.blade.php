@@ -6,6 +6,7 @@
     <h1 class="page-header">Galériák &raquo;
         <a class="btn btn-lg btn-default" href="#" data-toggle="modal" data-target="#new_gallery"><i class="fa fa-plus"></i> Új galéria</a>
     </h1>
+    <h2 class="page-description"><a href="{{ route('admin.index') }}">Vissza</a></h2>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
@@ -19,6 +20,7 @@
                             <th style="text-align:center;">Leírás</th>
                             <th style="text-align:center;">Megtekintési jogosultság</th>
                             <th style="text-align:right;">Albumok</th>
+                            <th align="right"></th>
                         </tr>
                         @foreach($galleries as $gallery)
                             <tr>
@@ -26,6 +28,11 @@
                                 <td align="center">{{$gallery->description}}</td>
                                 <td align="center">{{$gallery->role->name}}</td>
                                 <td align="right">{{$gallery->albums->count()}}</td>
+                                <td align="right" style="width: 10%">
+                                    <button type="button" class="btn btn-xs btn-danger" data-toggle="modal" data-target="#delete_{{ $gallery->id }}">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </td>
                             </tr>
                         @endforeach
                     </table>
@@ -78,4 +85,24 @@
             </div>
         </div>
     </div>
+    @foreach($galleries as $gallery)
+        <div class="modal fade" id="delete_{{ $gallery->id }}">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h3 class="modal-title">Galéria törlése</h3>
+                    </div>
+                    <div class="modal-body">
+                        <p>Biztosan törlöd ezt a galériát?</p>
+                        <p><i>Az összes album és kép el fog veszni!</i></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal">Mégse</button>
+                        <a href="{{ route('admin.galleries.delete', ['gallery' => $gallery]) }}" class="btn btn-danger">Törlés</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
 @endsection

@@ -26,9 +26,12 @@ class GalleryController extends Controller
     public function gallery(Gallery $gallery)
     {
         Session::put('return_to','admin.galleries.index');
+        $roles = Role::all()->where('id','<=',Auth::user()->role_id)->all();
 
         return view('admin.galleries.gallery', [
-            'gallery' => $gallery
+            'gallery' => $gallery,
+            'albums' => $gallery->albums,
+            'roles' => $roles
         ]);
     }
 
@@ -51,6 +54,13 @@ class GalleryController extends Controller
         $gallery->description = $description;
         $gallery->role_id = $role_id;
         $gallery->save();
+
+        return redirect()->back();
+    }
+
+    public function delete(Gallery $gallery)
+    {
+        $gallery->delete();
 
         return redirect()->back();
     }

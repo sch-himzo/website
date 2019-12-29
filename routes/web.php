@@ -239,7 +239,9 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
 
     Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function(){
         Route::get('', 'Admin\GalleryController@index')->name('index');
+
         Route::get('{gallery}', 'Admin\GalleryController@gallery')->name('gallery');
+        Route::get('{gallery}/delete', 'Admin\GalleryController@delete')->name('delete');
 
         Route::post('new', 'Admin\GalleryController@new')->name('new');
     });
