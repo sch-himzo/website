@@ -21,7 +21,7 @@
                         </tr>
                         <tr>
                             <th>Átlagos öltés/perc</th>
-                            <td id="speed">{{ round($machine->current_stitch/$machine->seconds_passed/60) }} öltés/perc</td>
+                            <td id="speed">{{ round($machine->current_stitch/$machine->seconds_passed*60) }} öltés/perc</td>
                         </tr>
                         <tr>
                             <td colspan="2">
@@ -106,7 +106,7 @@
                 $('#machine_designs_progress_bar_status').html(data.message.current_design - 1);
                 $('#machine_designs_left_status').html(data.message.total_designs - data.message.current_design);
             }
-            $('#speed').html(Math.round(data.message.current_stitch/data.message.seconds_passed/60) + "öltés/perc");
+            $('#speed').html(Math.round(data.message.current_stitch/data.message.seconds_passed*60) + "öltés/perc");
             $('#stitches').html(total_stitches + "/" + data.message.current_stitch + " öltés");
             let x_transform = data.message.current_offset[0][0] + data.message.x_offset + 5;
             let y_transform = data.message.current_offset[0][1] + data.message.y_offset + 5;
