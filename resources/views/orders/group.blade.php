@@ -16,7 +16,7 @@
             </div>
         </div>
     @endif
-    <h1 class="page-header with-description">{{ $group->title }} &raquo; <a href="{{ route(session('return_to')) }}">Vissza</a></h1>
+    <h1 class="page-header with-description">{{ $group->title }} &raquo; <a href="{{ route(session('return_to'), session('return_to_parameters')) }}">Vissza</a></h1>
     <h2 class="page-description">Rendelés megtekintése</h2>
 
     <div class="row">

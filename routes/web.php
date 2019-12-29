@@ -228,7 +228,10 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], func
 });
 
 Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], function(){
-
+    Route::get('', 'Admin\AdminController@index')->name('index');
+    Route::get('user/{user}', 'Admin\AdminController@user')->name('user');
+    Route::get('user/{user}/webadmin/set', 'Admin\AdminController@userSetWebadmin')->name('user.setWebadmin');
+    Route::get('user/{user}/webadmin/unset', 'Admin\AdminController@userUnsetWebadmin')->name('user.unsetWebadmin');
 });
 
 Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], function(){
