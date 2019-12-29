@@ -50,7 +50,8 @@ class MachineUpdate implements ShouldBroadcast
             'current_design' => $machine->current_design,
             'total_designs' => $machine->design_count,
             'progress_bar' => $machine->getProgressBar(),
-            'total_stitches' => $machine->total_stitches
+            'total_stitches' => $machine->total_stitches,
+            'seconds_passed' => $machine->seconds_passed
         ];
     }
 

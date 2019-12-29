@@ -20,6 +20,10 @@
                             <td id="stitches">{{ $machine->total_stitches."/".$machine->current_stitch }} öltés</td>
                         </tr>
                         <tr>
+                            <th>Átlagos öltés/perc</th>
+                            <td id="speed">{{ round($machine->current_stitch/$machine->seconds_passed/60) }} öltés/perc</td>
+                        </tr>
+                        <tr>
                             <td colspan="2">
                                 <div class="progress" style="text-align:center; margin-bottom:0;">
                                     <div id="machine_progress_bar_status" class="{{ $machine->getProgressBar() }}" style="text-align:center;width:{{ round($machine->current_stitch*100/$machine->total_stitches) . "%;" }}">{{ round($machine->current_stitch/$machine->total_stitches,2)*100 . "%" }}</div>
@@ -102,6 +106,7 @@
                 $('#machine_designs_progress_bar_status').html(data.message.current_design - 1);
                 $('#machine_designs_left_status').html(data.message.total_designs - data.message.current_design);
             }
+            $('#speed').html(Math.round(data.message.current_stitch/data.message.seconds_passed/60) + "öltés/perc");
             $('#stitches').html(total_stitches + "/" + data.message.current_stitch + " öltés");
             let x_transform = data.message.current_offset[0][0] + data.message.x_offset + 5;
             let y_transform = data.message.current_offset[0][1] + data.message.y_offset + 5;

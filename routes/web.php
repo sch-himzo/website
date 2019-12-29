@@ -14,11 +14,6 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
         Route::get('redirect','LoginController@authSchRedirect')->name('redirect');
     });
 
-    Route::group(['prefix' => 'facebook', 'as' => 'google.'], function(){
-        Route::get('login', 'LoginController@facebookCallback')->name('callback');
-        Route::get('redirect', 'LoginController@facebookRedirect')->name('redirect');
-    });
-
     Route::post('login','LoginController@login')->name('login');
 
     Route::post('register', 'LoginController@register')->name('register');
