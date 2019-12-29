@@ -21,7 +21,7 @@
                         </tr>
                         <tr>
                             <th>Átlagos öltés/perc</th>
-                            <td id="speed">{{ round($machine->current_stitch/$machine->seconds_passed*60) }} öltés/perc</td>
+                            <td id="speed">@if($machine->seconds_passed!=0) {{ round($machine->current_stitch/$machine->seconds_passed*60) }} öltés/perc @endif</td>
                         </tr>
                         <tr>
                             <th>Becsült ETA</th>
