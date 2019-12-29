@@ -236,6 +236,13 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
         Route::get('{user}', 'Admin\UsersController@user')->name('user');
         Route::get('{user}/admin/toggle', 'Admin\UsersController@toggleAdmin')->name('admin');
     });
+
+    Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function(){
+        Route::get('', 'Admin\GalleryController@index')->name('index');
+        Route::get('{gallery}', 'Admin\GalleryController@gallery')->name('gallery');
+
+        Route::post('new', 'Admin\GalleryController@new')->name('new');
+    });
 });
 
 Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], function(){
