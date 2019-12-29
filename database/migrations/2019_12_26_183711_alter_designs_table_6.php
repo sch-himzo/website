@@ -26,7 +26,7 @@ class AlterDesignsTable6 extends Migration
     public function down()
     {
         Schema::table('designs', function (Blueprint $table) {
-            //
+            $table->longText('bytes')->change();
         });
     }
 }

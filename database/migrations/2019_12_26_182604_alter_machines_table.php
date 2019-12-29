@@ -27,7 +27,8 @@ class AlterMachinesTable extends Migration
     public function down()
     {
         Schema::table('machines', function (Blueprint $table) {
-            //
+            $table->dropForeign('machines_design_id_foreign');
+            $table->dropColumn('design_id');
         });
     }
 }

@@ -19,12 +19,14 @@ class AlterOrderGroupsTable extends Migration
     }
 
     /**
-     * Reverse the migrations.
+     * Reverse the migrations
      *
      * @return void
      */
     public function down()
     {
-        //
+        Schema::table('order_groups', function (Blueprint $table){
+            $table->dropColumn('time_limit');
+        });
     }
 }

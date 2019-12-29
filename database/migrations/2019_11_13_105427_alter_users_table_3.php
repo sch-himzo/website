@@ -25,6 +25,8 @@ class AlterUsersTable3 extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('users', function(Blueprint $table){
+            $table->dropColumn('in_club');
+        });
     }
 }

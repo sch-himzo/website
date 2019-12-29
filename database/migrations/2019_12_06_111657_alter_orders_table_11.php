@@ -44,6 +44,27 @@ class AlterOrdersTable11 extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('orders', function(Blueprint $table){
+            $table->string('status')->nullable()->change();
+            $table->boolean('help');
+            $table->boolean('joint');
+            $table->boolean('archived');
+            $table->bigInteger('design_id')->unsigned()->nullable();
+            $table->foreign('design_id')->references('id')->on('design_groups')->onDelete('set null');
+            $table->dropForeign('orders_design_group_id_foreign');
+            $table->dropColumn('design_group_id');
+            $table->boolean('public_albums');
+            $table->dropForeign('orders_order_group_id_foreign');
+            $table->dropColumn('order_group_id');
+            $table->bigInteger('temp_user_id')->unsigned()->nullable();
+            $table->foreign('temp_user_id')->references('id')->on('temp_users')->onDelete('set null');
+            $table->string('trello_card');
+            $table->bigInteger('approved_by')->unsigned()->nullable();
+            $table->foreign('approved_by')->references('id')->on('users')->onDelete('set null');
+            $table->string('image')->nullable();
+            $table->boolean('internal');
+            $table->bigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
+        });
     }
 }

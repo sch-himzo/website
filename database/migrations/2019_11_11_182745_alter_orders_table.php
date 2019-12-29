@@ -26,6 +26,9 @@ class AlterOrdersTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('orders', function(Blueprint $table){
+            $table->dropForeign('orders_approved_by_foreign');
+            $table->dropColumn('approved_by');
+        });
     }
 }

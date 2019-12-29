@@ -26,6 +26,9 @@ class AlterDesignsTable2 extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('designs', function(Blueprint $table){
+            $table->dropColumn('stitch_count');
+            $table->dropColumn('color_count');
+        });
     }
 }

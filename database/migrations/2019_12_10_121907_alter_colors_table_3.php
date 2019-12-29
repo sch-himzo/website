@@ -27,6 +27,10 @@ class AlterColorsTable3 extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('colors', function (Blueprint $table){
+            $table->integer('red')->nullable()->change();
+            $table->integer('green')->nullable();
+            $table->integer('blue')->nullable();
+        });
     }
 }

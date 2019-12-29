@@ -26,7 +26,7 @@ class AlterUsersTable6 extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            //
+            $table->dropColumn('notifications_disabled');
         });
     }
 }

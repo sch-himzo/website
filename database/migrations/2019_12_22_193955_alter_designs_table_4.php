@@ -25,6 +25,8 @@ class AlterDesignsTable4 extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('designs', function (Blueprint $table){
+            $table->dropColumn('bytes');
+        });
     }
 }

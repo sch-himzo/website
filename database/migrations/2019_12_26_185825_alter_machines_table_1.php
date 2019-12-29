@@ -27,7 +27,8 @@ class AlterMachinesTable1 extends Migration
     public function down()
     {
         Schema::table('machines', function (Blueprint $table) {
-            //
+            $table->dropColumn('design_width');
+            $table->dropColumn('design_height');
         });
     }
 }

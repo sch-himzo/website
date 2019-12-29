@@ -25,6 +25,8 @@ class AlterColorsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('colors', function(Blueprint $table){
+            $table->dropColumn('string');
+        });
     }
 }

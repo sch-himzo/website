@@ -27,6 +27,10 @@ class AlterTrelloCardsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('trello_cards', function(Blueprint $table){
+            $table->dropColumn('status');
+            $table->dropForeign('trello_cards_list_id_foreign');
+            $table->dropColumn('list_id');
+        });
     }
 }

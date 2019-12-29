@@ -26,6 +26,9 @@ class AlterDesignGroupsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('design_groups', function(Blueprint $table){
+            $table->dropForeign('design_groups_parent_id_foreign');
+            $table->dropColumn('parent_id');
+        });
     }
 }

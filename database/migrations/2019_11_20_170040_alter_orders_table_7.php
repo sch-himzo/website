@@ -26,6 +26,9 @@ class AlterOrdersTable7 extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('orders', function(Blueprint $table){
+            $table->dropColumn('finished_diameter');
+            $table->dropColumn('original');
+        });
     }
 }

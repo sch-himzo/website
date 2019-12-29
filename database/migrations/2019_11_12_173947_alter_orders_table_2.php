@@ -26,6 +26,9 @@ class AlterOrdersTable2 extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('orders', function(Blueprint $table){
+            $table->dropForeign('orders_temp_user_id_foreign');
+            $table->dropColumn('temp_user_id');
+        });
     }
 }

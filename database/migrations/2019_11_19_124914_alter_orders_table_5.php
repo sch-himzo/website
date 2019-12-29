@@ -27,6 +27,10 @@ class AlterOrdersTable5 extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('orders', function(Blueprint $table){
+            $table->dropColumn('existing_design');
+            $table->dropForeign('orders_design_id_foreign');
+            $table->dropColumn('design_id');
+        });
     }
 }

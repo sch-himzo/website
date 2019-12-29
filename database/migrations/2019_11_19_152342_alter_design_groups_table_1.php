@@ -26,6 +26,9 @@ class AlterDesignGroupsTable1 extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('design_groups', function(Blueprint $table){
+            $table->dropForeign('design_groups_owner_id_foreign');
+            $table->dropColumn('owner_id');
+        });
     }
 }

@@ -28,6 +28,11 @@ class AlterCommentsTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('comments', function (Blueprint $table){
+            $table->dropForeign('comments_order_group_id_foreign');
+            $table->dropColumn('order_group_id');
+            $table->bigInteger('order_id')->unsigned();
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+        });
     }
 }

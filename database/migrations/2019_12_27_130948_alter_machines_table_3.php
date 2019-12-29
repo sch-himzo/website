@@ -26,7 +26,7 @@ class AlterMachinesTable3 extends Migration
     public function down()
     {
         Schema::table('machines', function (Blueprint $table) {
-            //
+            $table->dropColumn('current_design');
         });
     }
 }

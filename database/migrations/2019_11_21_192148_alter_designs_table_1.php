@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use function foo\func;
 
 class AlterDesignsTable1 extends Migration
 {
@@ -26,6 +27,9 @@ class AlterDesignsTable1 extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('designs', function (Blueprint $table){
+            $table->dropForeign('designs_background_id_foreign');
+            $table->dropColumn('background_id');
+        });
     }
 }

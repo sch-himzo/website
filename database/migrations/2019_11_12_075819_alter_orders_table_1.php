@@ -25,6 +25,8 @@ class AlterOrdersTable1 extends Migration
      */
     public function down()
     {
-        //
+        Schema::table('orders', function(Blueprint $table){
+            $table->dropColumn('trello_card');
+        });
     }
 }
