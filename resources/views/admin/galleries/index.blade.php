@@ -3,7 +3,7 @@
 @section('title','Admin - Galériák')
 
 @section('content')
-    <h1 class="page-header">Galériák &raquo;
+    <h1 class="page-header with-description">Galériák &raquo;
         <a class="btn btn-lg btn-default" href="#" data-toggle="modal" data-target="#new_gallery"><i class="fa fa-plus"></i> Új galéria</a>
     </h1>
     <h2 class="page-description"><a href="{{ route('admin.index') }}">Vissza</a></h2>
