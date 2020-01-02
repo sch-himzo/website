@@ -3,7 +3,22 @@
 @section('title','Admin')
 
 @section('content')
-    <h1 class="page-header with-description">{{ $user->name }}@if($user->id == Auth::id()) <i class="fa fa-child" data-toggle="tooltip" title="Ez te vagy!"></i> @endif</h1>
+    <h1 class="page-header with-description">{{ $user->name }}
+        @if($user->id == Auth::id())
+            <i class="fa fa-child" data-toggle="tooltip" title="Ez te vagy!"></i>
+        @else
+            &raquo;
+            @if($user->role->id == 6)
+                <a href="{{ route('admin.users.admin', ['user' => $user]) }}" class="btn btn-danger">
+                    <i class="fa fa-times"></i> Webadmin jog elvétele
+                </a>
+            @else
+                <a href="{{ route('admin.users.admin', ['user' => $user]) }}" class="btn btn-success">
+                    <i class="fa fa-check"></i> Webadmin jog adása
+                </a>
+            @endif
+        @endif
+    </h1>
     <h2 class="page-description"><a href="{{ route('admin.users.index') }}">Vissza</a></h2>
     <div class="row">
         <div class="col-md-12">
@@ -31,20 +46,7 @@
                         </tr>
                         <tr>
                             <th>Jogosultság</th>
-                            <td>
-                                {{$user->role->name}}
-                                @if($user->id != Auth::id())
-                                    @if($user->role->id == 6)
-                                        <a href="{{ route('admin.users.admin', ['user' => $user]) }}" class="btn btn-xs btn-danger">
-                                            <i class="fa fa-times"></i> Webadmin jog elvétele
-                                        </a>
-                                    @else
-                                        <a href="{{ route('admin.users.admin', ['user' => $user]) }}" class="btn btn-xs btn-success">
-                                            <i class="fa fa-check"></i> Webadmin jog adása
-                                        </a>
-                                    @endif
-                                @endif
-                            </td>
+                            <td>{{$user->role->name}}</td>
                         </tr>
                     </table>
                 </div>

@@ -223,6 +223,21 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
         Route::get('{user}/admin/toggle', 'Admin\UsersController@toggleAdmin')->name('admin');
     });
 
+    Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function(){
+        Route::get('', 'Admin\GalleryController@index')->name('index');
+
+        Route::get('{gallery}', 'Admin\GalleryController@gallery')->name('gallery');
+        Route::get('{gallery}/delete', 'Admin\GalleryController@delete')->name('delete');
+
+        Route::post('new', 'Admin\GalleryController@new')->name('new');
+    });
+
+    Route::group(['prefix' => 'albums', 'as' => 'albums.'], function() {
+        Route::get('{album}', 'Admin\AlbumController@album')->name('album');
+
+        Route::post('new', 'Admin\AlbumController@new')->name('new');
+    });
+  
     Route::group(['prefix' => 'designs', 'as' => 'designs.'], function(){
         Route::get('', 'Admin\DesignsController@index')->name('index');
 
