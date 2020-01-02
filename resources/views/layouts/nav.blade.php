@@ -61,7 +61,6 @@
                         <li class="dropdown">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Admin <span class="caret"></span></a>
                             <ul class="dropdown-menu">
-                                <li class="@yield('designs.active')"><a href="{{ route('designs.index') }}">Tervek</a></li>
                                 <li class="dropdown-header">Pénzügyek</li>
                                 <li><a href="{{ route('transactions.teddy_bears') }}">Kasszák</a></li>
                                 @if(Auth::user()->role_id>4)

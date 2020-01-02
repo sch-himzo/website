@@ -40,6 +40,17 @@ class MachineUpdate implements ShouldBroadcast
             $current_offset = $stitches[0];
         }
 
+
+        $stitches_so_far = ($machine->current_design-1)*$machine->total_stitches + $machine->current_stitch;
+        $stitches_to_go = $machine->design_count*$machine->total_stitches - $stitches_so_far;
+
+        if($machine->seconds_passed!=0){
+            $speed = $stitches_so_far/$machine->seconds_passed*60;
+        }else{
+            $speed = 1;
+        }
+        $eta = $stitches_to_go/$speed;
+
         $this->message = [
             'state' => $machine->state,
             'current_stitch' => $machine->current_stitch,
@@ -50,7 +61,10 @@ class MachineUpdate implements ShouldBroadcast
             'current_design' => $machine->current_design,
             'total_designs' => $machine->design_count,
             'progress_bar' => $machine->getProgressBar(),
-            'total_stitches' => $machine->total_stitches
+            'total_stitches' => $machine->total_stitches,
+            'seconds_passed' => $machine->seconds_passed,
+            'stitches_so_far' => $stitches_so_far,
+            'eta' => $eta
         ];
     }
 

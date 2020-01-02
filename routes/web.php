@@ -14,11 +14,6 @@ Route::group(['prefix' => 'auth', 'as' => 'auth.'], function(){
         Route::get('redirect','LoginController@authSchRedirect')->name('redirect');
     });
 
-    Route::group(['prefix' => 'facebook', 'as' => 'google.'], function(){
-        Route::get('login', 'LoginController@facebookCallback')->name('callback');
-        Route::get('redirect', 'LoginController@facebookRedirect')->name('redirect');
-    });
-
     Route::post('login','LoginController@login')->name('login');
 
     Route::post('register', 'LoginController@register')->name('register');
@@ -108,18 +103,9 @@ Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth']
     Route::get('{design}/order/{order}','DesignController@attachGroupToOrder')->name('attach')->middleware('rookie');
 
     Route::group(['middleware' => 'member'], function(){
-        Route::get('','DesignController@index')->name('index');
-
         Route::get('{design}/svg', 'DesignController@getSVGFile')->name('getSVG');
 
         Route::post('{group}/save','DesignController@save')->name('save');
-        Route::group(['prefix' => 'groups', 'as' => 'groups.'], function(){
-            Route::post('new','DesignController@newGroup')->name('new');
-
-            Route::get('{group}/view','DesignController@viewGroup')->name('view');
-            Route::get('{group}/delete','DesignController@deleteGroup')->name('delete');
-            Route::post('{group}/edit','DesignController@editGroup')->name('edit');
-        });
 
         Route::get('{order}/redraw','DSTController@redraw')->name('redraw');
     });
@@ -250,6 +236,18 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
         Route::get('{album}', 'Admin\AlbumController@album')->name('album');
 
         Route::post('new', 'Admin\AlbumController@new')->name('new');
+    });
+  
+    Route::group(['prefix' => 'designs', 'as' => 'designs.'], function(){
+        Route::get('', 'Admin\DesignsController@index')->name('index');
+
+        Route::get('{design_group}', 'Admin\DesignsController@group')->name('group');
+        Route::post('new', 'Admin\DesignsController@newGroup')->name('new');
+        Route::post('{design_group}/edit', 'Admin\DesignsController@editGroup')->name('edit');
+        Route::get('{design_group}/delete', 'Admin\DesignsController@deleteGroup')->name('delete');
+        Route::post('{design_group}/save', 'Admin\DesignsController@upload')->name('save');
+
+        Route::get('design/{design}/delete', 'Admin\DesignsController@deleteDesign')->name('deleteDesign');
     });
 });
 

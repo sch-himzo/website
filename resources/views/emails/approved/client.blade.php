@@ -15,10 +15,6 @@ Hamarosan elkezd rendeléseddel foglalkozni egy körtagunk. Ha valamilyen kérd�
         <th align="right">Határidő</th>
         <td>{{ $order->time_limit }}</td>
     </tr>
-    <tr>
-        <th align="right">Típus</th>
-        <td>{{ $types[$order->type] }}</td>
-    </tr>
     @if($order->comment)
         <tr>
             <th align="right">Megjegyzés</th>

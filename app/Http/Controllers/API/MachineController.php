@@ -95,6 +95,7 @@ class MachineController extends Controller
         $machine->state = 0;
         $machine->y_offset = $yoffset;
         $machine->current_stitch = 0;
+        $machine->seconds_passed = 0;
         $machine->save();
 
         event(new MachineDST());
@@ -132,11 +133,24 @@ class MachineController extends Controller
         if($state==0){
             $machine->current_stitch = $machine->total_stitches;
         }elseif($stitches!=null && $current_design!=null && $designs!=null){
+            if($stitches!=$machine->current_stitch){
+                $seconds_passed = time()-strtotime($machine->updated_at);
+                $machine->seconds_passed += $seconds_passed;
+            }
             $machine->current_stitch = $stitches;
             $machine->current_design = $current_design;
             $machine->design_count = $designs;
         }elseif($stitches!=null){
+            if($stitches!=$machine->current_stitch){
+                $seconds_passed = time()-strtotime($machine->updated_at);
+                $machine->seconds_passed += $seconds_passed;
+            }
             $machine->current_stitch = $stitches;
+        }
+
+        if($machine->current_stitch>$machine->total_stitches && $machine->design_count==$machine->current_design){
+            $machine->current_stitch = $machine->total_stitches;
+            $machine->state = 0;
         }
         $machine->save();
 

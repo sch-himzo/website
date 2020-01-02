@@ -5,17 +5,20 @@
 @section('designs.active','active')
 
 @section('content')
-    <h1 class="page-header">Tervek &raquo;
+    <h1 class="page-header with-description">Tervek &raquo;
         <button type="button" data-toggle="modal" data-target="#new_group" class="btn btn-lg btn-default">
             <i class="fa fa-plus"></i> Új mappa
         </button>
     </h1>
+    <h2 class="page-description">
+        <a href="{{ route('admin.index') }}">Vissza</a>
+    </h2>
     <?php $i=0; ?>
     @foreach($design_groups as $group)
         <?php $i++; if($i%3==1){ ?><div class="row"><?php } ?>
             <div class="col-md-4">
                     <div class="panel panel-default">
-                        <a class="panel-link" href="{{ route('designs.groups.view',['group' => $group]) }}">
+                        <a class="panel-link" href="{{ route('admin.designs.group',['design_group' => $group]) }}">
                         <div class="panel-heading">
                             <h3 class="panel-title">{{ $group->name }}</h3>
                         </div>
@@ -57,7 +60,7 @@
     <div class="modal fade" id="new_group">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('designs.groups.new') }}" method="POST">
+                <form action="{{ route('admin.designs.new') }}" method="POST">
                     {{ csrf_field() }}
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -84,7 +87,7 @@
             <div class="modal fade" id="edit_{{ $child->id }}">
                 <div class="modal-dialog">
                     <div class="modal-content">
-                        <form action="{{ route('designs.groups.edit', ['group' => $child]) }}" method="POST">
+                        <form action="{{ route('admin.designs.edit', ['design_group' => $child]) }}" method="POST">
                             {{ csrf_field() }}
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -119,7 +122,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Mégse</button>
-                            <a href="{{ route('designs.groups.delete',['group' => $child]) }}" class="btn btn-danger">Igen!</a>
+                            <a href="{{ route('admin.designs.delete',['design_group' => $child]) }}" class="btn btn-danger">Igen!</a>
                         </div>
                     </div>
                 </div>
