@@ -48,7 +48,7 @@
                                 </tr>
                                 @if($dst)
                                     <tr>
-                                        <th>Öltésszám</th>
+                                        <th>Öltésszám <i class="fa fa-exclamation-circle" data-toggle="tooltip" title="A valódi öltésszám eltérhet ettől, viszont nem számottevő különbség (~200 öltés max)"></i></th>
                                         <td>{{ number_format($dst->stitch_count,0,',','.') }} öltés</td>
                                     </tr>
                                 @endif

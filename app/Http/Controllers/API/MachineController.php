@@ -147,6 +147,11 @@ class MachineController extends Controller
             }
             $machine->current_stitch = $stitches;
         }
+
+        if($machine->current_stitch>$machine->total_stitches){
+            $machine->current_stitch = $machine->total_stitches;
+            $machine->state = 0;
+        }
         $machine->save();
 
         event(new MachineUpdate($machine));

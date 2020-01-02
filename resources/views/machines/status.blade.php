@@ -46,6 +46,10 @@
                     </table>
                 </div>
             </div>
+            <div class="alert alert-warning">
+                <h4><i class="fa fa-exclamation-circle"></i> Figyelem!</h4>
+                <p style="text-align:justify;">Az itt feltüntetett öltésszám eltérhez a valóditól, mert a hímzőgép hozzáad öltéseket vágások előtt és után.</p>
+            </div>
         </div>
         <div class="col-md-8">
             <div class="panel panel-default">
@@ -53,23 +57,25 @@
                     <h3 class="panel-title">Rajzolat</h3>
                 </div>
                 <div class="panel-body">
-                    <svg style="background-color:white; margin:auto;" id="svg" class="svg" viewBox="0 0 {{ $machine->design_width }} {{ $machine->design_height }}" preserveAspectRatio="none">
-                        <?php $i = 0; ?>
-                        @foreach(json_decode($machine->current_dst) as $id => $color)
-                            @foreach($color as $stitch)
-                                <line id="stitch_<?= $i ?>" x1="{{ $stitch[0][0]+abs($machine->x_offset)+5 }}" x2="{{ $stitch[1][0]+abs($machine->x_offset)+5 }}" y1="{{ $stitch[0][1]+abs($machine->y_offset)+5 }}" y2="{{ $stitch[1][1]+abs($machine->y_offset)+5 }}" style="stroke-width:1.5; stroke:rgba(0,0,0, @if($i<$machine->current_stitch) 1 @else 0.2 @endif );"></line>
-                                @if($i==$machine->current_stitch)
-                                    <g id="crosshair" style="stroke-width:2; stroke:red" transform="translate({{ $stitch[0][0] + abs($machine->x_offset) + 5 }} {{ $stitch[0][1] + abs($machine->y_offset) + 5 }})">
-                                        <line x1="0" x2="0" y1="3" y2="13"></line>
-                                        <line x1="0" x2="0" y1="-3" y2="-13"></line>
-                                        <line x1="3" x2="13" y1="0" y2="0"></line>
-                                        <line x1="-3" x2="-13" y1="0" y2="0"></line>
-                                    </g>
-                                @endif
-                                <?php $i++ ?>
+                    @if($machine->total_stitches!=1022)
+                        <svg style="background-color:white; margin:auto;" id="svg" class="svg" viewBox="0 0 {{ $machine->design_width }} {{ $machine->design_height }}" preserveAspectRatio="none">
+                            <?php $i = 0; ?>
+                            @foreach(json_decode($machine->current_dst) as $id => $color)
+                                @foreach($color as $stitch)
+                                    <line id="stitch_<?= $i ?>" x1="{{ $stitch[0][0]+abs($machine->x_offset)+5 }}" x2="{{ $stitch[1][0]+abs($machine->x_offset)+5 }}" y1="{{ $stitch[0][1]+abs($machine->y_offset)+5 }}" y2="{{ $stitch[1][1]+abs($machine->y_offset)+5 }}" style="stroke-width:1.5; stroke:rgba(0,0,0, @if($i<$machine->current_stitch) 1 @else 0.2 @endif );"></line>
+                                    @if($i==$machine->current_stitch)
+                                        <g id="crosshair" style="stroke-width:2; stroke:red" transform="translate({{ $stitch[0][0] + abs($machine->x_offset) + 5 }} {{ $stitch[0][1] + abs($machine->y_offset) + 5 }})">
+                                            <line x1="0" x2="0" y1="3" y2="13"></line>
+                                            <line x1="0" x2="0" y1="-3" y2="-13"></line>
+                                            <line x1="3" x2="13" y1="0" y2="0"></line>
+                                            <line x1="-3" x2="-13" y1="0" y2="0"></line>
+                                        </g>
+                                    @endif
+                                    <?php $i++ ?>
+                                @endforeach
                             @endforeach
-                        @endforeach
-                    </svg>
+                        </svg>
+                    @endif
                 </div>
             </div>
         </div>
