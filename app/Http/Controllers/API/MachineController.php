@@ -148,7 +148,7 @@ class MachineController extends Controller
             $machine->current_stitch = $stitches;
         }
 
-        if($machine->current_stitch>$machine->total_stitches){
+        if($machine->current_stitch>$machine->total_stitches && $machine->design_count==$machine->current_design){
             $machine->current_stitch = $machine->total_stitches;
             $machine->state = 0;
         }
