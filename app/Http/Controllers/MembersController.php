@@ -14,6 +14,12 @@ class MembersController extends Controller
 {
     public function index()
     {
+        foreach(Group::all() as $group){
+            if($group->orders()->count()==0){
+                $group->delete();
+            }
+        }
+
         Carbon::setLocale('hu');
 
         Session::put('return_to','members.index');
