@@ -264,7 +264,17 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
         Route::post('public_gallery','Admin\AdminController@setPublicGallery')->name('set_public_gallery');
         Route::post('orders_gallery', 'Admin\AdminController@setOrdersGallery')->name('set_orders_gallery');
         Route::post('orders_folder','Admin\AdminController@setOrdersFolder')->name('set_orders_folder');
+    });
 
+    Route::group([
+        'prefix' => 'backgrounds',
+        'as' => 'backgrounds.'
+    ], function(){
+        Route::get('', 'Admin\BackgroundsController@index')->name('index');
+
+        Route::post('create', 'Admin\BackgroundsController@create')->name('create');
+        Route::post('{background}/edit', 'Admin\BackgroundsController@edit')->name('edit');
+        Route::get('{background}/delete', 'Admin\BackgroundsController@delete')->name('delete');
     });
 });
 

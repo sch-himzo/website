@@ -32,5 +32,10 @@
                 <i class="fa fa-question"></i> Egyéb
             </a>
         </div>
+        <div class="col-md-3">
+            <a class="btn btn-push btn-lg btn-block btn-default" href="{{ route('admin.backgrounds.index') }}">
+                <i class="fa fa-scroll"></i> Kordurák
+            </a>
+        </div>
     </div>
 @endsection

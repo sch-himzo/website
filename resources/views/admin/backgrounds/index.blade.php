@@ -54,7 +54,7 @@
                     <button class="close" type="button" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Új kordura hozzáadása</h4>
                 </div>
-                <form action="{{ route('settings.backgrounds.new') }}" method="POST">
+                <form action="{{ route('admin.backgrounds.create') }}" method="POST">
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <div class="form-group">
@@ -98,7 +98,7 @@
                         <button class="close" type="button" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Kordura szerkesztése</h4>
                     </div>
-                    <form action="{{ route('settings.backgrounds.edit', ['background' => $background]) }}" method="POST">
+                    <form action="{{ route('admin.backgrounds.edit', ['background' => $background]) }}" method="POST">
                         {{ csrf_field() }}
                         <div class="modal-body">
                             <div class="form-group">
@@ -147,7 +147,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-default" type="button" data-dismiss="modal">Mégse</button>
-                        <a href="{{ route('settings.backgrounds.delete', ['background' => $background]) }}" class="btn btn-danger">Törlés</a>
+                        <a href="{{ route('admin.backgrounds.delete', ['background' => $background]) }}" class="btn btn-danger">Törlés</a>
                     </div>
                 </div>
             </div>
