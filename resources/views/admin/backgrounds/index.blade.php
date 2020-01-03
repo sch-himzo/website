@@ -3,7 +3,10 @@
 @section('title','Kordurák')
 
 @section('content')
-    <h1 class="page-header">Kordurák &raquo; <button type="button" data-toggle="modal" data-target="#new" class="btn btn-lg btn-default"><i class="fa fa-plus"></i> Új hozzáadása</button></h1>
+    <h1 class="page-header with-description">Kordurák &raquo; <button type="button" data-toggle="modal" data-target="#new" class="btn btn-lg btn-default"><i class="fa fa-plus"></i> Új hozzáadása</button></h1>
+    <h2 class="page-description">
+        <a href="{{ route('admin.index') }}">Vissza</a>
+    </h2>
     <div class="col-md-12">
         <div class="panel panel-default">
             <div class="panel-heading">
