@@ -66,9 +66,9 @@
                                 @if(Auth::user()->role_id>4)
                                     <li class="divider" role="separator"></li>
                                     <li class="dropdown-header">Beállítások</li>
-                                    <li><a href="{{ route('settings.index') }}">Főoldal</a></li>
-                                    <li><a href="{{ route('settings.gallery') }}">Galériák</a></li>
-                                    <li><a href="{{ route('settings.backgrounds') }}">Kordurák</a></li>
+                                    <li>
+                                        <a href="{{ route('admin.index') }}">Admin felület</a>
+                                    </li>
                                 @endif
                             </ul>
                         </li>
