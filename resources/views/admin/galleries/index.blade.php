@@ -46,7 +46,7 @@
     <div class="modal fade" id="new_gallery">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="{{ route('settings.galleries.new') }}" method="POST">
+                <form action="{{ route('admin.galleries.new') }}" method="POST">
                     {{ csrf_field() }}
                     <div class="modal-header">
                         <button class="close" data-dismiss="modal" type="button">&times;</button>

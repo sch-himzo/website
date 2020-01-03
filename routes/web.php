@@ -150,26 +150,6 @@ Route::group(['prefix' => 'members','as' => 'members.', 'middleware' => 'rookie'
 
 });
 
-Route::group(['prefix' => 'settings', 'as' => 'settings.', 'middleware' => 'leader'], function(){
-    Route::get('gallery','Admin\SettingsController@gallery')->name('gallery');
-    Route::get('index','Admin\SettingsController@index')->name('index');
-
-    Route::get('backgrounds','Admin\SettingsController@backgrounds')->name('backgrounds');
-    Route::post('backgrounds/new','Admin\SettingsController@newBackground')->name('backgrounds.new');
-    Route::post('backgrounds/{background}/edit','Admin\SettingsController@editBackground')->name('backgrounds.edit');
-    Route::get('backgrounds/{background}/delete', 'Admin\SettingsController@deleteBackground')->name('backgrounds.delete');
-
-    Route::post('index/orders/folder/set', 'Admin\SettingsController@setFolder')->name('orders.group.set');
-
-    Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function(){
-        Route::post('new', 'Admin\GalleryController@new')->name('new');
-
-        Route::post('set','Admin\GalleryController@set')->name('set');
-        Route::post('orders/set','Admin\GalleryController@setOrderGallery')->name('orders.set');
-    });
-
-});
-
 Route::group(['prefix' => 'gallery','as' => 'gallery.'], function(){
     Route::get('','Gallery\GalleryController@images')->name('index');
 });
