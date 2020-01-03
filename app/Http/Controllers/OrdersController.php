@@ -629,6 +629,10 @@ $size cm oldalhosszúság
         ];
 
         $max_status = 6;
+        if($group->orders()->count() == 0){
+            $group->delete();
+            return redirect()->back();
+        }
         foreach($group->orders as $order)
         {
             if($order->status<$max_status)
@@ -642,7 +646,7 @@ $size cm oldalhosszúság
             1 => 2,
             2 => 2,
             3 => 4,
-            4 => 4
+            4 => 5
         ];
 
         $statuses = [
