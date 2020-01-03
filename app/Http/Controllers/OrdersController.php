@@ -407,6 +407,7 @@ $size cm oldalhosszúság
             $email->from = "himzobot@gmail.com";
             $email->message = "Rendelés törölve lett";
             $email->subject = "Rendelés törölve";
+            $email->to_name = $user->name;
             $email->save();
         }
 
