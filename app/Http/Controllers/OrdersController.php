@@ -654,7 +654,7 @@ $size cm oldalhosszúság
             5 => 'Kész'
         ];
 
-        $statuses = array_slice($statuses,0,$status_parse[$max_status]+1);
+        $statuses = array_slice($statuses,0,min($status_parse[$max_status]+1,5));
 
         Carbon::setLocale('hu');
 
