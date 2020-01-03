@@ -253,6 +253,19 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
         Route::get('{slide}/delete', 'Admin\SlidesController@delete')->name('delete');
         Route::post('new', 'Admin\SlidesController@create')->name('new');
     });
+
+    Route::group([
+        'prefix' => 'misc',
+        'as' => 'misc.'
+    ], function(){
+
+        Route::get('', 'Admin\AdminController@misc')->name('index');
+
+        Route::post('public_gallery','Admin\AdminController@setPublicGallery')->name('set_public_gallery');
+        Route::post('orders_gallery', 'Admin\AdminController@setOrdersGallery')->name('set_orders_gallery');
+        Route::post('orders_folder','Admin\AdminController@setOrdersFolder')->name('set_orders_folder');
+
+    });
 });
 
 Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], function(){

@@ -64,27 +64,4 @@ class GalleryController extends Controller
 
         return redirect()->back();
     }
-
-    public function set(Request $request)
-    {
-        $gallery = $request->input('gallery');
-
-        $setting = Setting::all()->where('name','home_gallery')->first();
-        $setting->setting=$gallery;
-        $setting->save();
-
-        return redirect()->back();
-    }
-
-    public function setOrderGallery(Request $request)
-    {
-        $gallery = $request->input('gallery_orders');
-
-        $setting = Setting::all()->where('name','orders_gallery')->first();
-
-        $setting->setting = $gallery;
-        $setting->save();
-
-        return redirect()->back();
-    }
 }

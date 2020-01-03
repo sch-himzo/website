@@ -245,3 +245,7 @@ img.modal-album-cover{
     padding-bottom:0 !important;
     margin-bottom:-15px;
 }
+
+.btn-block.btn-push{
+    margin-top:10px;
+}

@@ -26,4 +26,11 @@
             </a>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-3">
+            <a class="btn-push btn btn-lg btn-block btn-default" href="{{ route('admin.misc.index') }}">
+                <i class="fa fa-question"></i> Egyéb
+            </a>
+        </div>
+    </div>
 @endsection
