@@ -20,5 +20,10 @@
                 <i class="fa fa-pencil-ruler"></i> Tervek
             </a>
         </div>
+        <div class="col-md-3">
+            <a class="btn btn-lg btn-block btn-default" href="{{ route('admin.slides.index') }}">
+                <i class="fa fa-home"></i> Főoldal
+            </a>
+        </div>
     </div>
 @endsection

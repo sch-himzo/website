@@ -3,12 +3,12 @@
 @section('title','Szerkesztés - '.$slide->title)
 
 @section('content')
-    <h1 class="page-header">Slide szerkesztése &raquo; {{ $slide->title }} &raquo; <a href="{{ route('settings.index') }}">Vissza</a></h1>
+    <h1 class="page-header">Slide szerkesztése &raquo; {{ $slide->title }} &raquo; <a href="{{ route('admin.slides.index') }}">Vissza</a></h1>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h3 class="panel-title">Szerkesztés</h3>
         </div>
-        <form action="{{ route('settings.index.slides.save', ['slide' => $slide]) }}" method="POST">
+        <form action="{{ route('admin.slides.save', ['slide' => $slide]) }}" method="POST">
             {{ csrf_field() }}
             <div class="panel-body">
                 <div class="form-group">
@@ -32,7 +32,7 @@
             </div>
             <div class="panel-footer">
                 <input type="submit" class="btn btn-primary" value="Mentés">
-                <a href="{{ route('settings.index') }}" class="btn btn-default">Mégse</a>
+                <a href="{{ route('admin.slides.index') }}" class="btn btn-default">Mégse</a>
             </div>
         </form>
     </div>

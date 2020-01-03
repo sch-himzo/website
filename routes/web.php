@@ -159,13 +159,6 @@ Route::group(['prefix' => 'settings', 'as' => 'settings.', 'middleware' => 'lead
     Route::post('backgrounds/{background}/edit','Admin\SettingsController@editBackground')->name('backgrounds.edit');
     Route::get('backgrounds/{background}/delete', 'Admin\SettingsController@deleteBackground')->name('backgrounds.delete');
 
-    Route::post('index/slides/new','Admin\SettingsController@newSlide')->name('index.slides.new');
-    Route::get('index/slides/{slide}/edit','Admin\SettingsController@editSlide')->name('index.slide.edit');
-    Route::get('index/slides/{slide}/delete','Admin\SettingsController@deleteSlide')->name('index.slide.delete');
-    Route::get('index/slides/{slide}/up','Admin\SettingsController@slideUp')->name('index.slide.up');
-    Route::get('index/slides/{slide}/down','Admin\SettingsController@slideDown')->name('index.slide.down');
-    Route::post('index/slides/{slide}/save','Admin\SettingsController@saveSlide')->name('index.slides.save');
-
     Route::post('index/orders/folder/set', 'Admin\SettingsController@setFolder')->name('orders.group.set');
 
     Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function(){
@@ -237,7 +230,7 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
 
         Route::post('new', 'Admin\AlbumController@new')->name('new');
     });
-  
+
     Route::group(['prefix' => 'designs', 'as' => 'designs.'], function(){
         Route::get('', 'Admin\DesignsController@index')->name('index');
 
@@ -248,6 +241,17 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
         Route::post('{design_group}/save', 'Admin\DesignsController@upload')->name('save');
 
         Route::get('design/{design}/delete', 'Admin\DesignsController@deleteDesign')->name('deleteDesign');
+    });
+
+    Route::group(['prefix' => 'slides', 'as' => 'slides.'], function(){
+        Route::get('','Admin\SlidesController@index')->name('index');
+
+        Route::get('{slide}/edit', 'Admin\SlidesController@edit')->name('edit');
+        Route::post('{slide}/save', 'Admin\SlidesController@save')->name('save');
+        Route::get('{slide}/up', 'Admin\SlidesController@up')->name('up');
+        Route::get('{slide}/down', 'Admin\SlidesController@down')->name('down');
+        Route::get('{slide}/delete', 'Admin\SlidesController@delete')->name('delete');
+        Route::post('new', 'Admin\SlidesController@create')->name('new');
     });
 });
 
