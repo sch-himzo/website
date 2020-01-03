@@ -408,6 +408,7 @@ $size cm oldalhosszúság
             $email->message = "Rendelés törölve lett";
             $email->subject = "Rendelés törölve";
             $email->to_name = $user->name;
+            $email->from_name = "Pulcsi és Foltmékör";
             $email->save();
         }
 
