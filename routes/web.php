@@ -262,9 +262,11 @@ Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], func
     Route::group(['prefix' => 'machine', 'as' => 'machine.'], function(){
         Route::post('status','API\MachineController@updateStatus')->name('status');
         Route::post('dst', 'API\MachineController@updateDST')->name('dst');
-        Route::post('status/get','API\MachineController@getStatus')->name('getStatus');
     });
 });
+
+
+Route::post('api/machine/status/get/{machine_key}','API\MachineController@getStatus')->name('getStatus');
 
 Route::group(['prefix' => 'machines', 'as' => 'machines.', 'middleware' => 'rookie'], function(){
     Route::get('status', 'HomeController@machineStatus')->name('status');
