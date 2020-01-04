@@ -158,4 +158,18 @@ class MachineController extends Controller
 
         return response()->json('200 Response OK');
     }
+
+    public function getStatus()
+    {
+        $machine = Machine::find(Setting::where('name','current_machine')->first()->setting);
+
+        return response()->json([
+            'current_stitch' => $machine->current_stitch,
+            'current_design' => $machine->current_design,
+            'total_stitches' => $machine->total_stitches,
+            'total_designs' => $machine->design_count,
+            'status' => $machine->getState(),
+            'state' => $machine->state
+        ]);
+    }
 }
