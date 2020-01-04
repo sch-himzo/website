@@ -266,7 +266,7 @@ Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], func
 });
 
 
-Route::post('api/machine/status/get/{machine_key}','API\MachineController@getStatus')->name('getStatus');
+Route::get('api/machine/status/get/{machine_key}','API\MachineController@getStatus')->name('getStatus');
 
 Route::group(['prefix' => 'machines', 'as' => 'machines.', 'middleware' => 'rookie'], function(){
     Route::get('status', 'HomeController@machineStatus')->name('status');
