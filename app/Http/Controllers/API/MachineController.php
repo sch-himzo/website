@@ -159,8 +159,12 @@ class MachineController extends Controller
         return response()->json('200 Response OK');
     }
 
-    public function getStatus()
+    public function getStatus($machine_key)
     {
+        if($machine_key!=env("MACHINE_KEY")) {
+            abort(401);
+        }
+        
         $machine = Machine::find(Setting::where('name','current_machine')->first()->setting);
 
         return response()->json([
