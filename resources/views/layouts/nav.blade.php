@@ -49,11 +49,13 @@
                                 <li style="padding:10px;" id="machine_stitches">
                                     {{ $current_machine->total_stitches . "/" . $current_machine->current_stitch }} öltés
                                 </li>
+                                @if(Auth::user()->role_id >= $current_machine->viewable_by)
                                 <li>
                                     <a href="{{ route('machines.status') }}">
                                         Megtekintés
                                     </a>
                                 </li>
+                                @endif
                             </ul>
                         </li>
                     @endif

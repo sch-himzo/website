@@ -68,6 +68,7 @@ class Kernel extends HttpKernel
         'member' => \App\Http\Middleware\Member::class,
         'rookie' => \App\Http\Middleware\Rookie::class,
         'machine' => \App\Http\Middleware\Machine::class,
+        'view-machine' => \App\Http\Middleware\CanViewMachine::class,
     ];
 
     /**

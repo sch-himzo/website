@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\DesignGroup;
 use App\Models\Gallery\Gallery;
+use App\Models\Machine;
 use App\Models\Role;
 use App\Models\Setting;
 use App\Models\User;
@@ -35,6 +36,7 @@ class AdminController extends Controller
         }
 
         $current_gallery = Gallery::where('id',$current_gallery)->first();
+        $current_machine = Machine::find(Setting::where('name','current_machine')->first()->setting);
 
         return view('admin.misc',[
             'galleries' => $galleries,
@@ -42,7 +44,8 @@ class AdminController extends Controller
             'current_orders_gallery' => $current_orders_gallery,
             'all_galleries' => $all_galleries,
             'all_folders' => $all_folders,
-            'current_orders_folder' => $current_orders_folder
+            'current_orders_folder' => $current_orders_folder,
+            'current_machine' => $current_machine
         ]);
     }
 
@@ -77,6 +80,16 @@ class AdminController extends Controller
 
         $setting->setting = $gallery;
         $setting->save();
+
+        return redirect()->back();
+    }
+
+    public function setMachineRole(Request $request)
+    {
+        $machine = Machine::find(Setting::where('name','current_machine')->first()->setting);
+
+        $machine->viewable_by = $request->input('machine_role');
+        $machine->save();
 
         return redirect()->back();
     }

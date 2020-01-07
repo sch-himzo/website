@@ -92,5 +92,36 @@
                 </form>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Hímzőgép státusz megtekintési jog</h3>
+                </div>
+                <form action="{{ route('admin.misc.set_machine_role') }}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label class="input-group-addon" for="machine-role">Megtekintheti</label>
+                                <select class="form-control" id="machine-role" name="machine_role">
+                                    <option selected disabled>Válassz egyet!</option>
+                                    @foreach(\App\Models\Role::all() as $role)
+                                        @if($role->id>1)
+                                            <option @if($role->id==$current_machine->viewable_by) selected @endif value="{{ $role->id }}">{{ $role->name }}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                                <label class="input-group-addon" for="machine-role"><i class="fa fa-less-than-equal"></i></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fa fa-save"></i> Mentés
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection

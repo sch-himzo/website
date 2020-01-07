@@ -244,6 +244,7 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
         Route::post('public_gallery','Admin\AdminController@setPublicGallery')->name('set_public_gallery');
         Route::post('orders_gallery', 'Admin\AdminController@setOrdersGallery')->name('set_orders_gallery');
         Route::post('orders_folder','Admin\AdminController@setOrdersFolder')->name('set_orders_folder');
+        Route::post('machine_role','Admin\AdminController@setMachineRole')->name('set_machine_role');
     });
 
     Route::group([
@@ -267,7 +268,7 @@ Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], func
 });
 
 Route::group(['prefix' => 'machines', 'as' => 'machines.', 'middleware' => 'rookie'], function(){
-    Route::get('status', 'HomeController@machineStatus')->name('status');
+    Route::get('status', 'HomeController@machineStatus')->name('status')->middleware('view-machine');
     Route::post('getStatus','HomeController@getMachineStatus')->name('getStatus');
     Route::post('getProgressBar', 'HomeController@getProgressBar')->name('getProgressBar');
 });
