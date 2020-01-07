@@ -47,8 +47,13 @@
                 </div>
             </div>
             <div class="alert alert-warning">
-                <h4><i class="fa fa-exclamation-circle"></i> Figyelem!</h4>
+                <h4><i class="fa fa-exclamation-circle"></i>&nbsp;&nbsp;Figyelem!</h4>
                 <p style="text-align:justify;">Az itt feltüntetett öltésszám eltérhez a valóditól, mert a hímzőgép hozzáad öltéseket vágások előtt és után.</p>
+            </div>
+            <div class="alert alert-info">
+                <h4><i class="fab fa-android"></i>&nbsp;&nbsp;Android App</h4>
+                <p style="text-align:justify;">Letölthető a HímzőNot2 App, vigyázz vele, még nagyon indev:</p>
+                <p><a href="{{ asset('downloads/himzo-noti.apk') }}" target="_blank">himzo-noti.apk</a></p>
             </div>
         </div>
         <div class="col-md-8">
