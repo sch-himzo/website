@@ -15,7 +15,7 @@ function currentUsers(){
             out = "";
             button = "";
             if(current_user!=="false" && c.ids.includes(parseInt(current_user))){
-                button = "<a href='/user/out' class='btn btn-sm btn-danger'>ELmentem</a>";
+                button = "<a href='/user/out' class='btn btn-sm btn-danger'>Elmentem</a>";
             }else{
                 button = "<a href='/user/in' class='btn btn-sm btn-success'>Itt vagyok!</a>";
             }
