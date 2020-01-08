@@ -132,4 +132,17 @@ class HomeController extends Controller
             'total_designs' => $machine->design_count
         ]);
     }
+
+    public function sitemap()
+    {
+        $urls = [
+            route('index'),
+            route('gallery.index'),
+            route('faq.index')
+        ];
+
+        return view('sitemap', [
+            'urls' => $urls
+        ]);
+    }
 }

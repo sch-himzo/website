@@ -2,6 +2,7 @@
 
 Route::get('', 'HomeController@index')->name('index');
 Route::get('login','HomeController@indexLogin')->name('index.login');
+Route::get('sitemap', 'HomeController@sitemap')->name('sitemap');
 
 Route::get('party','HomeController@party')->name('party');
 
