@@ -69,16 +69,20 @@
                                 @foreach($color as $stitch)
                                     <line id="stitch_<?= $i ?>" x1="{{ $stitch[0][0]+abs($machine->x_offset)+5 }}" x2="{{ $stitch[1][0]+abs($machine->x_offset)+5 }}" y1="{{ $stitch[0][1]+abs($machine->y_offset)+5 }}" y2="{{ $stitch[1][1]+abs($machine->y_offset)+5 }}" style="stroke-width:1.5; stroke:rgba(0,0,0, @if($i<$machine->current_stitch) 1 @else 0.2 @endif );"></line>
                                     @if($i==$machine->current_stitch)
-                                        <g id="crosshair" style="stroke-width:2; stroke:red" transform="translate({{ $stitch[0][0] + abs($machine->x_offset) + 5 }} {{ $stitch[0][1] + abs($machine->y_offset) + 5 }})">
-                                            <line x1="0" x2="0" y1="3" y2="13"></line>
-                                            <line x1="0" x2="0" y1="-3" y2="-13"></line>
-                                            <line x1="3" x2="13" y1="0" y2="0"></line>
-                                            <line x1="-3" x2="-13" y1="0" y2="0"></line>
-                                        </g>
+                                        @php
+                                            $asd = $stitch;
+                                        @endphp
                                     @endif
                                     <?php $i++ ?>
                                 @endforeach
                             @endforeach
+
+                                <g id="crosshair" style="stroke-width:2; stroke:red" transform="translate({{ $asd[0][0] + abs($machine->x_offset) + 5 }} {{ $asd[0][1] + abs($machine->y_offset) + 5 }})">
+                                    <line x1="0" x2="0" y1="3" y2="13"></line>
+                                    <line x1="0" x2="0" y1="-3" y2="-13"></line>
+                                    <line x1="3" x2="13" y1="0" y2="0"></line>
+                                    <line x1="-3" x2="-13" y1="0" y2="0"></line>
+                                </g>
                         </svg>
                     @endif
                 </div>
