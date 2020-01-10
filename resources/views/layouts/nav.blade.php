@@ -9,6 +9,7 @@
             </button>
             <a class="navbar-brand" href="{{ route('index') }}">Hímző</a>
         </div>
+        <input type="hidden" id="pusher-id" value="{{ env('PUSHER_APP_KEY') }}">
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 @if(Auth::check() && Auth::user()->role_id>1)
