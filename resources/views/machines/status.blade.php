@@ -76,6 +76,11 @@
                                     <?php $i++ ?>
                                 @endforeach
                             @endforeach
+                                @if(!isset($asd))
+                                    @php
+                                        $asd = json_decode($machine->current_dst)[0][0];
+                                    @endphp
+                                @endif
 
                                 <g id="crosshair" style="stroke-width:2; stroke:red" transform="translate({{ $asd[0][0] + abs($machine->x_offset) + 5 }} {{ $asd[0][1] + abs($machine->y_offset) + 5 }})">
                                     <line x1="0" x2="0" y1="3" y2="13"></line>
