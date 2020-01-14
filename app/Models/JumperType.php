@@ -13,7 +13,9 @@ class JumperType extends Model
         'yellow' => 'Sárga',
         'red' => 'Piros',
         'white' => 'Fehér',
-        'green' => 'Zöld'
+        'green' => 'Zöld',
+        'grey' => 'Szürke',
+        'black-grey' => 'Fekete-szürke'
     ];
 
     public function transactions()

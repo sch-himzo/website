@@ -57,7 +57,7 @@ class JumperController extends Controller
         ];
 
         $colors = [
-            'original','black','blue','green','yellow','red','white'
+            'original','black','blue','green','yellow','red','white','grey','black-grey'
         ];
 
         return [
@@ -85,7 +85,7 @@ class JumperController extends Controller
         ];
 
         $colors = [
-            'original','black','blue','green','yellow','red','white'
+            'original','black','blue','green','yellow','red','white','grey','black-grey'
         ];
 
         foreach($sizes as $size) {
