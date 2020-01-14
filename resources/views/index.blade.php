@@ -84,6 +84,19 @@
                 @endif
             </div>
         </div>
+        <div class="col-md-9">
+            <h1>Hírek</h1>
+            @foreach($news as $article)
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">{{ $article->title }}</h3>
+                    </div>
+                    <div class="panel-body">
+                        {!! $article->content !!}
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
 @endsection
 

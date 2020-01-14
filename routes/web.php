@@ -258,6 +258,13 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
         Route::post('{background}/edit', 'Admin\BackgroundsController@edit')->name('edit');
         Route::get('{background}/delete', 'Admin\BackgroundsController@delete')->name('delete');
     });
+
+    Route::group([
+        'prefix' => 'news',
+        'as' => 'news.'
+    ], function(){
+        Route::get('','Admin\NewsController@index')->name('index');
+    });
 });
 
 Route::group(['prefix' => 'api','as' => 'api.', 'middleware' => 'machine'], function(){

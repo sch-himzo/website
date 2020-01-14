@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Machine;
+use App\Models\News;
 use App\Models\Setting;
 use App\Models\Slide;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
@@ -14,10 +16,14 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
+        $role = Auth::check() ? Auth::user()->role_id : 1;
+
         $slides = Slide::all()->sortBy('number');
+        $news = News::all()->where('role_id','>=', $role)->sortByDesc('created_at')->all();
 
         return view('index',[
-            'slides' => $slides
+            'slides' => $slides,
+            'news' => $news
         ]);
     }
 

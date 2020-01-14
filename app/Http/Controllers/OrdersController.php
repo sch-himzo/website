@@ -7,6 +7,7 @@ use App\Models\Comment;
 use App\Models\DesignGroup;
 use App\Models\Email;
 use App\Models\Gallery\Album;
+use App\Models\Log\Log;
 use App\Models\Order\Group;
 use App\Models\Order\Image;
 use App\Models\Order\Order;
@@ -189,6 +190,17 @@ $size cm oldalhosszúság
             }
         }
 
+        $log = new Log();
+        $log->user_id = Auth::id();
+        $log->type = '';
+        $log->save();
+
+        $order_log = new \App\Models\Log\Order();
+        $order_log->log_id = $log->id;
+        $order_log->order_id = $order->id;
+        $order_log->content = "Új rendelés";
+        $order_log->save();
+
         return redirect()->route('orders.finished', ['group' => $group]);
 
     }
@@ -248,6 +260,17 @@ $size cm oldalhosszúság
         $order->help = !$order->help;
         $order->save();
 
+        $log = new Log();
+        $log->user_id = Auth::id();
+        $log->type = 'group';
+        $log->save();
+
+        $group_log = new \App\Models\Log\Group();
+        $group_log->log_id = $log->id;
+        $group_log->order_group_id = $order->id;
+        $group_log->content = $order->help ? "Segítségkérés" : "Nem kell több segítség";
+        $group_log->save();
+
         return redirect()->back();
     }
 
@@ -289,6 +312,17 @@ $size cm oldalhosszúság
         $order->status = 1;
         $order->save();
 
+
+        $log = new Log();
+        $log->user_id = Auth::id();
+        $log->type = 'group';
+        $log->save();
+
+        $group_log = new \App\Models\Log\Group();
+        $group_log->order_group_id = $order->id;
+        $group_log->log_id = $log->id;
+        $group_log->content='Rendelés elfogadva - ' . $order->internal ? 'belsős' : 'külsős';
+        $group_log->save();
 
         return redirect()->back();
     }
@@ -376,6 +410,17 @@ $size cm oldalhosszúság
         foreach($order->assignedUsers as $user){
             EmailController::orderArchived($order, $user);
         }
+
+        $log = new Log();
+        $log->user_id = Auth::id();
+        $log->type = 'group';
+        $log->save();
+
+        $group_log = new \App\Models\Log\Group();
+        $group_log->log_id = $log->id;
+        $group_log->order_group_id = $order->id;
+        $group_log->content = 'Rendelés archiválva';
+        $group_log->save();
 
         return redirect()->back();
     }
@@ -554,6 +599,8 @@ $size cm oldalhosszúság
             $group->assignedUsers()->save(Auth::user());
         }
 
+
+
         return redirect()->back();
     }
 
@@ -608,6 +655,17 @@ $size cm oldalhosszúság
     {
         $order->status = $request->input('status');
         $order->save();
+
+        $log = new Log();
+        $log->user_id = Auth::id();
+        $log->type = 'order';
+        $log->save();
+
+        $order_log = new \App\Models\Log\Order();
+        $order_log->log_id = $log->id;
+        $order_log->order_id = $order->id;
+        $order_log->content = 'Státusz változás: ' . $order->getStatusInternal();
+        $order_log->save();
 
         return redirect()->back();
     }
@@ -911,6 +969,17 @@ $size cm oldalhosszúság
             $order->save();
 
         }
+
+        $log = new Log();
+        $log->user_id = Auth::id();
+        $log->type='order';
+        $log->save();
+
+        $order_log = new \App\Models\Log\Order();
+        $order_log->order_id = $order->id;
+        $order_log->log_id = $log->id;
+        $order_log->content = 'Próbahímzés feltöltése';
+        $order_log->save();
 
         return redirect()->back();
     }
