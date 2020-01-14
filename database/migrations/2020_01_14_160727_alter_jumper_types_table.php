@@ -14,7 +14,7 @@ class AlterJumperTypesTable extends Migration
     public function up()
     {
         Schema::table('jumper_types', function (Blueprint $table) {
-            $table->enum('color',['original','blue','black','red','yellow','white','green','grey','black-grey']);
+            $table->enum('color',['original','blue','black','red','yellow','white','green','grey','black-grey'])->change();
         });
     }
 
