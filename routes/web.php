@@ -284,3 +284,10 @@ Route::group(['prefix' => 'machines', 'as' => 'machines.', 'middleware' => 'rook
 });
 
 Route::post('get/users','HomeController@getUsers')->name('getUsers');
+
+Route::group(['prefix' => 'jumpers', 'as' => 'jumpers.'], function(){
+    Route::get('','JumperController@index')->name('index');
+
+    Route::get('edit','JumperController@edit')->name('edit');
+    Route::post('save','JumperController@save')->name('save');
+});

@@ -16,3 +16,4 @@ error.log
 access.log
 .idea/*
 .htaccess
+.phpstorm.meta.php

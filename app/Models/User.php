@@ -93,4 +93,9 @@ class User extends Authenticatable
 
         return $this->email_token;
     }
+
+    public function jumperTransactions()
+    {
+        return $this->hasMany(JumperTransaction::class);
+    }
 }
