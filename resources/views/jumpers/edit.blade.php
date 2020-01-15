@@ -30,7 +30,7 @@
                                     @foreach($sizes as $size)
                                         <td style="text-align:center;">
                                             @if(array_key_exists($color,$jumpers) && array_key_exists($size,$jumpers[$color]))
-                                                <input min="0" style="width:60px; @if($jumpers[$color][$size]->count<5) background-color:rgba(255,150,150,1); @elseif($jumpers[$color][$size]->count<10) background-color:rgba(255,255,102,1) @else background-color:rgba(150,255,150,1) @endif" class="form-control" type="number" name="count_{{ $color . "_" . $size }}" id="count_{{ $color . "_" . $size }}" aria-label="{{ $color . "_" . $size }}" value="{{ $jumpers[$color][$size]->count }}">
+                                                <input min="0" style="width:60px; @if($jumpers[$color][$size]->count==0) background-color:rgba(255,150,150,1); @elseif($jumpers[$color][$size]->count<5) background-color:rgba(255,255,102,1) @else background-color:rgba(150,255,150,1) @endif" class="form-control" type="number" name="count_{{ $color . "_" . $size }}" id="count_{{ $color . "_" . $size }}" aria-label="{{ $color . "_" . $size }}" value="{{ $jumpers[$color][$size]->count }}">
                                             @else
                                                 <input min="0" style="width:60px; background-color:rgba(255,150,150,1)" size="2" class="form-control" type="number" name="count_{{ $color . "_" . $size }}" aria-label="{{ $color . "_" . $size }}" value="0" id="count_{{ $color . "_" . $size }}">
                                             @endif
@@ -66,9 +66,9 @@
         @foreach($colors as $color)
             @foreach($sizes as $size)
                 $('#count_{{ $color . '_' . $size }}').on('keyup click paste', function(){
-                    if($('#count_{{ $color . '_' . $size }}').val()<5) {
+                    if($('#count_{{ $color . '_' . $size }}').val()===0) {
                         $('#count_{{ $color . '_' . $size }}').css('background-color','rgba(255,150,150,1)');
-                    }else if($('#count_{{ $color . '_' . $size }}').val()<10) {
+                    }else if($('#count_{{ $color . '_' . $size }}').val()<5) {
                         $('#count_{{ $color . '_' . $size }}').css('background-color','rgba(255,255,102,1)');
                     }else {
                         $('#count_{{ $color . '_' . $size }}').css('background-color','rgba(150,255,150,1)');
