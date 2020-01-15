@@ -7,13 +7,6 @@
     <h2 class="page-description">Rendelhető pulcsik</h2>
 
     <div class="row">
-        <div class="col-md-3">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Rendelés leadása</h3>
-                </div>
-            </div>
-        </div>
         <div class="col-md-9">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -25,16 +18,16 @@
                             <th style="text-align:right;">Szín</th>
                             @foreach($size_count as $key => $size)
                                 @if($size!=0)
-                                    <th style="text-align:center;">{{ $key }}</th>
+                                    <th style="text-align:center; width:75px;">{{ $key }}</th>
                                 @endif
                             @endforeach
                         </tr>
-                        @foreach($jumpers as $key => $color)
+                        @foreach($jumpers as $key2 => $color)
                             <tr>
-                                <th style="text-align:right;">{{ \App\Models\JumperType::getColor($key) }}</th>
+                                <th style="text-align:right;">{{ \App\Models\JumperType::getColor($key2) }}</th>
                                 @foreach($size_count as $key => $size)
                                     @if($size!=0 && array_key_exists($key,$color))
-                                        <td style="text-align:center;">{{ $color[$key]->count }} db</td>
+                                        <td @if($color[$key]->count!=0) id="jumper_{{ $key2 . '_' . $key }}" @endif style="text-align:center;">{{ $color[$key]->count }} db</td>
                                     @elseif($size!=0 && !array_key_exists($key,$color))
                                         <td style="text-align:center;">0 db</td>
                                     @endif
@@ -53,4 +46,27 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    @if(Auth::check())
+        <script>
+            @foreach($sizes as $size)
+            @foreach($colors as $color)
+                @php
+                    $color = str_replace('-','_',$color);
+                @endphp
+                let order_button_{{ $color."_".$size }} = "&nbsp;&nbsp;<button style='font-size:10px;' class='btn btn\-success btn-xs' type='button'><i class='fa fa-plus'></i></button>&nbsp;&nbsp;";
+                let original_{{ $color."_".$size }} = $('#jumper_{{ $color."_".$size }}').html();
+            $('#jumper_{{ $color."_".$size }}').mouseenter( function(){
+                $('#jumper_{{ $color."_".$size }}').html(order_button_{{ $color."_".$size }});
+                console.log('asd');
+            });
+            $('#jumper_{{ $color."_".$size }}').mouseleave(function(){
+                $('#jumper_{{ $color."_".$size }}').html(original_{{ $color."_".$size }});
+            });
+            @endforeach
+            @endforeach
+        </script>
+    @endif
 @endsection
