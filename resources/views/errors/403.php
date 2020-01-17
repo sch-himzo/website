@@ -2,6 +2,11 @@
 <html lang="hu">
 <head>
     <title>403 - Forbidden</title>
+    <style>
+        body{
+            background-color:black;
+        }
+    </style>
 </head>
 <body>
 <div style="width:100%; text-align:center;">
