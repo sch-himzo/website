@@ -46,6 +46,24 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $message = $exception->getMessage();
+        $file = $exception->getFile();
+        $code = $exception->getCode();
+        $token = env("SLACK_TOKEN");
+
+        $c = curl_init();
+
+        curl_setopt($c, CURLOPT_URL, "https://hooks.slack.com/services/T6VJX9GAX/BSY1E5WF9/$token");
+        curl_setopt($c, CURLOPT_POST, 1);
+        curl_setopt($c, CURLOPT_POSTFIELDS, json_encode([
+            'text' => "$code - $file - $message"
+        ]));
+        curl_setopt($c, CURLOPT_HEADER, [
+            "Content-type" => "application/json"
+        ]);
+
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+
         return parent::render($request, $exception);
     }
 }
