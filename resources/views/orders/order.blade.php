@@ -85,6 +85,9 @@
                         <button type="button" data-toggle="modal" data-target="#add_design" class="btn btn-primary btn-xs">
                             <i class="fa fa-paperclip"></i> Tervfájlok csatolása
                         </button>
+                        <button type="button" data-toggle="modal" data-target="#upload_design" class="btn btn-primary btn-xs">
+                            <i class="fa fa-plus"></i> Tervfájlok feltöltése
+                        </button>
                         <a href="{{ route('orders.existing', ['order' => $order]) }}" class="btn btn-danger btn-xs">
                             <i class="fa fa-times"></i> Tervezést igényel
                         </a>
@@ -400,6 +403,37 @@
                         </div>
                         <div class="buttons" id="buttons"></div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="upload_design">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" type="Button" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Tervfájlok hozzáadása</h4>
+                    </div>
+                    <form action="{{ route('designs.orders.add', ['order' => $order]) }}" method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="art80_{{ $order->id }}">ART80<span class="required">*</span></label>
+                                    <input accept=".art80,.art60,.ART80,.ART60" type="file" name="art80_{{ $order->id }}" id="art80_{{ $order->id }}" required class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="dst_{{ $order->id }}">DST<span class="required">*</span></label>
+                                    <input accept=".dst,.DST" type="file" name="dst_{{ $order->id }}" id="dst_{{ $order->id }}" required class="form-control">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Mégse</button>
+                            <input type="submit" value="Mentés" class="btn btn-success">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
