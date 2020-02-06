@@ -62,10 +62,8 @@ class Group extends Model
     {
         switch($this->status){
             case "0": return "Elfogadásra vár";
-            case "1": return "Folyamatban";
             case "2": return "Átadásra vár";
             case "3": return "Fizetésre vár";
-            case "4": return "Folyamatban";
             case "5": return "Átadva";
             default: return "Folyamatban";
         }

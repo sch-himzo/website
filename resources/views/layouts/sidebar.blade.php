@@ -19,7 +19,7 @@
                 </a></li>
             <li><a href="{{ route('members.mine') }}" class="@yield('members.mine.active')">
                         Saját rendeléseim
-                    @if(Auth::user()->assignedOrders->count()!=0)
+                    @if(Auth::user()->assignedOrders->where('archived',0)->count()!=0)
                         <span class="sidebar-notification">{{ Auth::user()->assignedOrders->where('archived',0)->where('joint_project',0)->count() }}</span>
                     @endif
                 </a></li>

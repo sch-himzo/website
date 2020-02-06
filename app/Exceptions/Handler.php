@@ -2,6 +2,7 @@
 
 namespace App\Exceptions;
 
+use Auth;
 use Exception;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
@@ -34,34 +35,7 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
-        $message = $exception->getMessage();
-        $file = $exception->getFile();
-        $code = $exception->getCode();
-        $token = env("SLACK_TOKEN");
-        $stack_trace = $exception->getTraceAsString();
-        $type = get_class($exception);
 
-        $exclude = [
-            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException',
-            'Symfony\Component\HttpKernel\Exception\HttpException'
-        ];
-
-        if(!in_array($type, $exclude)) {
-            $c = curl_init();
-
-            curl_setopt($c, CURLOPT_URL, "https://hooks.slack.com/services/T6VJX9GAX/BSY1E5WF9/$token");
-            curl_setopt($c, CURLOPT_POST, 1);
-            curl_setopt($c, CURLOPT_POSTFIELDS, json_encode([
-                'text' => "Code: $code\nIn File: $file\n\nMessage: $message\nStack trace:\n$stack_trace"
-            ]));
-            curl_setopt($c, CURLOPT_HEADER, [
-                "Content-type" => "application/json"
-            ]);
-
-            curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
-
-            curl_exec($c);
-        }
 
 
         if (app()->bound('sentry') && $this->shouldReport($exception)) {
@@ -80,6 +54,37 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        $message = $exception->getMessage();
+        $file = $exception->getFile();
+        $code = $exception->getCode();
+        $user = Auth::check() ? Auth::user()->name : null;
+        $url = $request->fullUrl();
+        $token = env("SLACK_TOKEN");
+        $stack_trace = $exception->getTraceAsString();
+        $type = get_class($exception);
+
+        $exclude = [
+            'Symfony\Component\HttpKernel\Exception\NotFoundHttpException',
+            'Symfony\Component\HttpKernel\Exception\HttpException'
+        ];
+
+        if(!in_array($type, $exclude)) {
+            $c = curl_init();
+
+            curl_setopt($c, CURLOPT_URL, "https://hooks.slack.com/services/T6VJX9GAX/BSY1E5WF9/$token");
+            curl_setopt($c, CURLOPT_POST, 1);
+            curl_setopt($c, CURLOPT_POSTFIELDS, json_encode([
+                'text' => "Code: $code\nIn File: $file\nOn Page: $url\nUser: $user\n\nMessage: $message\nStack trace:\n$stack_trace"
+            ]));
+            curl_setopt($c, CURLOPT_HEADER, [
+                "Content-type" => "application/json"
+            ]);
+
+            curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+
+            curl_exec($c);
+        }
+
         return parent::render($request, $exception);
     }
 }

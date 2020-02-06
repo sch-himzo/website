@@ -243,7 +243,7 @@
         <div class="modal fade" id="ready_{{ $order->id }}">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-title">
+                    <div class="modal-header">
                         <button class="close" type="button" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">Késznek jelölés</h4>
                     </div>
@@ -253,7 +253,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Mégse</button>
-                        <a href="{{ route('orders.done', ['group' => $order]) }}" class="btn btn-primary"><i class="fa fa-check"></i> Késznek jelölés</a>
+                        <a href="{{ route('orders.done', ['order' => $order]) }}" class="btn btn-primary"><i class="fa fa-check"></i> Késznek jelölés</a>
                     </div>
                 </div>
             </div>

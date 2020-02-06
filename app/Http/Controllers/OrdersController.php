@@ -265,7 +265,7 @@ $size cm oldalhosszúság
         return redirect()->route('index');
     }
 
-    public function done(Order $order)
+    public function done(Group $order)
     {
         $order->status = 5;
         $order->save();

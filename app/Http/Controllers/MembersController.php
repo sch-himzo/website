@@ -45,7 +45,9 @@ class MembersController extends Controller
             ->all();
 
         $ready = Group::where('status','4')
+            ->where('archived',false)
             ->orWhere('status','3')
+            ->where('archived',false)
             ->get()
             ->sortByDesc('id');
 
