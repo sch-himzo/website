@@ -66,9 +66,10 @@ class Handler extends ExceptionHandler
         $exclude = [
             'Symfony\Component\HttpKernel\Exception\NotFoundHttpException',
             'Symfony\Component\HttpKernel\Exception\HttpException'
+
         ];
 
-        if(!in_array($type, $exclude)) {
+        if(!in_array($type, $exclude) && $message != 'CSRF token mismatch.') {
             $c = curl_init();
 
             curl_setopt($c, CURLOPT_URL, "https://hooks.slack.com/services/T6VJX9GAX/BSY1E5WF9/$token");
