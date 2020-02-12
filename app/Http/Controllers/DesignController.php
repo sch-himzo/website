@@ -104,7 +104,7 @@ class DesignController extends Controller
 
             if($old_group==null){
                 $group = new DesignGroup();
-                $group->name = $order->title;
+                $group->name = $order->group->title . " - " . $order->title;
                 $group->parent_id = $orders_group->id;
                 $group->owner_id = Auth::user()->id;
                 $group->save();
