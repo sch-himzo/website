@@ -103,7 +103,7 @@
                             <i class="fa fa-paperclip"></i> Másik tervfájl kiválasztása
                         </button>
                     @endif
-                    @if($order->status>1)
+                    @if($order->status>1 || Auth::user()->role_id>=5)
                         <button type="button" data-toggle="modal" data-target="#edit_status" class="btn btn-default btn-xs">
                             <i class="fa fa-edit"></i> Állapot módosítása
                         </button>
