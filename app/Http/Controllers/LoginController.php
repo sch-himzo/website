@@ -122,13 +122,11 @@ class LoginController extends Controller
             $user = $user->first();
             $user->internal_id = $result->internal_id;
             $user->name = $result->displayName;
-            $user->surname = $result->sn;
             $user->role_id = $this->pek_roles[strtolower($title)];
-            $user->given_names = $result->givenName;
             $user->save();
         }else{
             $user = $user->first();
-            if($user->role_id<6){
+            if($user->role_id<6 && !$user->sticky_role){
                 $user->role_id = $this->pek_roles[strtolower($title)];
             }
             $user->save();

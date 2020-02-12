@@ -30,18 +30,13 @@ class UsersController extends Controller
         ]);
     }
 
-    public function toggleAdmin(User $user)
-    {
-        if($user->id == Auth::id()){
-            abort(400);
-        }
+    public function edit(User $user, Request $request) {
+        $role = $request->input('role');
+        $sticky = $request->input('sticky');
 
-        if($user->role_id==6){
-            $user->role_id = 1;
-        }else{
-            $user->role_id = 6;
-        }
 
+        $user->role_id = $role;
+        $user->sticky_role = $sticky ? true : false;
         $user->save();
 
         return redirect()->back();

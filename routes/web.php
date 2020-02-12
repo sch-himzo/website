@@ -194,7 +194,7 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
         Route::get('', 'Admin\UsersController@index')->name('index');
 
         Route::get('{user}', 'Admin\UsersController@user')->name('user');
-        Route::get('{user}/admin/toggle', 'Admin\UsersController@toggleAdmin')->name('admin');
+        Route::post('{user}/edit', 'Admin\UsersController@edit')->name('edit');
     });
 
     Route::group(['prefix' => 'galleries', 'as' => 'galleries.'], function(){
