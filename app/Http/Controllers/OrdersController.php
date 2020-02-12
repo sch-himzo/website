@@ -916,4 +916,59 @@ $size cm oldalhosszúság
         }
         return redirect()->back();
     }
+
+    public function addOrder(Group $group, Request $request)
+    {
+        $title = $request->input('title');
+        $existing = $request->input('existing');
+        $count = $request->input('count');
+        $size = $request->input('size');
+        $type = $request->input('type');
+        $comment = $request->input('comment');
+
+        if(!$title || !$count || !$type) {
+            abort(400);
+        }
+
+        $order = new Order();
+        $order->title = $title;
+        $order->existing_design = $existing ? true : false;
+        $order->count = $count;
+        $order->size = $size;
+        $order->type = $this->order_types[$type];
+        $order->comment = $comment;
+        $order->order_group_id = $group->id;
+        $order->status = 0;
+        $order->save();
+
+        $group->status = 1;
+        $group->save();
+
+        if($request->input('existing')==null){
+            $images = $request->file('image');
+            if($images == null) {
+                abort(400);
+            }
+            foreach($images as $file) {
+
+                $ext = $file->getClientOriginalExtension();
+                $size = $file->getSize() / 1024 / 1024;
+
+                if ($size > 3) {
+                    continue;
+                }
+
+                if (!in_array($ext, $this->allowed_extensions)) {
+                    continue;
+                }
+
+                $image = new Image();
+                $image->image = static::thumbnail($file);
+                $image->order_id = $order->id;
+                $image->save();
+            }
+        }
+
+        return redirect()->back();
+    }
 }

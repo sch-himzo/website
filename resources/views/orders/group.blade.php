@@ -152,6 +152,11 @@
                         @endforeach
                     </table>
                 </div>
+                @if(!$group->archived && $group->status<4)
+                    <div class="panel-footer">
+                        <button class="btn btn-xs btn-default" data-toggle="modal" data-target="#new_order">További minta <i class="fa fa-plus"></i></button>
+                    </div>
+                @endif
             </div>
         </div>
     </div>
@@ -212,7 +217,7 @@
                     <form class="form-inline" action="{{ route('orders.comment', ['group' => $group]) }}" method="POST">
                         {{ csrf_field() }}
                         <div class="form-group">
-                            <input type="text" class="form-control" name="comment" id="comment" placeholder="Komment">
+                            <input type="text" class="form-control" name="comment" id="comment2" placeholder="Komment">
                         </div>
                         <input type="submit" value="Küldés" class="btn btn-default">
                     </form>
@@ -278,6 +283,75 @@
 @endsection
 
 @section('modals')
+    @if($group->status<4 && $group->archived!=true)
+        <div class="modal fade" id="new_order">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">További minta hozzáadása</h4>
+                    </div>
+                    <form action="{{ route('orders.group.add', ['group' => $group]) }}" method="POST" enctype="multipart/form-data">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="input-group" data-toggle="tooltip" title="Minta neve">
+                                    <label for="title" class="input-group-addon">Cím<span class="required">*</span></label>
+                                    <input type="text" class="form-control" name="title" id="title" required placeholder="Cím">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="checkbox">
+                                    <label for="existing">
+                                        <input type="checkbox" id="existing" name="existing">
+                                        Már volt ilyen rendelve
+                                    </label>
+                                </div>
+                                <div class="input-group" data-toggle="tooltip" title="Képenként Max. 3MB">
+                                    <label id="image_label" class="input-group-addon" for="image">Tervrajzok<span class="required">*</span></label>
+                                    <input accept="image/*" required class="form-control" type="file" id="image" name="image[]" multiple>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group" data-toggle="tooltip" title="Hány darabot szeretnél rendelni?">
+                                    <label class="input-group-addon" for="count">Darabszám<span class="required">*</span></label>
+                                    <input required class="form-control" type="number" id="count" name="count" placeholder="Darabszám">
+                                </div>
+                            </div>
+                            <div class="form-group" data-toggle="tooltip" title="Foltot rendelsz, vagy pólóra/pulcsira hímzendő mintát?">
+                                <input type="hidden" name="type" value="badge" id="order_type">
+                                <input class="badge-select btn btn-primary left" type="button" value="Folt" id="badge_button"><input class="badge-select btn btn-default center" type="button" value="Pólóra" id="shirt_button"><input class="badge-select btn btn-default right" type="button" value="Pulcsira" id="jumper_button">
+                            </div>
+
+                            <div class="form-group">
+                                <div class="input-group" data-toggle="tooltip" title="A folt átmérője (cm-ben)">
+                                    <label id="size_label" class="input-group-addon" for="size">Méret<span class="required">*</span></label>
+                                    <input required class="form-control" type="text" name="size" id="size" placeholder="Méret">
+                                    <span class="input-group-addon">cm</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group" data-toggle="tooltip" title="Ha különleges betűtípust igényel a folt">
+                                    <label id="font_label" class="input-group-addon" for="font">Betűtípus</label>
+                                    <input accept=".ttf" class="form-control" type="file" name="font" id="font">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group" data-toggle="tooltip" title="Szöveges leírás a folt elképzeléséről">
+                                    <label id="comment_label" class="input-group-addon" for="comment">Elképzelés<span class="required">*</span></label>
+                                    <textarea required name="comment" id="comment" class="form-control"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" type="button" data-dismiss="modal">Mégse <i class="fa fa-times"></i></button>
+                            <button type="submit" id="more" class="btn btn-primary">Mentés <i class="fa fa-save"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="modal fade" id="change_status">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -354,4 +428,8 @@
             </div>
         @endif
     @endif
+@endsection
+
+@section('scripts')
+    <script src="{{ asset('js/order.js') }}"></script>
 @endsection

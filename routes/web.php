@@ -96,6 +96,8 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('{order}/existing', 'OrdersController@existing')->name('existing');
 
         Route::post('{order}/testImage', 'OrdersController@testImage')->name('testImage');
+
+        Route::post('{group}/add', 'OrdersController@addOrder')->name('group.add');
     });
 
 Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth'], function(){
