@@ -587,6 +587,9 @@ $size cm oldalhosszúság
         }else{
             $allowed = $statuses;
         }
+        if(Auth::user()->role_id>=5) {
+            $allowed = $statuses;
+        }
 
         return view('orders.order', [
             'group' => $group,
@@ -663,7 +666,10 @@ $size cm oldalhosszúság
             5 => 'Kész'
         ];
 
-        $statuses = array_slice($statuses,0,min($status_parse[$max_status]+1,5));
+
+        if(Auth::user()->role_id<=4) {
+            $statuses = array_slice($statuses,0,min($status_parse[$max_status]+1,5));
+        }
 
         Carbon::setLocale('hu');
 
