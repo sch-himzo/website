@@ -153,20 +153,4 @@
             </div>
         </div>
     @endif
-    @if(env('APP_DEBUG')=='true' && !Auth::check())
-        <div class="modal fade" id="warning">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Fejlesztés alatt</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>A weboldal jelenleg fejlesztés alatt áll! Minden itt leadott rendelést teszt jellegűnek veszünk!</p>
-                        <p><b>Rendelés leadás jelenleg a himzo@sch.bme.hu email címen keresztül történik</b></p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
 @endsection
