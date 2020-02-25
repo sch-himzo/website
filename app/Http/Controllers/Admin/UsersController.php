@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order\Group;
 use App\Models\User;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Session;
@@ -12,7 +14,7 @@ class UsersController extends Controller
 {
     public function index()
     {
-        $users = User::all();
+        $users = User::paginate(15);
 
         return view('admin.users.index', [
             'users' => $users
@@ -26,7 +28,7 @@ class UsersController extends Controller
 
         return view('admin.users.user', [
             'user' => $user,
-            'orders' => $user->orders
+            'orders' => Group::where('user_id',$user->id)->paginate(15)
         ]);
     }
 

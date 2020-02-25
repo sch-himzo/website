@@ -9,6 +9,7 @@
     </h2>
     <div class="row">
         <div class="col-md-12">
+            {{ $users->links() }}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Felhasználók</h3>
@@ -22,14 +23,17 @@
                         </tr>
                         @foreach($users as $user)
                             <tr>
-                                <td><a href="{{ route('admin.users.user', ['user' => $user]) }}">{{$user->name}}</a></td>
-                                <td align="center">{{$user->email}}</td>
-                                <td align="right">{{$user->role->name}}</td>
+                                <td>
+                                    <a href="{{ route('admin.users.user', ['user' => $user->id]) }}">{{ $user->name }}</a>
+                                </td>
+                                <td align="center">{{ $user->email }}</td>
+                                <td align="right">{{ $user->role->name }}</td>
                             </tr>
                         @endforeach
                     </table>
                 </div>
             </div>
+            {{ $users->links() }}
         </div>
     </div>
 @endsection

@@ -45,6 +45,7 @@
 
     <div class="row">
         <div class="col-md-12">
+            {{ $orders->links() }}
             <div class="panel panel-default">
                 <div class="panel-heading">
                     <h3 class="panel-title">Felhasználó rendelései</h3>
@@ -72,6 +73,7 @@
                     </table>
                 </div>
             </div>
+            {{ $orders->links() }}
         </div>
     </div>
 
