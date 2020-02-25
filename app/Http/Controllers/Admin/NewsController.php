@@ -32,6 +32,14 @@ class NewsController extends Controller
         $content = $request->input('content');
         $title = $request->input('title');
         $role = $request->input('role');
+        $alert = $request->input('alert');
+
+        if($alert){
+            foreach(News::all()->where('alert',1)->all() as $item) {
+                $item->alert = 0;
+                $item->save();
+            }
+        }
 
         $news = new News();
 
@@ -39,6 +47,7 @@ class NewsController extends Controller
         $news->title = $title;
         $news->role_id = $role==0 ? 1 : 2;
         $news->user_id = Auth::id();
+        $news->alert = $alert ? 1 : 0;
         $news->save();
 
         return redirect()->route('admin.news.index');
@@ -49,10 +58,19 @@ class NewsController extends Controller
         $content = $request->input('content');
         $title = $request->input('title');
         $role = $request->input('role');
+        $alert = $request->input('alert');
+
+        if($alert){
+            foreach(News::all()->where('alert',1)->all() as $item) {
+                $item->alert = 0;
+                $item->save();
+            }
+        }
 
         $news->content = $content;
         $news->title = $title;
         $news->role_id = $role==0 ? 1 : 2;
+        $news->alert = $alert ? 1 : 0;
         $news->save();
 
         return redirect()->route('admin.news.index');

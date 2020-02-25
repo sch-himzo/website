@@ -140,6 +140,11 @@
         }
     </script>
     @endif
+    @if(!Auth::check())
+    <script>
+        $('#current_news_article').modal('show');
+    </script>
+    @endif
 @endsection
 
 @section('modals')
@@ -163,4 +168,21 @@
             </div>
         </div>
     @endif
+    @foreach($news as $article)
+        @if($article->alert)
+            <div class="modal fade" id="current_news_article">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button class="close" data-dismiss="modal" type="button">&times;</button>
+                            <h4 class="modal-title">{{ $article->title }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            {!! $article->content !!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endif
+    @endforeach
 @endsection

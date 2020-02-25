@@ -14,7 +14,7 @@
         <div class="col-md-12">
             <div class="panel @if($news_item->role_id>1) panel-info @else panel-default @endif">
                 <div class="panel-heading">
-                    <h3 class="panel-title">{{ $news_item->title }}</h3>
+                    <h3 class="panel-title">{{ $news_item->title }} @if($news_item->alert) <i class="fa fa-check" data-toggle="tooltip" title="Felugró ablakos értesítés a főoldalon, ha nincs bejelentkezve a felhasználó"></i> @endif</h3>
                     <span style="font-size:10pt;">{{ \Carbon\Carbon::create($news_item->created_at)->diffForHumans() }}</span>
                 </div>
                 <div class="panel-body">

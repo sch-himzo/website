@@ -33,6 +33,12 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="checkbox">
+                            <label for="alert">
+                                <input type="checkbox" name="alert" id="alert">
+                                Felugró ablakos értesítés a főoldalon
+                            </label>
+                        </div>
                     </div>
                     <div class="panel-footer">
                         <a href="{{ route('admin.news.index') }}" class="btn btn-default"><i class="fa fa-times"></i> Mégse</a>
