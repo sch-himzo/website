@@ -19,7 +19,8 @@
                         <tr>
                             <th>Név</th>
                             <th style="text-align:center;">Email</th>
-                            <th style="text-align:right;">Jogosultság</th>
+                            <th style="text-align:center;">Jogosultság</th>
+                            <th style="text-align:center;">Email visszaigazolva</th>
                         </tr>
                         @foreach($users as $user)
                             <tr>
@@ -27,7 +28,14 @@
                                     <a href="{{ route('admin.users.user', ['user' => $user->id]) }}">{{ $user->name }}</a>
                                 </td>
                                 <td align="center">{{ $user->email }}</td>
-                                <td align="right">{{ $user->role->name }}</td>
+                                <td align="center">{{ $user->role->name }}</td>
+                                <td align="center">
+                                    @if($user->activated)
+                                        <i class="fa fa-check" data-toggle="tooltip" title="Aktiválva"></i>
+                                    @else
+                                        <i class="fa fa-times" data-toggle="tooltip" title="Aktiválásra vár"></i>
+                                    @endif
+                                </td>
                             </tr>
                         @endforeach
                     </table>
