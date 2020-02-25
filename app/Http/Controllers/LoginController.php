@@ -171,6 +171,10 @@ class LoginController extends Controller
 
         Auth::attempt(['email' => $email, 'password' => $password]);
 
+        if(!Auth::user()->activated) {
+            return redirect()->route('activate');
+        }
+
         return redirect()->intended('');
     }
 
@@ -351,5 +355,27 @@ class LoginController extends Controller
             }
         }
 
+    }
+
+    public function newCode()
+    {
+        if(!Auth::check()) {
+            abort(401);
+        }
+
+        $user = User::all()->find(Auth::id());
+
+        $code = Str::random(60);
+        $user->activate_token = $code;
+        $user->save();
+
+        EmailController::registerEmail($user);
+
+        return redirect()->route('activate2');
+    }
+
+    public function activate2()
+    {
+        return view('activate2');
     }
 }

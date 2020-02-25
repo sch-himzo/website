@@ -41,8 +41,10 @@ Route::get('activate/{token}','LoginController@activate')->name('user.activate')
 Route::get('user/disable_email/{token}','UserController@disableEmail')->name('user.disable_email');
 
 Route::get('activate','LoginController@emailSent')->name('activate');
+Route::get('newActivate', 'LoginController@newCode')->name('new_activate');
+Route::get('email_sent', 'LoginController@activate2')->name('activate2');
 
-Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
+Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => ['auth','activate']],
     function () {
         Route::get('new', 'OrdersController@create')->name('new');
         Route::post('delete/order/{order}', 'OrdersController@delete')->name('delete');
@@ -104,7 +106,7 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::get('{group}/spam/unmark', 'OrdersController@notSpam')->name('group.notSpam');
     });
 
-Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth'], function(){
+Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => ['auth','activate']], function(){
 
     Route::post('find','DesignController@find')->name('find');
     Route::get('{design}/order/{order}','DesignController@attachGroupToOrder')->name('attach')->middleware('rookie');
@@ -130,7 +132,7 @@ Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth']
 
 });
 
-Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' => 'jew'], function(){
+Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' => ['jew','activate']], function(){
     Route::post('teddy-bears/new','TransactionController@newTeddy')->name('teddy_bear.new');
     Route::post('teddy-bears/{teddy_bear}/balance/add', 'TransactionController@addBalance')->name('teddy_bear.balance.add');
 
@@ -142,7 +144,7 @@ Route::group(['prefix' => 'transactions', 'as' => 'transactions.', 'middleware' 
     Route::get('teddy-bears','TransactionController@teddyBears')->name('teddy_bears');
 });
 
-Route::group(['prefix' => 'members','as' => 'members.', 'middleware' => 'rookie'], function(){
+Route::group(['prefix' => 'members','as' => 'members.', 'middleware' => ['rookie','activate']], function(){
     Route::get('','MembersController@index')->name('index');
     Route::get('unassigned','MembersController@unassigned')->name('unassigned');
     Route::get('mine','MembersController@mine')->name('mine');
@@ -166,7 +168,7 @@ Route::group(['prefix' => 'images', 'as' => 'images.'], function(){
 });
 
 Route::group(['prefix' => 'albums', 'as' => 'albums.'], function(){
-    Route::group(['middleware' => 'auth'], function(){
+    Route::group(['middleware' => ['auth','activate']], function(){
         Route::get('new/order/{order}','Gallery\AlbumController@create')->name('new');
         Route::post('new/step/2/order/{order}','Gallery\AlbumController@editUploadedImages')->name('new.step2');
         Route::post('save/order/{order}/album/{album}','Gallery\AlbumController@save')->name('save');
@@ -176,7 +178,7 @@ Route::group(['prefix' => 'albums', 'as' => 'albums.'], function(){
 });
 
 
-Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], function(){
+Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => ['auth','activate']], function(){
     Route::get('orders','UserController@orders')->name('orders');
 
     Route::group(['middleware' => 'rookie'], function(){
@@ -193,7 +195,7 @@ Route::group(['prefix' => 'user', 'as' => 'user.', 'middleware' => 'auth'], func
     Route::get('notifications/disable','UserController@disableNotifications')->name('disable_notifications');
 });
 
-Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], function(){
+Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => ['leader','activate']], function(){
     Route::get('', 'Admin\AdminController@index')->name('index');
 
     Route::group(['prefix' => 'users', 'as' => 'users.'], function(){
