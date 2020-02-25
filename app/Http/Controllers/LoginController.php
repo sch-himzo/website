@@ -266,7 +266,7 @@ class LoginController extends Controller
             $user->save();
         }
 
-        return redirect()->route('index.login');
+        return redirect()->route('index');
     }
 
     public function email(Request $request){
