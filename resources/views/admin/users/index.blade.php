@@ -22,6 +22,7 @@
                             <th style="text-align:center;">Jogosultság</th>
                             <th style="text-align:center;">Rendelések száma</th>
                             <th style="text-align:center;">Email visszaigazolva</th>
+                            <th style="text-align:center;">Regisztrált</th>
                         </tr>
                         @foreach($users as $user)
                             <tr>
@@ -38,6 +39,7 @@
                                         <i class="fa fa-times" data-toggle="tooltip" title="Aktiválásra vár"></i>
                                     @endif
                                 </td>
+                                <td align="center">{{ $user->created_at }}</td>
                             </tr>
                         @endforeach
                     </table>
