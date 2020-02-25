@@ -20,7 +20,7 @@ class Activate
             return $next($request);
         }
 
-        if(!Auth::user()->activated) {
+        if(!Auth::user()->activated && Auth::user()->internal_id==null) {
             return redirect()->route('activate');
         }
 
