@@ -16,7 +16,7 @@ class EmailController extends Controller
 
     public function unsent()
     {
-        $emails = Email::where('sent_at',null)->paginate(5);
+        $emails = Email::where('sent_at',null)->where('send',1)->paginate(5);
 
         return view('admin.emails.unsent', [
             'emails' => $emails
