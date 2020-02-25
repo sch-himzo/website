@@ -7,6 +7,8 @@ use App\Models\News;
 use App\Models\Setting;
 use App\Models\Slide;
 use App\Models\User;
+use Carbon\Carbon;
+use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -19,7 +21,9 @@ class HomeController extends Controller
         $role = Auth::check() ? Auth::user()->role_id : 1;
 
         $slides = Slide::all()->sortBy('number');
-        $news = News::all()->where('role_id','>=', $role)->sortByDesc('created_at')->all();
+        $news = DB::table('news')->where('role_id', '<=', $role)->paginate(5);
+
+        Carbon::setLocale('hu');
 
         return view('index',[
             'slides' => $slides,

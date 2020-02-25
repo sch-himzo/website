@@ -270,6 +270,12 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => 'leader'], f
         'as' => 'news.'
     ], function(){
         Route::get('','Admin\NewsController@index')->name('index');
+
+        Route::get('new', 'Admin\NewsController@create')->name('new');
+        Route::post('save', 'Admin\NewsController@save')->name('save');
+        Route::get('edit/{news}', 'Admin\NewsController@edit')->name('edit');
+        Route::post('push/{news}', 'Admin\NewsController@push')->name('push');
+        Route::get('delete/{news}', 'Admin\NewsController@delete')->name('delete');
     });
 });
 

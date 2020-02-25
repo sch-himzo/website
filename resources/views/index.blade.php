@@ -9,7 +9,8 @@
 @endsection
 
 @section('carousel')
-    <style>
+    @if(!isset($_GET['page']) || $_GET['page']==1)
+        <style>
         @foreach($slides as $slide)
         @media screen and (max-width:768px) {
 
@@ -61,6 +62,7 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    @endif
 @endsection
 
 @section('content')
@@ -68,6 +70,14 @@
     <input type="hidden" name="users_url" id="users_url" value="{{ route('getUsers') }}">
     <input type="hidden" name="current_user_id" id="current_user_id" value="@if(Auth::check()) {{ Auth::user()->id }} @else {{ false }} @endif">
     <div style="margin-top:20px;" class="row">
+        <div class="col-md-9 col-md-push-3">
+            <h1>Hírek</h1>
+            @if(isset($_GET['page']) && $_GET['page']>1)
+                {{ $news->links() }}
+            @endif
+        </div>
+    </div>
+    <div class="row">
         <div class="col-md-3">
             <div class="panel panel-default">
                 <div class="panel-heading">
@@ -85,17 +95,18 @@
             </div>
         </div>
         <div class="col-md-9">
-            <h1>Hírek</h1>
             @foreach($news as $article)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{ $article->title }}</h3>
+                        <h3 class="panel-title">{{ $article->title }} <i style="font-size:10pt;">- {{ \Carbon\Carbon::create($article->created_at)->diffForHumans() }}</i></h3>
+
                     </div>
                     <div class="panel-body">
                         {!! $article->content !!}
                     </div>
                 </div>
             @endforeach
+            {{ $news->links() }}
         </div>
     </div>
 @endsection
