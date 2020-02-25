@@ -15,7 +15,7 @@
                 @if(Auth::check() && Auth::user()->role_id>1)
                     <li class="@yield('members.active')"><a class="@yield('members.active')" href="{{ route('members.index') }}">Irányítópult</a></li>
                 @endif
-                @if(Auth::check() && Auth::user()->activated==1)
+                @if(Auth::check() && (Auth::user()->activated==1 || Auth::user()->internal_id!=null))
                     <li class="dropdown @yield('orders.new.active')  @yield('user.orders.active') @yield('orders.unapproved.active') @yield('orders.active.active')">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">Rendelések <span class="caret"></span></a>
                         <ul class="dropdown-menu">

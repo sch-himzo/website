@@ -25,14 +25,6 @@ use Str;
 
 class OrdersController extends Controller
 {
-    protected $label_ids = [
-        'external' => '5ac3b3a17566aef831377381',
-        'internal' => '5ac3b38b88b3d5713fc4a8ee',
-        'badge' => '58979ad58990c65a08ddae82',
-        'shirt' => '58979add7feac84ca924de04',
-        'jumper' => '58979add7feac84ca924de04'
-    ];
-
     protected $allowed_extensions = [
         'jpg','jpeg','png','gif','svg'
     ];
@@ -46,97 +38,6 @@ class OrdersController extends Controller
     public function create(Request $request)
     {
         return view('orders.new');
-    }
-
-    public function trelloCardDescription($name,$email,$time_limit,$count,$size,$font,$comment,$image)
-    {
-        return "
-# Adatok
-
-*Rendelésből kinyert:*
-
- - **Rendelő:** $name - $email
- - **Határidő:** $time_limit
- - **Darabszám:** $count
- - **Fullextrás betűtípus:** $font
- - **Megjegyzés:** $comment
- - **Kép:** $image
-
-*Kitöltendő:*
-
- - **Öltésszám:** 
- - **Ár:** $count x {Darabár} = ...HUF
- - **Terv fájl helye:** 
- - **Felhasznált cérnák azonosítói:** 
- - **Felhasznált PTP neve:** 
-
----
-
-# Leírás
-
-$size cm oldalhosszúság
-
----
-
-# Aktuális információk
-";
-    }
-
-    public function trello(Order $order)
-    {
-        $curl = curl_init();
-
-        $key = env('TRELLO_ID');
-        $token = env('TRELLO_KEY');
-        $list = env('TRELLO_LIST');
-
-        $labels = "";
-        if($order->type==1){
-            $labels .= $this->label_ids['badge'].',';
-        }else{
-            $labels .= $this->label_ids['shirt'].',';
-        }
-
-        if($order->internal==true){
-            $labels .= $this->label_ids['internal'];
-        }else{
-            $labels .= $this->label_ids['external'];
-        }
-
-        $font = $order->font==null ? 'nincs' : $order->font;
-        $comment = $order->comment == null ? 'nincs' : $order->comment;
-
-        $image = route('orders.getImage', ['order' => $order]);
-
-        $data = [
-            'name' => $order->title,
-            'desc' => $this->trelloCardDescription($order->user->name,$order->user->email,$order->time_limit,$order->count,$order->size,$font,$comment,$image),
-            'pos' => 'top',
-            'idList' => $list,
-            'idLabels' => $labels
-        ];
-
-        $data = json_encode($data);
-
-        $url = "https://api.trello.com/1/cards?key=$key&token=$token";
-
-        curl_setopt($curl, CURLOPT_URL,$url);
-        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-        curl_setopt($curl, CURLOPT_POST,true);
-        curl_setopt($curl,CURLOPT_POSTFIELDS,$data);
-
-        curl_setopt($curl, CURLOPT_HTTPHEADER, array(
-                'Content-Type: application/json',
-                'Content-Length: ' . strlen($data))
-        );
-
-        $output = json_decode(curl_exec($curl));
-
-        $this->trelloChecklist($output->id);
-
-        curl_close($curl);
-
-        return $output;
     }
 
     public function save(Request $request, Group $group)
@@ -207,30 +108,6 @@ $size cm oldalhosszúság
         return view('orders.final', ['group' => $group, 'order_types' => $order_types]);
     }
 
-    public function unapproved()
-    {
-        if(Auth::user()->role_id<2)
-        {
-            abort(403);
-        }
-
-        $orders = Order::where('approved_by',null)->get();
-
-        return view('orders.unapproved',[
-            'orders' => $orders
-        ]);
-    }
-
-    public function email(Request $request, Order $order)
-    {
-        $message = $request->input('message');
-
-        if($message!=''){
-            EmailController::orderQuestion($order, $message);
-        }
-        return redirect()->back();
-    }
-
     public function unarchive(Group $order)
     {
         if(Auth::user()->role_id<4){
@@ -290,75 +167,6 @@ $size cm oldalhosszúság
     {
         $path = $image->image;
         return response()->file(storage_path("app/" . $path));
-    }
-
-    public function trelloChecklist($card)
-    {
-        $curl = curl_init();
-
-        $key = env('TRELLO_ID');
-        $token = env('TRELLO_KEY');
-
-        $data = [
-            'idCard' => $card,
-            'name' => 'Teendők',
-            'pos' => 'bottom',
-            'idChecklistSource' => '5da4934464eda41a074e64f5'
-        ];
-
-
-        $url = "https://api.trello.com/1/checklists?idCard=$card&key=$key&token=$token";
-
-        curl_setopt($curl, CURLOPT_URL,$url);
-        curl_setopt($curl,CURLOPT_RETURNTRANSFER,true);
-        curl_setopt($curl, CURLOPT_POST,true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS,$data);
-
-        $output = json_decode(curl_exec($curl));
-    }
-
-    public function updateTrello()
-    {
-        $lists = TrelloList::all()->where('id','<','5');
-
-        foreach($lists as $list)
-        {
-            TrelloController::updateCards($list);
-        }
-
-        $cards = TrelloCard::all();
-
-        foreach($cards as $card){
-            $card->order->updateStatus();
-        }
-
-        return redirect()->back();
-    }
-
-    public function setUser(Request $request, Order $order)
-    {
-        if($order->user!=null || $order->tempUser != null){
-            abort(403);
-        }
-
-        $email = $request->input('email');
-        $name = $request->input('name');
-
-        if(User::where('email',$email)->get()->count()!=0){
-            $order->user_id = User::where('email',$email)->first()->id;
-            $order->save();
-        }else{
-            $temp_user = new TempUser();
-            $temp_user->name = $name;
-            $temp_user->email = $email;
-            $temp_user->save();
-
-            $order->temp_user_id = $temp_user->id;
-            $order->save();
-        }
-
-        return redirect()->back();
-
     }
 
     public function archive(Group $order)
@@ -849,7 +657,7 @@ $size cm oldalhosszúság
 
         $max_status += 2;
 
-        if($request->status>$max_status){
+        if($request->input('status')>$max_status){
             abort(418);
         }
 

@@ -63,25 +63,14 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => ['auth','
 
         Route::get('{order}/archive', 'OrdersController@archive')->name('archive');
 
-        Route::post('{order}/edit','OrdersController@edit')->name('edit');
-
         Route::get('{group}/view','OrdersController@group')->name('view');
         Route::get('{group}/order/{order}', 'OrdersController@order')->name('order');
-
-        Route::post('email/{order}','OrdersController@email')->name('email');
-
-        Route::post('setUser/{order}','OrdersController@setUser')->name('setUser');
 
         Route::post('{group}/comment','OrdersController@comment')->name('comment');
         Route::get('{group}/assign', 'OrdersController@assign')->name('assign');
         Route::post('{group}/status', 'OrdersController@changeStatus')->name('changeStatus');
 
-        Route::get('unapproved', 'OrdersController@unapproved')->name('unapproved');
         Route::get('approve/order/{order}/{internal}', 'OrdersController@approve')->name('approve');
-
-        Route::get('active', 'OrdersController@active')->name('active');
-
-        Route::get('update','OrdersController@updateTrello')->name('update');
 
         Route::get('{order}/albums','OrdersController@albums')->name('albums');
 
