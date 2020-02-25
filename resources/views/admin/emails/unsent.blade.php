@@ -3,7 +3,7 @@
 @section('title','Admin - Emailek')
 
 @section('content')
-    <h1 class="page-header with-description">Elküldetlen emailek</h1>
+    <h1 class="page-header with-description">Elküldetlen emailek <span style="font-size:12pt"><i class="fa fa-question" data-toggle="tooltip" title="Ezek minden reggel 8-kor kerülnek elküldésre"></i></span></h1>
     <h2 class="page-description">
         <a href="{{ route('admin.emails.index') }}">Vissza</a>
     </h2>
