@@ -212,7 +212,7 @@ class EmailController extends Controller
         $email->from_name = "Pulcsi és Foltmékör";
         $email->automated = true;
         $email->message = view('emails.approved.client', $data)->render();
-        $email->subject = "";
+        $email->subject = "Rendelés elfogadva - " . $order->title;
         $email->send = env('APP_DEBUG')==false;
 
         $email->save();
@@ -342,11 +342,13 @@ class EmailController extends Controller
 
                     $email = new Email();
                     $email->to = $to_email;
-                    $email->subject = "";
+                    $email->subject = "Rendszeres ping - $order_name";
                     $email->message = view('emails.ping', $data)->render();
                     $email->from = "Rendszeres ping";
                     $email->user_id = null;
                     $email->automated = true;
+                    $email->send = 0;
+                    $email->sent_at = date("Y-m-d H:i:s");
                     $email->save();
 
                     Mail::send('emails.ping', $data, function($message) use ($to_name,$to_email, $order_name){
@@ -386,9 +388,9 @@ class EmailController extends Controller
 
     public static function sendUnsent()
     {
-        $emails = Email::where('send',true)
+        $emails = Email::all()->where('send',true)
             ->where('sent_at',null)
-            ->get();
+            ->all();
 
         foreach($emails as $email)
         {
