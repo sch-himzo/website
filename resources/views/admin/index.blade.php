@@ -42,5 +42,10 @@
                 <i class="fa fa-newspaper-o"></i> Hírek
             </a>
         </div>
+        <div class="col-md-3">
+            <a class="btn btn-push btn-lg btn-block btn-default" href="{{ route('admin.emails.index') }}">
+                <i class="fa fa-envelope"></i> Emailek
+            </a>
+        </div>
     </div>
 @endsection

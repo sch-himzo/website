@@ -236,6 +236,18 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => ['leader','a
     });
 
     Route::group([
+        'prefix' => 'emails',
+        'as' => 'emails.'
+    ], function(){
+        Route::get('', 'Admin\EmailController@index')->name('index');
+
+        Route::get('unsent', 'Admin\EmailController@unsent')->name('unsent');
+        Route::get('sent', 'Admin\EmailController@sent')->name('sent');
+
+        Route::get('{email}/delete', 'Admin\EmailController@delete')->name('delete');
+    });
+
+    Route::group([
         'prefix' => 'misc',
         'as' => 'misc.'
     ], function(){
