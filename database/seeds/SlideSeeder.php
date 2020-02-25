@@ -21,7 +21,7 @@ class SlideSeeder extends Seeder
 
         Slide::create([
             'title' => 'Folt rendelés',
-            'message' => "<p><a class='btn btn-lg btn-primary' href='". route('orders.new') ."'>Rendelés &raquo;</a></p>",
+            'message' => "<p><a class='btn btn-lg btn-primary' href='". route('orders.new.create') ."'>Rendelés &raquo;</a></p>",
             'image' => 'https://images2.minutemediacdn.com/image/upload/c_crop,h_1193,w_2121,x_0,y_175/f_auto,q_auto,w_1100/v1554921998/shape/mentalfloss/549585-istock-909106260.jpg',
             'number' => '2'
         ]);

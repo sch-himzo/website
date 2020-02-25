@@ -26,7 +26,7 @@ Rendelés adatai:<br>
     </tr>
 </table>
 
-A rendelést <a style="color:#069;" href="{{ route('orders.view', ['group' => $group]) }}">itt</a> tudod megtekinteni@if(!$group->help), ha úgy érzed segítség kell, kattints <a style="color:#069;" href="{{ route('groups.help', ['order' => $group]) }}">ide</a>@endif.<br>
+A rendelést <a style="color:#069;" href="{{ route('orders.groups.view', ['group' => $group]) }}">itt</a> tudod megtekinteni@if(!$group->help), ha úgy érzed segítség kell, kattints <a style="color:#069;" href="{{ route('groups.help', ['order' => $group]) }}">ide</a>@endif.<br>
 
 Üdv,<br>
 <i>Pulcsi és Foltmékör</i><br><br>

@@ -37,7 +37,7 @@
                                     @if($i==1)
                                         <tr>
                                             <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
-                                                <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
+                                                <a href="{{ route('orders.groups.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                             </td>
                                             <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
                                                 @if($order->user!=null)
@@ -56,7 +56,7 @@
                                             </td>
                                             @if(Auth::user()->role_id>4)
                                             <td align="center" style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
-                                                <a data-toggle="tooltip" title="Nem archivált" href="{{ route('orders.unarchive', ['order' => $order]) }}" class="btn btn-xs btn-primary">
+                                                <a data-toggle="tooltip" title="Nem archivált" href="{{ route('orders.groups.unarchive', ['group' => $order]) }}" class="btn btn-xs btn-primary">
                                                     <i class="fa fa-check"></i>
                                                 </a>
                                             </td>
@@ -71,7 +71,7 @@
                             @else
                                 <tr>
                                     <td>
-                                        <a href="{{ route('orders.view', ['order' => $order]) }}">{{ $order->title }}</a>
+                                        <a href="{{ route('orders.groups.view', ['group' => $order]) }}">{{ $order->title }}</a>
                                     </td>
                                     <td>
                                         @if($order->user!=null)
@@ -90,7 +90,7 @@
                                     </td>
                                     @if(Auth::user()->role_id>4)
                                     <td align="center">
-                                        <a data-toggle="tooltip" title="Nem archivált" href="{{ route('orders.unarchive', ['order' => $order]) }}" class="btn btn-xs btn-primary">
+                                        <a data-toggle="tooltip" title="Nem archivált" href="{{ route('orders.groups.unarchive', ['group' => $order]) }}" class="btn btn-xs btn-primary">
                                             <i class="fa fa-check"></i>
                                         </a>
                                     </td>

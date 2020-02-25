@@ -50,7 +50,7 @@
                 <div class="panel-heading">
                     <h3 class="panel-title">Minta hozzáadása</h3>
                 </div>
-                <form id="form" action="{{ route('orders.save', ['group' => $group]) }}" method="POST" enctype="multipart/form-data">
+                <form id="form" action="{{ route('orders.new.save', ['group' => $group]) }}" method="POST" enctype="multipart/form-data">
                     {{ csrf_field() }}
                     <div class="panel-body include-progress">
                         <div class="progress">
@@ -142,7 +142,7 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-default" type="button" data-dismiss="modal">Mégse <i class="fa fa-times"></i></button>
-                    <a href="{{ route('orders.deleteGroup', ['group' => $group]) }}" class="btn btn-danger">
+                    <a href="{{ route('orders.groups.delete', ['group' => $group]) }}" class="btn btn-danger">
                         Törlés <i class="fa fa-trash"></i>
                     </a>
                 </div>
@@ -202,7 +202,7 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <a href="{{ route('orders.step2.delete', ['order' => $order]) }}" class="btn btn-danger">Igen <i class="fa fa-trash"></i></a>
+                        <a href="{{ route('orders.new.step2.delete', ['order' => $order]) }}" class="btn btn-danger">Igen <i class="fa fa-trash"></i></a>
                         <button type="button" class="btn btn-default" data-dismiss="modal">Mégse <i class="fa fa-times"></i></button>
                     </div>
                 </div>
@@ -215,7 +215,7 @@
     <script src="{{ asset('js/order.js') }}"></script>
     <script>
         $('#more').click(function(){
-            $('#form').attr('action','{{ route('orders.step2', ['group' => $group]) }}');
+            $('#form').attr('action','{{ route('orders.new.step2', ['group' => $group]) }}');
             $('#form').submit();
         });
     </script>

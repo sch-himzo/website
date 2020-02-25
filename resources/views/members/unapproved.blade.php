@@ -33,7 +33,7 @@
                     @foreach($orders as $order)
                         <tr>
                             <td>
-                                <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
+                                <a href="{{ route('orders.groups.view', ['group' => $order]) }}">{{ $order->title }}</a>
                             </td>
                             <td>
                                 @if($order->user!=null)
@@ -86,15 +86,15 @@
                         <i>Ezáltal bekerül trello-ba a "Beérkező" listába!</i>
                     </div>
                     <div class="modal-footer">
-                        <a href="{{ route('orders.approve', ['order' => $order, 'internal' => '1']) }}" class="btn btn-success">Igen (Schönherzes)</a>
-                        <a href="{{ route('orders.approve', ['order' => $order, 'internal' => '0']) }}" class="btn btn-success">Igen (Külsős)</a>
+                        <a href="{{ route('orders.groups.approve', ['group' => $order, 'internal' => '1']) }}" class="btn btn-success">Igen (Schönherzes)</a>
+                        <a href="{{ route('orders.groups.approve', ['group' => $order, 'internal' => '0']) }}" class="btn btn-success">Igen (Külsős)</a>
                         <button type="button" data-dismiss="modal" class="btn btn-danger">Mégse</button>
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal fade" id="delete_{{ $order->id }}">
-            <form action="{{ route('orders.delete', ['order' => $order]) }}" method="POST">
+            <form action="{{ route('orders.groups.delete', ['group' => $order]) }}" method="POST">
                 {{ csrf_field() }}
                 <div class="modal-dialog">
                     <div class="modal-content">

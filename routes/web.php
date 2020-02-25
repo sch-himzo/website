@@ -45,55 +45,58 @@ Route::get('newActivate', 'LoginController@newCode')->name('new_activate');
 Route::get('email_sent', 'LoginController@activate2')->name('activate2');
 
 Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => ['auth','activate']],
-    function () {
-        Route::get('new', 'OrdersController@create')->name('new');
-        Route::post('delete/order/{order}', 'OrdersController@delete')->name('delete');
-        Route::get('fake', 'OrdersController@fake')->name('fake');
-        Route::post('save/fake', 'OrdersController@saveFake')->name('saveFake');
-        Route::post('save/{group}', 'OrdersController@save')->name('save');
-        Route::get('finished/{group}', 'OrdersController@finished')->name('finished');
-        Route::get('image/{image}', 'OrdersController@getImage')->name('getImage');
-        Route::get('font/order/{order}', 'OrdersController@getFont')->name('getFont');
+    function(){
+        Route::group(['prefix' => 'new', 'as' => 'new.'],
+            function(){
+                Route::get('create', 'NewOrderController@create')->name('create');
+                Route::get('fake', 'NewOrderController@fake')->name('fake');
 
-        Route::post('new/step/2/{group?}', 'OrdersController@step2')->name('step2');
-        Route::get('new/2/{group}', 'OrdersController@newStep2')->name('new.step2');
-        Route::get('new/step/2/delete/{order}', 'OrdersController@deleteStep2')->name('step2.delete');
+                Route::post('{order}/delete', 'NewOrderController@deleteOrder')->name('delete.order');
+                Route::get('{group}/delete', 'NewOrderController@deleteGroup')->name('delete.group');
 
-        Route::get('{group}/joint','OrdersController@joint')->name('joint');
+                Route::post('{group}/save', 'NewOrderController@save')->name('save');
+                Route::get('{group}/finished', 'NewOrderController@finished')->name('finished');
 
-        Route::get('{order}/archive', 'OrdersController@archive')->name('archive');
+                Route::post('step/2/{group?}','NewOrderController@step2')->name('step2');
+                Route::get('step/new/2/{group}', 'NewOrderController@newStep2')->name('new_step_2');
+                Route::get('step/new/2/delete/{order}', 'NewOrderController@deleteStep2')->name('step2.delete');
 
-        Route::get('{group}/view','OrdersController@group')->name('view');
-        Route::get('{group}/order/{order}', 'OrdersController@order')->name('order');
+            });
 
-        Route::post('{group}/comment','OrdersController@comment')->name('comment');
-        Route::get('{group}/assign', 'OrdersController@assign')->name('assign');
-        Route::post('{group}/status', 'OrdersController@changeStatus')->name('changeStatus');
+        Route::group(['prefix' => 'groups', 'as' => 'groups.'],
+            function(){
+                Route::get('{group}', 'OrderGroupController@view')->name('view');
 
-        Route::get('approve/order/{order}/{internal}', 'OrdersController@approve')->name('approve');
+                Route::get('{group}/joint','OrderGroupController@joint')->name('joint');
+                Route::get('{group}/archive', 'OrderGroupController@archive')->name('archive');
+                Route::get('{group}/unarchive','OrderGroupController@unarchive')->name('unarchive');
+                Route::get('{group}/assign', 'OrderGroupController@assign')->name('assign');
+                Route::get('{group}/approve/{internal}', 'OrderGroupController@approve')->name('approve');
+                Route::get('{group}/done', 'OrderGroupController@done')->name('done');
+                Route::get('{group}/help', 'OrderGroupController@help')->name('help');
+                Route::post('{group}/ETA', 'OrderGroupController@ETA')->name('ETA')->middleware('rookie');
+                Route::post('{group}/comment', 'OrderGroupController@comment')->name('comment');
+                Route::post('{group}/status', 'OrderGroupController@status')->name('status');
+                Route::post('{group}/add', 'OrderGroupController@add')->name('add');
+                Route::post('{group}/delete', 'OrderGroupController@delete')->name('delete');
 
-        Route::get('{order}/albums','OrdersController@albums')->name('albums');
+                Route::get('{group}/spam', 'OrderGroupController@spam')->name('spam');
+                Route::get('{group}/spam/delete', 'OrderGroupController@deleteSpam')->name('spam.delete');
+                Route::get('{group}/spam/unset', 'OrderGroupController@notSpam')->name('spam.unset');
 
-        Route::get('{order}/unarchive', 'OrdersController@unarchive')->name('unarchive');
-        Route::get('{order}/done', 'OrdersController@done')->name('done');
-        Route::get('{order}/help', 'OrdersController@help')->name('help');
+            });
 
-        Route::post('{order}/edit/status', 'OrdersController@editStatus')->name('editStatus')->middleware('rookie');
+        Route::get('{group}/order/{order}', 'OrderController@view')->name('view');
 
-        Route::get('{group}/delete','OrdersController@deleteGroup')->name('deleteGroup');
+        Route::get('{order}/albums', 'OrderController@albums')->name('albums');
+        Route::post('{order}/status', 'OrderController@status')->name('status')->middleware('rookie');
+        Route::get('{order}/existing', 'OrderController@existing')->name('existing');
+        Route::post('{order}/testImage', 'OrderController@testImage')->name('testImage');
 
-        Route::post('{group}/changeETA','OrdersController@changeETA')->name('changeETA')->middleware('rookie');
-
-        Route::get('{order}/existing', 'OrdersController@existing')->name('existing');
-
-        Route::post('{order}/testImage', 'OrdersController@testImage')->name('testImage');
-
-        Route::post('{group}/add', 'OrdersController@addOrder')->name('group.add');
-
-        Route::get('{group}/spam', 'OrdersController@spam')->name('group.spam');
-        Route::get('{group}/spam/delete', 'OrdersController@deleteSpam')->name('group.spam.delete');
-        Route::get('{group}/spam/unmark', 'OrdersController@notSpam')->name('group.notSpam');
+        Route::get('image/{image}', 'OrderController@image')->name('image');
+        Route::get('{order}/font', 'OrderController@font')->name('font');
     });
+
 
 Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => ['auth','activate']], function(){
 

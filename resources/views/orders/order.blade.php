@@ -3,7 +3,7 @@
 @section('title','Rendelés - '.$order->title)
 
 @section('content')
-    <h1 class="page-header with-description">{{ $order->title }} &raquo; <a href="{{ route('orders.view', ['group' => $group]) }}">Vissza</a></h1>
+    <h1 class="page-header with-description">{{ $order->title }} &raquo; <a href="{{ route('orders.groups.view', ['group' => $group]) }}">Vissza</a></h1>
     <h2 class="page-description">{{ $group->title }}</h2>
     <div class="row">
         <div class="col-md-6">
@@ -32,7 +32,7 @@
                         @if($order->font)
                             <tr>
                                 <td>Betűtípus</td>
-                                <td><a class="btn btn-default" href="{{ route('orders.getFont', ['order' => $order]) }}">
+                                <td><a class="btn btn-default" href="{{ route('orders.font', ['order' => $order]) }}">
                                         <i class="fa fa-download"></i>
                                     </a></td>
                             </tr>
@@ -360,7 +360,7 @@
                     <button class="close" type="button" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Állapot szerkesztése</h4>
                 </div>
-                <form action="{{ route('orders.editStatus', ['order' => $order]) }}" method="POST">
+                <form action="{{ route('orders.status', ['order' => $order]) }}" method="POST">
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <div class="form-group">

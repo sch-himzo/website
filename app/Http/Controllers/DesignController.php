@@ -128,7 +128,7 @@ class DesignController extends Controller
             $order->status = 1;
             $order->save();
 
-            return redirect()->route('orders.order', ['group' => $order->group, 'order' => $order]);
+            return redirect()->route('orders.view', ['group' => $order->group, 'order' => $order]);
         }else{
             return abort(400);
         }

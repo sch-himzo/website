@@ -45,7 +45,7 @@
     @endif
 </table>
 
-<br>A rendelést <a style="color:#069; text-decoration:none;" href="{{ route('orders.view', ['group' => $order]) }}">itt</a> tudod megtekinteni.
+<br>A rendelést <a style="color:#069; text-decoration:none;" href="{{ route('orders.groups.view', ['group' => $order]) }}">itt</a> tudod megtekinteni.
 
 <br>Puszipá,
 <br><i>Pulcsi és Foltmékör</i>

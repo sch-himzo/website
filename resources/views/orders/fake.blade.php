@@ -7,7 +7,7 @@
 @section('content')
     <div class="row">
         <div class="col-md-6 col-md-push-3">
-            <form action="{{ route('orders.step2') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('orders.new.step2') }}" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="form_type" value="first">
                 <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" id="url" value="{{ route('user.find') }}">

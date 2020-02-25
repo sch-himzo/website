@@ -24,8 +24,8 @@
                     <h4><i class="fa fa-exclamation-circle"></i> SPAM-nek jelölt</h4>
                     <p>Ezt a rendelést <b>{{ $group->reporter->name }}</b> SPAM-nek jelölte, jelenleg moderálásra vár, ha tényleg spam törölve lesz.</p>
                     @if(Auth::user()->role_id>4)
-                        <a href="{{ route('orders.group.spam.delete', ['group' => $group]) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Törlés</a>
-                        <a href="{{ route('orders.group.notSpam', ['group' => $group]) }}" class="btn btn-default"><i class="fa fa-check"></i> Nem SPAM</a>
+                        <a href="{{ route('orders.groups.spam.delete', ['group' => $group]) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Törlés</a>
+                        <a href="{{ route('orders.groups.spam.unset', ['group' => $group]) }}" class="btn btn-default"><i class="fa fa-check"></i> Nem SPAM</a>
                     @endif
                 </div>
             </div>
@@ -104,11 +104,11 @@
                         <i class="fa fa-calendar"></i> ETA megadása
                     </button>
                     @if(!$group->help)
-                        <a href="{{ route('orders.help', ['order' => $group]) }}" class="btn btn-danger btn-xs">
+                        <a href="{{ route('orders.groups.help', ['group' => $group]) }}" class="btn btn-danger btn-xs">
                             <i class="fa fa-exclamation"></i> HELP!
                         </a>
                     @else
-                        <a href="{{ route('orders.help', ['order' => $group]) }}" class="btn btn-success btn-xs">
+                        <a href="{{ route('orders.groups.help', ['group' => $group]) }}" class="btn btn-success btn-xs">
                             <i class="fa fa-check"></i> Megvagyok
                         </a>
                     @endif
@@ -144,7 +144,7 @@
                         @foreach($group->orders as $order)
                             <tr>
                                 <td>
-                                    <a href="{{ route('orders.order', ['group' => $group, 'order' => $order]) }}">{{ $order->title }}</a>
+                                    <a href="{{ route('orders.view', ['group' => $group, 'order' => $order]) }}">{{ $order->title }}</a>
                                 </td>
                                 <td>{{ $order->getStatusInternal() }}</td>
                                 <td style="text-align:center;">
@@ -204,11 +204,11 @@
                 </div>
                 <div class="panel-footer">
                     @if($group->assignedUsers->find(Auth::user()->id)!=null)
-                        <a href="{{ route('orders.assign', ['group' => $group]) }}" class="btn btn-xs btn-danger">
+                        <a href="{{ route('orders.groups.assign', ['group' => $group]) }}" class="btn btn-xs btn-danger">
                             <i class="fa fa-minus"></i> Kilépek
                         </a>
                     @else
-                        <a href="{{ route('orders.assign', ['group' => $group]) }}" class="btn btn-xs btn-success">
+                        <a href="{{ route('orders.groups.assign', ['group' => $group]) }}" class="btn btn-xs btn-success">
                             <i class="fa fa-plus"></i> Hozzárendelés
                         </a>
                     @endif
@@ -234,7 +234,7 @@
                     </table>
                 </div>
                 <div class="panel-footer">
-                    <form class="form-inline" action="{{ route('orders.comment', ['group' => $group]) }}" method="POST">
+                    <form class="form-inline" action="{{ route('orders.groups.comment', ['group' => $group]) }}" method="POST">
                         {{ csrf_field() }}
                         <div class="form-group">
                             <input type="text" class="form-control" name="comment" id="comment2" placeholder="Komment">
@@ -311,7 +311,7 @@
                         <button class="close" data-dismiss="modal">&times;</button>
                         <h4 class="modal-title">További minta hozzáadása</h4>
                     </div>
-                    <form action="{{ route('orders.group.add', ['group' => $group]) }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('orders.groups.add', ['group' => $group]) }}" method="POST" enctype="multipart/form-data">
                         {{ csrf_field() }}
                         <div class="modal-body">
                             <div class="form-group">
@@ -379,7 +379,7 @@
                     <button class="close" type="button" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">Állapot szerkesztése</h4>
                 </div>
-                <form action="{{ route('orders.changeStatus', ['group' => $group]) }}" method="POST">
+                <form action="{{ route('orders.groups.status', ['group' => $group]) }}" method="POST">
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <div class="form-group">
@@ -409,7 +409,7 @@
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                     <h4 class="modal-title">ETA Megadása</h4>
                 </div>
-                <form action="{{ route('orders.changeETA', ['group' => $group]) }}" method="POST">
+                <form action="{{ route('orders.groups.ETA', ['group' => $group]) }}" method="POST">
                     {{ csrf_field() }}
                     <div class="modal-body">
                         <div class="form-group">
@@ -441,7 +441,7 @@
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Mégse</button>
-                        <a class="btn btn-primary" href="{{ route('orders.group.spam', ['group' => $group]) }}"><i class="fa fa-ban"></i> Igen!</a>
+                        <a class="btn btn-primary" href="{{ route('orders.groups.spam', ['group' => $group]) }}"><i class="fa fa-ban"></i> Igen!</a>
                     </div>
                 </div>
             </div>
@@ -461,7 +461,7 @@
                         </div>
                         <div class="modal-footer">
                             <button class="btn btn-default" type="button" data-dismiss="modal">Mégse <i class="fa fa-times"></i></button>
-                            <a href="{{ route('orders.archive', ['order' => $group]) }}" class="btn btn-primary">Archiválás <i class="fa fa-archive"></i></a>
+                            <a href="{{ route('orders.groups.archive', ['group' => $group]) }}" class="btn btn-primary">Archiválás <i class="fa fa-archive"></i></a>
                         </div>
                     </div>
                 </div>

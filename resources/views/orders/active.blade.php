@@ -21,7 +21,7 @@
                 @foreach($orders as $order)
                     <tr>
                         <td>
-                            <a href="{{ route('orders.view', ['order' => $order]) }}">
+                            <a href="{{ route('orders.groups.view', ['order' => $order]) }}">
                                 {{ $order->title }}
                             </a>
                         </td>
@@ -31,7 +31,7 @@
                         <td>
                             @if($order->image!="")
                             <span data-toggle="tooltip" title="Kép megtekintése">
-                                <a target="_blank" href="{{ route('orders.getImage', ['order' => $order]) }}" class="btn btn-xs btn-primary">
+                                <a target="_blank" href="{{ route('orders.image', ['order' => $order]) }}" class="btn btn-xs btn-primary">
                                     <i class="fa fa-image"></i>
                                 </a>
                             </span>
@@ -39,7 +39,7 @@
                         </td>
                         <td>{{ $order->count }}</td>
                         <td>
-                            <a data-toggle="tooltip" title="Megtekintés" href="{{ route('orders.view', ['order' => $order]) }}" class="btn btn-xs btn-default">
+                            <a data-toggle="tooltip" title="Megtekintés" href="{{ route('orders.groups.view', ['order' => $order]) }}" class="btn btn-xs btn-default">
                                 <i class="fa fa-eye"></i>
                             </a>
                             @if($order->user==null && $order->tempUser==null)

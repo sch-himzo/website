@@ -64,7 +64,7 @@
                             </tr>
                             @foreach($orders as $order)
                                 <tr>
-                                    <td><a href="{{route('orders.view', ['group' => $order])}}">{{ $order->title }}</a></td>
+                                    <td><a href="{{route('orders.groups.view', ['group' => $order])}}">{{ $order->title }}</a></td>
                                     <td>{{ $order->comment }}</td>
                                     <td>{{ $order->getStatusClient() }}</td>
                                 </tr>

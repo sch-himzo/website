@@ -31,7 +31,7 @@
                     @foreach($orders as $order)
                         <tr>
                             <td>
-                                <a href="{{ route('orders.view', ['group' => $order]) }}">{{ $order->title }}</a>
+                                <a href="{{ route('orders.groups.view', ['group' => $order]) }}">{{ $order->title }}</a>
                             </td>
                             <td>
                                 @if($order->user!=null)
