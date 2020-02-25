@@ -4,9 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Order\Order;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DesignGroup extends Model
 {
+    use SoftDeletes;
+
     public function designs()
     {
         return $this->hasMany(Design::class);

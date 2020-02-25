@@ -9,9 +9,24 @@
         <div class="row">
             <div class="col-md-4 col-md-push-4">
                 <div class="alert alert-info alert-dismissable">
-                    <button class="close" data-dismiss="alert" type="button">&times</button>
+                    <button class="close" data-dismiss="alert" type="button">&times;</button>
                     <h4><i class="fa fa-exclamation-circle"></i> Archív rendelés</h4>
                     <p>Ez a rendelés archiválva van! Módosításrokról nem kap emailt a felhasználó.</p>
+                </div>
+            </div>
+        </div>
+    @endif
+    @if($group->report_spam)
+        <div class="row">
+            <div class="col-md-4 col-md-push-4">
+                <div class="alert alert-warning alert-dismissable">
+                    <button class="close" data-dismiss="alert" type="button">&times;</button>
+                    <h4><i class="fa fa-exclamation-circle"></i> SPAM-nek jelölt</h4>
+                    <p>Ezt a rendelést <b>{{ $group->reporter->name }}</b> SPAM-nek jelölte, jelenleg moderálásra vár, ha tényleg spam törölve lesz.</p>
+                    @if(Auth::user()->role_id>4)
+                        <a href="{{ route('orders.group.spam.delete', ['group' => $group]) }}" class="btn btn-danger"><i class="fa fa-trash"></i> Törlés</a>
+                        <a href="{{ route('orders.group.notSpam', ['group' => $group]) }}" class="btn btn-default"><i class="fa fa-check"></i> Nem SPAM</a>
+                    @endif
                 </div>
             </div>
         </div>
@@ -96,6 +111,11 @@
                         <a href="{{ route('orders.help', ['order' => $group]) }}" class="btn btn-success btn-xs">
                             <i class="fa fa-check"></i> Megvagyok
                         </a>
+                    @endif
+                    @if($group->status<=1 && !$group->report_spam)
+                        <button type="button" data-toggle="modal" data-target="#mark_spam" class="btn btn-danger btn-xs">
+                            <i class="fa fa-ban"></i> SPAM
+                        </button>
                     @endif
                     @if($group->status>3 && ($group->assignedUsers->contains(Auth::id()) || Auth::user()->role_id>4))
                         @if(!$group->archived)
@@ -407,6 +427,26 @@
             </div>
         </div>
     </div>
+    @if($group->status<2 && !$group->report_spam)
+        <div class="modal fade" id="mark_spam">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" type="button" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">SPAM-nek jelölés</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Biztosan SPAM-nek jelölöd ezt a rendelést?</p>
+                        <p><i>Ha spamnek jelölöd a körvezetőnek el kell fogadnia, hogy tényleg spam, és utána fog csak törlődni</i></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" type="button" data-dismiss="modal"><i class="fa fa-times"></i> Mégse</button>
+                        <a class="btn btn-primary" href="{{ route('orders.group.spam', ['group' => $group]) }}"><i class="fa fa-ban"></i> Igen!</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
     @if($group->status>3 && ($group->assignedUsers->contains(Auth::id()) || Auth::user()->role_id>4))
         @if(!$group->archived)
             <div class="modal fade" id="archive">

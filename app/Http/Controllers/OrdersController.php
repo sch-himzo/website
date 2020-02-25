@@ -253,13 +253,6 @@ $size cm oldalhosszúság
 
     public function deleteGroup(Group $group)
     {
-        foreach($group->orders as $order){
-            foreach($order->images as $image){
-                File::delete(public_path('storage/images/real/').$image->image);
-                File::delete(public_path('storage/images/thumbnails/').$image->image);
-            }
-        }
-
         $group->delete();
 
         return redirect()->route('index');
@@ -976,5 +969,34 @@ $size cm oldalhosszúság
         }
 
         return redirect()->back();
+    }
+
+    public function spam(Group $group)
+    {
+        if($group->status<2) {
+            $group->report_spam = 1;
+            $group->reported_by = Auth::id();
+            $group->save();
+        }
+
+        return redirect()->back();
+    }
+
+    public function notSpam(Group $group)
+    {
+        $group->report_spam = 0;
+        $group->reported_by = null;
+        $group->save();
+
+        return redirect()->back();
+    }
+
+    public function deleteSpam(Group $group)
+    {
+        if(Auth::user()->role_id>4) {
+            $group->delete();
+        }
+
+        return redirect()->route('members.index');
     }
 }

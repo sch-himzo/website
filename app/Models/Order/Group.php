@@ -6,9 +6,12 @@ use App\Models\Comment;
 use App\Models\TempUser;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Group extends Model
 {
+    use SoftDeletes;
+
     protected $table = "order_groups";
 
     public function comments()
@@ -39,6 +42,11 @@ class Group extends Model
     public function orders()
     {
         return $this->hasMany(Order::class,'order_group_id');
+    }
+
+    public function reporter()
+    {
+        return $this->belongsTo(User::class, 'reported_by');
     }
 
     public function getStatusInternal()

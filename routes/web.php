@@ -98,6 +98,10 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => 'auth'],
         Route::post('{order}/testImage', 'OrdersController@testImage')->name('testImage');
 
         Route::post('{group}/add', 'OrdersController@addOrder')->name('group.add');
+
+        Route::get('{group}/spam', 'OrdersController@spam')->name('group.spam');
+        Route::get('{group}/spam/delete', 'OrdersController@deleteSpam')->name('group.spam.delete');
+        Route::get('{group}/spam/unmark', 'OrdersController@notSpam')->name('group.notSpam');
     });
 
 Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => 'auth'], function(){

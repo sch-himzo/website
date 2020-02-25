@@ -9,9 +9,12 @@ use App\Models\Gallery\Album;
 use App\Models\TempUser;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Order extends Model
 {
+    use SoftDeletes;
+
     protected $table = "orders";
 
     protected $fillable = [

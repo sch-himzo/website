@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Models\Order\Group;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Design extends Model
 {
+    use SoftDeletes;
+
     public function originalOrder()
     {
         return $this->belongsTo(Group::class,'original_order_id');
