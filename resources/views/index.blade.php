@@ -71,7 +71,6 @@
     <input type="hidden" name="current_user_id" id="current_user_id" value="@if(Auth::check()) {{ Auth::user()->id }} @else {{ false }} @endif">
     <div style="margin-top:20px;" class="row">
         <div class="col-md-9 col-md-push-3">
-            <h1>Hírek</h1>
             @if(isset($_GET['page']) && $_GET['page']>1)
                 {{ $news->links() }}
             @endif
