@@ -97,7 +97,7 @@
             @foreach($news as $article)
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title">{{ $article->title }} <i style="font-size:10pt;">- {{ \Carbon\Carbon::create($article->created_at)->diffForHumans() }}</i></h3>
+                        <h3 class="panel-title">{{ $article->title }} <i style="font-size:10pt;">- {{ $article->created_at->diffForHumans() }}</i></h3>
 
                     </div>
                     <div class="panel-body">

@@ -21,7 +21,9 @@ class HomeController extends Controller
         $role = Auth::check() ? Auth::user()->role_id : 1;
 
         $slides = Slide::all()->sortBy('number');
-        $news = DB::table('news')->where('role_id', '<=', $role)->paginate(5);
+//        $news = DB::table('news')->where('role_id', '<=', $role)->paginate(5);
+
+        $news = News::orderByDesc('id')->where('role_id','<=',$role)->paginate(5);
 
         Carbon::setLocale('hu');
 
