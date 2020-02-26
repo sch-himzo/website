@@ -27,6 +27,32 @@ class AdminController extends Controller
         $current_orders_gallery = Setting::all()->where('name','orders_gallery')->first();
         $current_orders_folder = Setting::all()->where('name','orders_group')->first()->setting;
         $all_folders = DesignGroup::all()->where('parent_id',null)->all();
+        $current_min_time = Setting::all()->where('name','min_order_time')->first();
+        $current_min_date = Setting::all()->where('name','min_order_date')->first();
+
+        if($current_min_date == null) {
+            $setting = new Setting();
+            $setting->name = 'min_order_date';
+            $setting->setting = null;
+            $setting->description = 'Minimális dátum a rendelés határidejéhez';
+            $setting->save();
+
+            $current_min_date = null;
+        }else{
+            $current_min_date = $current_min_date->setting;
+        }
+
+        if($current_min_time == null) {
+            $setting = new Setting();
+            $setting->name = 'min_order_time';
+            $setting->setting = 0;
+            $setting->description = 'Minimális idő a rendelés határidejéhez';
+            $setting->save();
+
+            $current_min_time = 0;
+        }else{
+            $current_min_time = $current_min_time->setting;
+        }
 
 
         if($current_orders_gallery==null){
@@ -45,7 +71,9 @@ class AdminController extends Controller
             'all_galleries' => $all_galleries,
             'all_folders' => $all_folders,
             'current_orders_folder' => $current_orders_folder,
-            'current_machine' => $current_machine
+            'current_machine' => $current_machine,
+            'current_min_time' => $current_min_time,
+            'current_min_date' => $current_min_date
         ]);
     }
 
@@ -90,6 +118,42 @@ class AdminController extends Controller
 
         $machine->viewable_by = $request->input('machine_role');
         $machine->save();
+
+        return redirect()->back();
+    }
+
+    public function setCurrentMinTime(Request $request)
+    {
+        $setting = Setting::all()->where('name','min_order_time')->first();
+
+        if($setting == null) {
+            $setting = new Setting();
+            $setting->name = 'min_order_time';
+            $setting->setting = 0;
+            $setting->description = 'Minimális idő a rendelés határidejéhez';
+            $setting->save();
+
+            $current_min_time = 0;
+        }
+
+        $date = Setting::all()->where('name','min_order_date')->first();
+
+        if($date == null) {
+            $date = new Setting();
+            $date->name = 'min_order_date';
+            $date->setting = null;
+            $date->description = 'Minimális dátum a rendelés határidejéhez';
+            $date->save();
+        }
+
+        $min_date = $request->input('min_date');
+        if($min_date) {
+            $date->setting = strtotime($min_date);
+            $date->save();
+        }
+
+        $setting->setting = $request->input('min_time');
+        $setting->save();
 
         return redirect()->back();
     }

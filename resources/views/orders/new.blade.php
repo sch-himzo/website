@@ -31,7 +31,7 @@
                         <div class="form-group">
                             <div class="input-group">
                                 <label class="input-group-addon" for="time_limit">Határidő</label>
-                                <input min="{{ date('Y-m-d') }}" class="form-control" type="date" id="time_limit" name="time_limit">
+                                <input min="{{ $min_date }}" class="form-control" type="date" id="time_limit" name="time_limit">
                             </div>
                         </div>
                         <div class="form-group">

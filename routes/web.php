@@ -258,6 +258,7 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => ['leader','a
         Route::post('orders_gallery', 'Admin\AdminController@setOrdersGallery')->name('set_orders_gallery');
         Route::post('orders_folder','Admin\AdminController@setOrdersFolder')->name('set_orders_folder');
         Route::post('machine_role','Admin\AdminController@setMachineRole')->name('set_machine_role');
+        Route::post('min_time','Admin\AdminController@setCurrentMinTime')->name('min_time');
     });
 
     Route::group([

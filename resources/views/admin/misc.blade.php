@@ -123,5 +123,62 @@
                 </form>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Minimum határidő a rendeléshez</h3>
+                </div>
+                <form action="{{ route('admin.misc.min_time') }}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="min_time" class="input-group-addon">Idő</label>
+                                <select class="form-control" id="min_time" name="min_time">
+                                    <option selected disabled>Válassz egyet!</option>
+                                    <option value="{{ 24*60 }}" @if($current_min_time==24*60) selected @endif>1 nap</option>
+                                    <option value="{{ 2*24*60 }}" @if($current_min_time==2*24*60) selected @endif>2 nap</option>
+                                    <option value="{{ 3*24*60 }}" @if($current_min_time==3*24*60) selected @endif>3 nap</option>
+                                    <option value="{{ 7*24*60 }}" @if($current_min_time==7*24*60) selected @endif>1 hét</option>
+                                    <option value="{{ 14*24*60 }}" @if($current_min_time==14*24*60) selected @endif>2 hét</option>
+                                    <option value="{{ 31*24*60 }}" @if($current_min_time==31*24*60) selected @endif>1 hónap</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input @if($current_min_date!=null) checked @endif type="checkbox" id="min_date_check">
+                                Dátumhoz kötés
+                            </label>
+                        </div>
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label class="input-group-addon" for="min_date">Dátum</label>
+                                <input @if($current_min_date!=null) value="{{ date("Y-m-d",$current_min_date) }}" @else disabled @endif type="date"  id="min_date" class="form-control" name="min_date">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fa fa-save"></i> Mentés
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        $('#min_date_check').on('keyup click change', function(){
+            if($('#min_date_check').is(':checked')) {
+                $('#min_date').removeAttr('disabled');
+                $('#min_date').removeAttr('required');
+            }else{
+                $('#min_date').attr('disabled','disabled');
+                $('#min_date').attr('required','required');
+            }
+        });
+    </script>
 @endsection

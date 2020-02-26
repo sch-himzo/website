@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order\Group;
 use App\Models\Order\Image;
 use App\Models\Order\Order;
+use App\Models\Setting;
 use App\Models\TempUser;
 use App\Models\User;
 use Auth;
@@ -28,7 +29,22 @@ class NewOrderController extends Controller
 
     public function create(Request $request)
     {
-        return view('orders.new');
+        $min_time_setting = Setting::all()->where('name','min_order_time')->first();
+        $min_date_setting = Setting::all()->where('name','min_order_date')->first();
+
+        if($min_date_setting==null || $min_date_setting->setting==null || $min_date_setting->setting<time()) {
+            if($min_time_setting == null) {
+                $min_time = date("Y-m-d",7*24*60+time());
+            }else{
+                $min_time = date("Y-m-d", $min_time_setting->setting + time());
+            }
+        }else{
+            $min_time = date("Y-m-d", $min_date_setting->setting);
+        }
+
+        return view('orders.new', [
+            'min_date' => $min_time
+        ]);
     }
 
     public function fake()
@@ -98,6 +114,23 @@ class NewOrderController extends Controller
             $time_limit = $request->input('time_limit');
             $comment = $request->input('comment');
             $public_albums = $request->input('public_albums');
+
+            $min_time_setting = Setting::all()->where('name','min_order_time')->first();
+            $min_date_setting = Setting::all()->where('name','min_order_date')->first();
+
+            if($min_date_setting==null || $min_date_setting->setting==null || $min_date_setting->setting<time()) {
+                if($min_time_setting == null) {
+                    $min_time = 7*24*60+time();
+                }else{
+                    $min_time = $min_time_setting->setting + time();
+                }
+            }else{
+                $min_time = $min_date_setting->setting;
+            }
+
+            if(strtotime($time_limit)<$min_time) {
+                abort(400);
+            }
 
             if($request->input('email')){
                 $existing_user = User::where('email',$request->input('email'))->first();
