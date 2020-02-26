@@ -36,7 +36,7 @@
                         @endforeach
                     </table>
                 </div>
-                @if(Auth::check() && Auth::user()->role_id>2)
+                @if(Auth::check() && Auth::user()->role_id>=2)
                     <div class="panel-footer">
                         <a href="{{ route('jumpers.edit') }}" class="btn btn-xs btn-primary">
                             <i class="fa fa-edit"></i> Leltár módosítása
