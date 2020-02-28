@@ -94,6 +94,8 @@ class MembersController extends Controller
         Session::put('return_to','members.unapproved');
         Session::put('return_to_parameters',null);
 
+        Carbon::setLocale('hu');
+
         $orders = Group::where('approved_by',null)->where('archived',0)->get();
 
         return view('members.unapproved', [
