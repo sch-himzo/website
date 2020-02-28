@@ -54,14 +54,14 @@ class OrderGroupController extends Controller
         return redirect()->back();
     }
 
-    public function unarchive(Group $order)
+    public function unarchive(Group $group)
     {
         if(Auth::user()->role_id<4){
             abort(401);
         }
 
-        $order->archived = 0;
-        $order->save();
+        $group->archived = 0;
+        $group->save();
 
         return redirect()->back();
     }
