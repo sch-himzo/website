@@ -13,6 +13,9 @@ use Str;
 
 class OrderController extends Controller
 {
+    protected $allowed_extensions = [
+        'jpg','jpeg','png','gif','svg'
+    ];
 
     public function image(Image $image)
     {
