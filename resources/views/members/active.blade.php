@@ -20,7 +20,9 @@
                     <th>Megrendelő</th>
                     <th>Rendelés időpontja</th>
                     <th>Hozzárendelt körtagok</th>
-                    <th>Műveletek</th>
+                    @if(Auth::user()->role_id>4)
+                        <th>Műveletek</th>
+                    @endif
                 </tr>
                 @if($orders == null)
                     <tr>
@@ -52,21 +54,23 @@
                                         <td>
                                             {{ $user->name }}
                                         </td>
-                                        <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
-                                            @if($order->joint_project)
-                                                <span data-toggle="tooltip" title="Nem nagy közös projekt">
-                                                    <a class="btn btn-xs btn-danger" href="{{ route('orders.groups.joint', ['group' => $order]) }}">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </span>
-                                            @else
-                                                <span data-toggle="tooltip" title="Nagy közös projektté avatás">
-                                                    <a class="btn btn-xs btn-success" href="{{ route('orders.groups.joint', ['group' => $order]) }}">
-                                                        <i class="fa fa-check"></i>
-                                                    </a>
-                                                </span>
-                                            @endif
-                                        </td>
+                                        @if(Auth::user()->role_id>4)
+                                            <td style="vertical-align:middle;" rowspan="{{ $order->assigned_users_count }}">
+                                                @if($order->joint_project)
+                                                    <span data-toggle="tooltip" title="Nem nagy közös projekt">
+                                                        <a class="btn btn-xs btn-danger" href="{{ route('orders.groups.joint', ['group' => $order]) }}">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </span>
+                                                @else
+                                                    <span data-toggle="tooltip" title="Nagy közös projektté avatás">
+                                                        <a class="btn btn-xs btn-success" href="{{ route('orders.groups.joint', ['group' => $order]) }}">
+                                                            <i class="fa fa-check"></i>
+                                                        </a>
+                                                    </span>
+                                                @endif
+                                            </td>
+                                        @endif
                                     </tr>
                                 @else
                                     <tr>
@@ -94,21 +98,23 @@
                                 <td>
                                     <i>N/A</i>
                                 </td>
-                                <td>
-                                    @if($order->joint_project)
-                                        <span data-toggle="tooltip" title="Nem nagy közös projekt">
-                                                    <a class="btn btn-xs btn-danger" href="{{ route('orders.groups.joint', ['group' => $order]) }}">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </span>
-                                    @else
-                                        <span data-toggle="tooltip" title="Nagy közös projektté avatás">
-                                                    <a class="btn btn-xs btn-success" href="{{ route('orders.groups.joint', ['group' => $order]) }}">
-                                                        <i class="fa fa-check"></i>
-                                                    </a>
-                                                </span>
-                                    @endif
-                                </td>
+                                @if(Auth::user()->role_id>4)
+                                    <td>
+                                        @if($order->joint_project)
+                                            <span data-toggle="tooltip" title="Nem nagy közös projekt">
+                                                        <a class="btn btn-xs btn-danger" href="{{ route('orders.groups.joint', ['group' => $order]) }}">
+                                                            <i class="fa fa-trash"></i>
+                                                        </a>
+                                                    </span>
+                                        @else
+                                            <span data-toggle="tooltip" title="Nagy közös projektté avatás">
+                                                        <a class="btn btn-xs btn-success" href="{{ route('orders.groups.joint', ['group' => $order]) }}">
+                                                            <i class="fa fa-check"></i>
+                                                        </a>
+                                                    </span>
+                                        @endif
+                                    </td>
+                                @endif
                             </tr>
                         @endif
                     @endforeach

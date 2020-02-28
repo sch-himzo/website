@@ -30,10 +30,8 @@
                     @endif
                 </a></li>
             <li><a href="{{ route('members.archived') }}" class="@yield('members.archived.active')">Archivált rendelések</a></li>
-            @if(Auth::user()->role_id>4)
-                <li class="separator"></li>
-                <li><a href="{{ route('members.active') }}" class="@yield('members.active.active')">Aktív rendelések</a></li>
-            @endif
+            <li class="separator"></li>
+            <li><a href="{{ route('members.active') }}" class="@yield('members.active.active')">Összes aktív rendelés</a></li>
         </ul>
     </div>
 </div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="hu">
 <head>
-    <title>401 - Unauthenticated</title>
+    <title>401 - Unauthorized</title>
     <style>
         body{
             background-color:black;
