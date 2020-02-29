@@ -97,6 +97,17 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => ['auth','
         Route::get('{order}/font', 'OrderController@font')->name('font');
     });
 
+Route::group([
+    'prefix' => 'projects',
+    'as' => 'projects.',
+    'middleware' => 'rookie'
+], function(){
+    Route::get('', 'ProjectController@index')->name('index');
+
+    Route::match(['get','post'], 'create/{step?}', 'ProjectController@create')->name('create');
+    Route::post('save', 'ProjectController@save')->name('save');
+});
+
 
 Route::group(['prefix' => 'designs', 'as' => 'designs.', 'middleware' => ['auth','activate']], function(){
 
@@ -257,6 +268,7 @@ Route::group(['prefix' => 'admin','as' => 'admin.', 'middleware' => ['leader','a
         Route::post('orders_folder','Admin\AdminController@setOrdersFolder')->name('set_orders_folder');
         Route::post('machine_role','Admin\AdminController@setMachineRole')->name('set_machine_role');
         Route::post('min_time','Admin\AdminController@setCurrentMinTime')->name('min_time');
+        Route::post('projects_group', 'Admin\AdminController@setProjectsGroup')->name('projects_group');
     });
 
     Route::group([

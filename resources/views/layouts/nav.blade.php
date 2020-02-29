@@ -80,6 +80,11 @@
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">{{ Auth::user()->name }} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="{{ route('user.profile') }}">Profilom</a></li>
+                            @if(Auth::user()->role_id>1)
+                                <li>
+                                    <a href="{{ route('projects.index') }}">Projektjeim</a>
+                                </li>
+                            @endif
                             <li class="divider" role="separator"></li>
                             <li><a href="{{ route('logout') }}">Kijelentkezés</a></li>
                         </ul>

@@ -57,4 +57,9 @@ class DesignGroup extends Model
     {
         return $this->hasMany(Order::class,'design_id');
     }
+
+    public function project()
+    {
+        return $this->hasOne(Project::class);
+    }
 }

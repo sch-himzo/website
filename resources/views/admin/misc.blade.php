@@ -166,6 +166,34 @@
                 </form>
             </div>
         </div>
+        <div class="col-md-4">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Projektek mappája</h3>
+                </div>
+                <form action="{{ route('admin.misc.projects_group') }}" method="POST">
+                    {{ csrf_field() }}
+                    <div class="panel-body">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <label for="projects_group" class="input-group-addon">Mappa</label>
+                                <select name="projects_group" id="projects_group" class="form-control" required>
+                                    <option selected disabled>Válassz egyet!</option>
+                                    @foreach($all_folders as $folder)
+                                        <option value="{{ $folder->id }}" @if($current_projects_group==$folder->id) selected @endif>{{ $folder->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <button type="submit" class="btn btn-default">
+                            <i class="fa fa-save"></i> Mentés
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 @endsection
 

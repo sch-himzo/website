@@ -29,6 +29,13 @@ class AdminController extends Controller
         $all_folders = DesignGroup::all()->where('parent_id',null)->all();
         $current_min_time = Setting::all()->where('name','min_order_time')->first();
         $current_min_date = Setting::all()->where('name','min_order_date')->first();
+        $projects_group = Setting::all()->where('name','projects_group')->first();
+
+        if($projects_group == null) {
+            $projects_group = 0;
+        }else{
+            $projects_group = $projects_group->setting;
+        }
 
         if($current_min_date == null) {
             $setting = new Setting();
@@ -73,7 +80,8 @@ class AdminController extends Controller
             'current_orders_folder' => $current_orders_folder,
             'current_machine' => $current_machine,
             'current_min_time' => $current_min_time,
-            'current_min_date' => $current_min_date
+            'current_min_date' => $current_min_date,
+            'current_projects_group' => $projects_group
         ]);
     }
 
@@ -154,6 +162,26 @@ class AdminController extends Controller
 
         $setting->setting = $request->input('min_time');
         $setting->save();
+
+        return redirect()->back();
+    }
+
+    public function setProjectsGroup(Request $request)
+    {
+        $input = $request->input('projects_group');
+
+        $setting = Setting::where('name', 'projects_group')->first();
+
+        if($setting == null) {
+            $setting = new Setting();
+            $setting->name = 'projects_group';
+            $setting->description = 'A saját projektek mappája';
+            $setting->setting = $input;
+            $setting->save();
+        }else{
+            $setting->setting = $input;
+            $setting->save();
+        }
 
         return redirect()->back();
     }

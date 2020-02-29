@@ -98,4 +98,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(JumperTransaction::class);
     }
+
+    public function projects()
+    {
+        return $this->hasMany(Project::class);
+    }
+
+    public function projectsGroup()
+    {
+        return $this->belongsTo(DesignGroup::class, 'projects_design_group');
+    }
 }
