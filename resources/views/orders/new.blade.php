@@ -22,23 +22,32 @@
                         </div>
                     </div>
                     <div class="panel-body">
-                        <div class="form-group">
+                        <div class="form-group @if(in_array('title',$error_fields)) has-error @endif">
                             <div class="input-group" data-toggle="tooltip" title="Adj neved a rendelésednek">
                                 <label class="input-group-addon" for="title">Cím<span class="required">*</span></label>
-                                <input required class="form-control" type="text" name="title" id="title" placeholder="Rendelés címe">
+                                <input required class="form-control" type="text" name="title" id="title" placeholder="Rendelés címe" value="{{ $title }}">
                             </div>
+                            @if(in_array('title',$error_fields))
+                                <span class="help-block">{{ $error_messages['title'] }}</span>
+                            @endif
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if(in_array('time_limit',$error_fields)) has-error @endif">
                             <div class="input-group">
                                 <label class="input-group-addon" for="time_limit">Határidő</label>
-                                <input min="{{ $min_date }}" class="form-control" type="date" id="time_limit" name="time_limit">
+                                <input min="{{ date('Y-m-d') }}" class="form-control" type="date" id="time_limit" name="time_limit" value="{{ $time_limit }}">
                             </div>
+                            @if(in_array('time_limit',$error_fields))
+                                <span class="help-block">{{ $error_messages['time_limit'] }}</span>
+                            @endif
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if(in_array('comment',$error_fields)) has-error @endif">
                             <div class="input-group" data-toggle="tooltip" title="Egyéb megjegyzés a rendeléssel kapcsolatban">
                                 <label for="comment" class="input-group-addon">Megjegyzés</label>
-                                <textarea name="comment" id="comment" class="form-control"></textarea>
+                                <textarea name="comment" id="comment" class="form-control">{{ $comment }}</textarea>
                             </div>
+                            @if(in_array('comment',$error_fields))
+                                <span class="help-block">{{ $error_messages['comment'] }}</span>
+                            @endif
                         </div>
                         <div class="checkbox">
                             <label for="public_albums"><input type="checkbox" name="public_albums" id="public_albums">Hozzájárulok ahhoz, hogy az elkészült rendelésemről készült képeket a weboldalon nyilvánosságra hozzuk.</label>

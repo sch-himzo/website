@@ -11,6 +11,7 @@
                 <input type="hidden" name="form_type" value="first">
                 <input type="hidden" id="_token" name="_token" value="{{ csrf_token() }}">
                 <input type="hidden" id="url" value="{{ route('user.find') }}">
+                <input type="hidden" name="fake" value="true">
                 <input type="hidden" name="user_id" id="user_id" value="">
                 <div class="panel panel-default">
                     <div class="panel-heading">
@@ -28,43 +29,58 @@
                         <div class="form-group">
                             <h3 class="page-header" style="margin-top:0">Megrendelő adatai</h3>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if(in_array('name',$error_fields)) has-error @endif">
                             <div class="input-group" data-toggle="tooltip" title="Kinek a nevében adod le a rendelést?">
                                 <label class="input-group-addon" for="name">Név<span class="required">*</span></label>
-                                <input required class="form-control" type="text" name="name" id="name" placeholder="Név">
+                                <input required class="form-control " type="text" name="name" id="name" placeholder="Név" value="{{ $name }}">
                                 <div class="autocomplete" id="autocomplete">
                                 </div>
                             </div>
+                            @if(in_array('name',$error_fields))
+                                <span class="help-block">{{ $error_messages['name'] }}</span>
+                            @endif
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if(in_array('email',$error_fields)) has-error @endif">
                             <div class="input-group" data-toggle="tooltip" title="Azé akinek a nevében leadod a rendelést">
                                 <label class="input-group-addon" for="email">Email cím<span class="required">*</span></label>
-                                <input required class="form-control" type="email" name="email" id="email" placeholder="Email">
+                                <input required class="form-control" type="email" name="email" id="email" placeholder="Email" value="{{ $email }}">
                             </div>
+                            @if(in_array('email',$error_fields))
+                                <span class="help-block">{{ $error_messages['email'] }}</span>
+                            @endif
                         </div>
                         <div class="form-group">
                             <h3 class="page-header" style="margin-top:0">Rendelés adatai</h3>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if(in_array('title',$error_fields)) has-error @endif">
                             <div class="input-group" data-toggle="tooltip" title="Adj neved a rendelésednek">
                                 <label class="input-group-addon" for="title">Cím<span class="required">*</span></label>
-                                <input required class="form-control" type="text" name="title" id="title" placeholder="Rendelés címe">
+                                <input required class="form-control" type="text" name="title" id="title" placeholder="Rendelés címe" value="{{ $title }}">
                             </div>
+                            @if(in_array('title',$error_fields))
+                                <span class="help-block">{{ $error_messages['title'] }}</span>
+                            @endif
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if(in_array('time_limit',$error_fields)) has-error @endif">
                             <div class="input-group">
                                 <label class="input-group-addon" for="time_limit">Határidő</label>
-                                <input min="{{ date('Y-m-d') }}" class="form-control" type="date" id="time_limit" name="time_limit">
+                                <input min="{{ date('Y-m-d') }}" class="form-control" type="date" id="time_limit" name="time_limit" value="{{ $time_limit }}">
                             </div>
+                            @if(in_array('time_limit',$error_fields))
+                                <span class="help-block">{{ $error_messages['time_limit'] }}</span>
+                            @endif
                         </div>
-                        <div class="form-group">
+                        <div class="form-group @if(in_array('comment',$error_fields)) has-error @endif">
                             <div class="input-group" data-toggle="tooltip" title="Egyéb megjegyzés a rendeléssel kapcsolatban">
                                 <label for="comment" class="input-group-addon">Megjegyzés</label>
-                                <textarea name="comment" id="comment" class="form-control"></textarea>
+                                <textarea name="comment" id="comment" class="form-control">{{ $comment }}</textarea>
                             </div>
+                            @if(in_array('comment',$error_fields))
+                                <span class="help-block">{{ $error_messages['comment'] }}</span>
+                            @endif
                         </div>
                         <div class="checkbox">
-                            <label for="public_albums"><input type="checkbox" name="public_albums" id="public_albums">Hozzájárulok ahhoz, hogy az elkészült rendelésemről készült képeket a weboldalon nyilvánosságra hozzuk.</label>
+                            <label for="public_albums"><input @if($public_albums) checked @endif type="checkbox" name="public_albums" id="public_albums">Hozzájárulok ahhoz, hogy az elkészült rendelésemről készült képeket a weboldalon nyilvánosságra hozzuk.</label>
                         </div>
                     </div>
                     <div class="panel-footer">

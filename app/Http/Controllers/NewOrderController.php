@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Session;
 use Str;
 
 class NewOrderController extends Controller
@@ -42,14 +43,48 @@ class NewOrderController extends Controller
             $min_time = date("Y-m-d", $min_date_setting->setting);
         }
 
+        $title = Session::get('title');
+        $comment = Session::get('comment');
+        $time_limit = Session::get('time_limit');
+        $public_albums = Session::get('public_albums');
+        $error_fields = Session::get('error_fields') ? Session::get('error_fields') : [];
+        $error_messages = Session::get('error_messages') ? Session::get('error_messages') : [];
+        Session::forget(['title','comment','time_limit','public_albums','error_fields','error_messages']);
+
         return view('orders.new', [
-            'min_date' => $min_time
+            'min_date' => $min_time,
+            'title' => $title,
+            'comment' => $comment,
+            'time_limit' => $time_limit,
+            'public_albums' => $public_albums,
+            'error_fields' => $error_fields,
+            'error_messages' => $error_messages
         ]);
     }
 
     public function fake()
     {
-        return view('orders.fake');
+        $title = Session::get('title');
+        $comment = Session::get('comment');
+        $time_limit = Session::get('time_limit');
+        $public_albums = Session::get('public_albums');
+        $error_fields = Session::get('error_fields') ? Session::get('error_fields') : [];
+        $error_messages = Session::get('error_messages') ? Session::get('error_messages') : [];
+        $name = Session::get('name');
+        $email = Session::get('email');
+
+        Session::forget(['title','comment','time_limit','public_albums','error_fields','error_messages','name','email']);
+
+        return view('orders.fake', [
+            'title' => $title,
+            'comment' => $comment,
+            'time_limit' => $time_limit,
+            'public_albums' => $public_albums,
+            'error_fields' => $error_fields,
+            'error_messages' => $error_messages,
+            'name' => $name,
+            'email' => $email
+        ]);
     }
 
     public function save(Request $request, Group $group)
@@ -114,6 +149,7 @@ class NewOrderController extends Controller
             $time_limit = $request->input('time_limit');
             $comment = $request->input('comment');
             $public_albums = $request->input('public_albums');
+            $fake = $request->input('fake');
 
             $min_time_setting = Setting::all()->where('name','min_order_time')->first();
             $min_date_setting = Setting::all()->where('name','min_order_date')->first();
@@ -128,8 +164,23 @@ class NewOrderController extends Controller
                 $min_time = $min_date_setting->setting;
             }
 
-            if(strtotime($time_limit)<$min_time) {
-                abort(400);
+            $min_time_str = date('Y-m-d', $min_time);
+
+            if(strtotime($time_limit)<$min_time && $time_limit!=null) {
+                Session::put('title',$title);
+                Session::put('time_limit',$time_limit);
+                Session::put('comment',$comment);
+                Session::put('public_albums',$public_albums);
+                Session::put('error_fields',['time_limit']);
+                Session::put('error_messages',['time_limit' => "A megadott határidőnek nagyobbnak kell lennie $min_time_str-nál"]);
+                Session::put('name',$request->input('name'));
+                Session::put('email', $request->input('email'));
+
+                if($fake) {
+                    return redirect()->route('orders.new.fake');
+                }else{
+                    return redirect()->route('orders.new.create');
+                }
             }
 
             if($request->input('email')){
