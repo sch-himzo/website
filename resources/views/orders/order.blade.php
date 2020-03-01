@@ -463,7 +463,7 @@
                             <div class="form-group">
                                 <div class="input-group">
                                     <label class="input-group-addon" for="art80_{{ $order->id }}">ART80<span class="required">*</span></label>
-                                    <input accept=".art80,.art60,.ART80,.ART60" type="file" name="art80_{{ $order->id }}" id="art80_{{ $order->id }}" required class="form-control">
+                                    <input accept=".art80,.art60,.ART80,.ART60" type="file" name="art80_{{ $order->id }}" id="art80_{{ $order->id }}" class="form-control">
                                 </div>
                             </div>
                             <div class="form-group">

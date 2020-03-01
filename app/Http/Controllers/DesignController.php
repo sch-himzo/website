@@ -67,71 +67,80 @@ class DesignController extends Controller
     public function addToOrder(Request $request, Order $order)
     {
 
-        if($request->file('art80_'. $order->id) && $request->file('dst_'.$order->id)){
-            $art = $request->file('art80_'. $order->id);
-            $dst = $request->file('dst_'. $order->id);
+        $dst = $request->file('dst_'. $order->id);
 
+        if(!$dst) {
+            return redirect()->back();
+        }
+
+        $dst_extension = strtolower($dst->getClientOriginalExtension());
+
+        $dst_size = $dst->getSize()/1024/1024;
+        if($dst_size > 5){
+            abort(400);
+        }
+
+
+
+        if($dst_extension!='dst'){
+            abort(400);
+        }
+        $dst_o_name = $dst->getClientOriginalName();
+        $dst_name = time().$dst->getClientOriginalName();
+
+        Storage::disk()->put('images/uploads/designs/'.$dst_name,File::get($dst));
+
+        $orders_group = Setting::all()->where('name','orders_group')->first()->setting;
+
+        $orders_group = DesignGroup::all()->find($orders_group);
+
+        $old_group = DesignGroup::all()
+            ->where('name',$order->title)
+            ->where('parent_id',$orders_group->id)
+            ->first();
+
+        if($old_group==null){
+            $group = new DesignGroup();
+            $group->name = $order->group->title . " - " . $order->title;
+            $group->parent_id = $orders_group->id;
+            $group->owner_id = Auth::user()->id;
+            $group->save();
+        }else{
+            $group = $old_group;
+        }
+
+        $dst_design = new Design();
+        $dst_design->name = $dst_o_name;
+        $dst_design->image = $dst_name;
+        $dst_design->design_group_id = $group->id;
+        $dst_design->save();
+
+        $order->design_group_id = $group->id;
+        $order->status = 1;
+        $order->save();
+
+        $art = $request->file('art80_'. $order->id);
+        if($art) {
             $art_extension = strtolower($art->getClientOriginalExtension());
-            $dst_extension = strtolower($dst->getClientOriginalExtension());
-
             $art_size = $art->getSize()/1024/1024;
-            $dst_size = $dst->getSize()/1024/1024;
-
-            if($art_size > 5 || $dst_size > 5){
+            if(!in_array($art_extension,['art60','art80'])) {
                 abort(400);
             }
-
-            if(!in_array($art_extension,['art80','art60']) || $dst_extension!='dst'){
+            if($art_size>5) {
                 abort(400);
             }
 
             $art_o_name = $art->getClientOriginalName();
-            $dst_o_name = $dst->getClientOriginalName();
             $art_name = time().$art->getClientOriginalName();
-            $dst_name = time().$dst->getClientOriginalName();
-
             Storage::disk()->put('images/uploads/designs/'.$art_name,File::get($art));
-            Storage::disk()->put('images/uploads/designs/'.$dst_name,File::get($dst));
-
-            $orders_group = Setting::all()->where('name','orders_group')->first()->setting;
-
-            $orders_group = DesignGroup::all()->find($orders_group);
-
-            $old_group = DesignGroup::all()
-                ->where('name',$order->title)
-                ->where('parent_id',$orders_group->id)
-                ->first();
-
-            if($old_group==null){
-                $group = new DesignGroup();
-                $group->name = $order->group->title . " - " . $order->title;
-                $group->parent_id = $orders_group->id;
-                $group->owner_id = Auth::user()->id;
-                $group->save();
-            }else{
-                $group = $old_group;
-            }
 
             $art_design = new Design();
             $art_design->name = $art_o_name;
             $art_design->image = $art_name;
             $art_design->design_group_id = $group->id;
             $art_design->save();
-
-            $dst_design = new Design();
-            $dst_design->name = $dst_o_name;
-            $dst_design->image = $dst_name;
-            $dst_design->design_group_id = $group->id;
-            $dst_design->save();
-
-            $order->design_group_id = $group->id;
-            $order->status = 1;
-            $order->save();
-
-            return redirect()->route('orders.view', ['group' => $order->group, 'order' => $order]);
-        }else{
-            return abort(400);
         }
+        return redirect()->route('orders.view', ['group' => $order->group, 'order' => $order]);
     }
 
     public function get(Design $design)
