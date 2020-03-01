@@ -19,12 +19,12 @@
                     <li class="dropdown @yield('orders.new.active')  @yield('user.orders.active') @yield('orders.unapproved.active') @yield('orders.active.active')">
                         <a class="dropdown-toggle" href="#" data-toggle="dropdown">Rendelések <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li class="@yield('orders.new.active')"><a class="@yield('orders.new.active') " href="{{ route('orders.new.create') }}">Új rendelés</a></li>
-                            <li><a class="@yield('user.orders.active')" href="{{ route('user.orders') }}">Rendeléseim</a></li>
-                            @if(Auth::user()->role_id>1)
-                                <li role="separator" class="divider"></li>
+                            @if(Auth::user()->role_id<2)
+                                <li class="@yield('orders.new.active')"><a class="@yield('orders.new.active') " href="{{ route('orders.new.create') }}">Új rendelés</a></li>
+                            @elseif(Auth::user()->role_id>1)
                                 <li class="@yield('orders.fake.active')"><a class="@yield('orders.fake.active')" href="{{ route('orders.new.fake') }}">Rendelés felvétele</a></li>
                             @endif
+                            <li><a class="@yield('user.orders.active')" href="{{ route('user.orders') }}">Rendeléseim</a></li>
                         </ul>
                     </li>
                 @endif
