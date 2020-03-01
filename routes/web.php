@@ -93,6 +93,7 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => ['auth','
         Route::post('{order}/status', 'OrderController@status')->name('status')->middleware('rookie');
         Route::get('{order}/existing', 'OrderController@existing')->name('existing');
         Route::post('{order}/testImage', 'OrderController@testImage')->name('testImage');
+        Route::post('{order}/edit', 'OrderController@edit')->name('edit');
 
         Route::get('image/{image}', 'OrderController@image')->name('image');
         Route::get('{order}/font', 'OrderController@font')->name('font');

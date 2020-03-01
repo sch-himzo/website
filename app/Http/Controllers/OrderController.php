@@ -156,4 +156,22 @@ class OrderController extends Controller
         }
         return redirect()->back();
     }
+
+    public function edit(Request $request, Order $order)
+    {
+        $title = $request->input('edit_title');
+        $count = $request->input('edit_count');
+        $type = $request->input('edit_type');
+        $size = $request->input('edit_size');
+        $comment = $request->input('comment');
+
+        $order->title = $title;
+        $order->count = $count;
+        $order->type = $type;
+        $order->size = $size;
+        $order->comment = $comment;
+        $order->save();
+
+        return redirect()->back();
+    }
 }

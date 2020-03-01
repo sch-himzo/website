@@ -87,6 +87,11 @@
                     </table>
                 </div>
                 <div class="panel-footer">
+                    @if(Auth::user()->role_id>4)
+                        <button type="button" data-toggle="modal" data-target="#edit" class="btn btn-warning btn-xs">
+                            <i class="fa fa-edit"></i> Szerkesztés
+                        </button>
+                    @endif
                     @if($order->existing_design && $dst==null)
                         <button type="button" data-toggle="modal" data-target="#add_design" class="btn btn-primary btn-xs">
                             <i class="fa fa-paperclip"></i> Tervfájlok csatolása
@@ -471,6 +476,65 @@
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Mégse</button>
                             <input type="submit" value="Mentés" class="btn btn-success">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
+    @if(Auth::user()->role_id>4)
+        <div class="modal fade" id="edit">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Minta módosítása</h4>
+                    </div>
+                    <form action="{{ route('orders.edit', ['order' => $order]) }}" method="POST">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="edit_title">Megnevezés</label>
+                                    <input type="text" id="edit_title" name="edit_title" class="form-control" value="{{ $order->title }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="edit_count">Darabszám</label>
+                                    <input type="number" id="edit_count" name="edit_count" class="form-control" value="{{ $order->count }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="edit_type">Típus</label>
+                                    <select id="edit_type" name="edit_type" class="form-control">
+                                        <option value="1" @if($order->type==1) selected @endif>Folt</option>
+                                        <option value="2" @if($order->type==2) selected @endif>Pólóra</option>
+                                        <option value="3" @if($order->type==3) selected @endif>Pulcsira</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="edit_size">Méret</label>
+                                    <input type="text" id="edit_size" name="edit_size" class="form-control" value="{{ $order->size }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label class="input-group-addon" for="edit_comment">Megjegyzés</label>
+                                    <textarea id="edit_comment" name="edit_comment" class="form-control">{{ $order->comment }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default" type="button" data-dismiss="modal">
+                                <i class="fa fa-times"></i> Mégse
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save"></i> Mentés
+                            </button>
                         </div>
                     </form>
                 </div>
