@@ -25,6 +25,12 @@
                             <th>Típus</th>
                             <td>{{ $order_types[$order->type] }}</td>
                         </tr>
+                        @if($order->comment!=null)
+                            <tr>
+                                <th>Megjegyzés</th>
+                                <td>{{ $order->comment }}</td>
+                            </tr>
+                        @endif
                         <tr>
                             <th>Állapot</th>
                             <td>{{ $statuses[$order->status] }}</td>
@@ -52,12 +58,6 @@
                                         <td>{{ number_format($dst->stitch_count,0,',','.') }} öltés</td>
                                     </tr>
                                 @endif
-                            @endif
-                            @if($order->comment!=null)
-                                <tr>
-                                    <th>Megjegyzés</th>
-                                    <td>{{ $order->comment }}</td>
-                                </tr>
                             @endif
                         @else
                             <tr>
