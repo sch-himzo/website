@@ -79,10 +79,6 @@
                                 <th>Méret</th>
                                 <td>{{ $order->size }} cm</td>
                             </tr>
-                            <tr>
-                                <th>Elképzelés</th>
-                                <td>{{ $order->comment }}</td>
-                            </tr>
                         @endif
                     </table>
                 </div>
