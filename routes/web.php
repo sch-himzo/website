@@ -63,26 +63,27 @@ Route::group(['prefix' => 'orders', 'as' => 'orders.', 'middleware' => ['auth','
 
             });
 
-        Route::group(['prefix' => 'groups', 'as' => 'groups.'],
+        Route::group(['prefix' => 'groups/{group}', 'as' => 'groups.'],
             function(){
-                Route::get('{group}', 'OrderGroupController@view')->name('view');
+                Route::get('', 'OrderGroupController@view')->name('view');
 
-                Route::get('{group}/joint','OrderGroupController@joint')->name('joint');
-                Route::get('{group}/archive', 'OrderGroupController@archive')->name('archive');
-                Route::get('{group}/unarchive','OrderGroupController@unarchive')->name('unarchive');
-                Route::get('{group}/assign', 'OrderGroupController@assign')->name('assign');
-                Route::get('{group}/approve/{internal}', 'OrderGroupController@approve')->name('approve');
-                Route::get('{group}/done', 'OrderGroupController@done')->name('done');
-                Route::get('{group}/help', 'OrderGroupController@help')->name('help');
-                Route::post('{group}/ETA', 'OrderGroupController@ETA')->name('ETA')->middleware('rookie');
-                Route::post('{group}/comment', 'OrderGroupController@comment')->name('comment');
-                Route::post('{group}/status', 'OrderGroupController@status')->name('status');
-                Route::post('{group}/add', 'OrderGroupController@add')->name('add');
-                Route::post('{group}/delete', 'OrderGroupController@delete')->name('delete');
+                Route::get('joint','OrderGroupController@joint')->name('joint');
+                Route::get('archive', 'OrderGroupController@archive')->name('archive');
+                Route::get('unarchive','OrderGroupController@unarchive')->name('unarchive');
+                Route::get('assign', 'OrderGroupController@assign')->name('assign');
+                Route::get('approve/{internal}', 'OrderGroupController@approve')->name('approve');
+                Route::get('done', 'OrderGroupController@done')->name('done');
+                Route::get('help', 'OrderGroupController@help')->name('help');
+                Route::post('ETA', 'OrderGroupController@ETA')->name('ETA')->middleware('rookie');
+                Route::post('comment', 'OrderGroupController@comment')->name('comment');
+                Route::post('status', 'OrderGroupController@status')->name('status');
+                Route::post('add', 'OrderGroupController@add')->name('add');
+                Route::post('delete', 'OrderGroupController@delete')->name('delete');
+                Route::post('edit', 'OrderGroupController@edit')->name('edit');
 
-                Route::get('{group}/spam', 'OrderGroupController@spam')->name('spam');
-                Route::get('{group}/spam/delete', 'OrderGroupController@deleteSpam')->name('spam.delete');
-                Route::get('{group}/spam/unset', 'OrderGroupController@notSpam')->name('spam.unset');
+                Route::get('spam', 'OrderGroupController@spam')->name('spam');
+                Route::get('spam/delete', 'OrderGroupController@deleteSpam')->name('spam.delete');
+                Route::get('spam/unset', 'OrderGroupController@notSpam')->name('spam.unset');
 
             });
 

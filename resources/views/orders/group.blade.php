@@ -88,6 +88,12 @@
                                 @endif
                             </td>
                         </tr>
+                        @if($group->comment!=null)
+                        <tr>
+                            <th>Megjegyzés</th>
+                            <td>{{ $group->comment }}</td>
+                        </tr>
+                        @endif
                         @if($group->eta!=null)
                             <tr>
                                 <th>Várható elkészülés</th>
@@ -100,6 +106,11 @@
                     <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#change_status">
                         <i class="fa fa-edit"></i> Státusz szerkesztése
                     </button>
+                    @if(Auth::user()->role_id>4)
+                        <button type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#edit">
+                            <i class="fa fa-edit"></i> Szerkesztés
+                        </button>
+                    @endif
                     <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#change_eta">
                         <i class="fa fa-calendar"></i> ETA megadása
                     </button>
@@ -303,6 +314,55 @@
 @endsection
 
 @section('modals')
+    @if(Auth::user()->role_id>4)
+        <div class="modal fade" id="edit">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Rendelés szerkesztése</h4>
+                    </div>
+                    <form action="{{ route('orders.groups.edit', ['group' => $group]) }}" method="POST">
+                        {{ csrf_field() }}
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="edit_name" class="input-group-addon">Név</label>
+                                    <input type="text" id="edit_name" name="edit_name" class="form-control" value="@if($group->user){{ $group->user->name }}@elseif($group->tempUser){{ $group->tempUser->name }}@endif">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="edit_email" class="input-group-addon">Email</label>
+                                    <input type="text" id="edit_email" name="edit_email" class="form-control" value="@if($group->user){{ $group->user->email }}@elseif($group->tempUser){{ $group->tempUser->email }}@endif">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="edit_time_limit" class="input-group-addon">Határidő</label>
+                                    <input type="date" id="edit_time_limit" name="edit_time_limit" class="form-control" value="{{ $group->time_limit }}">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <label for="edit_comment" class="input-group-addon">Megjegyzés</label>
+                                    <textarea id="edit_comment" name="edit_comment" class="form-control">{{ $group->comment }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
+                                <i class="fa fa-times"></i> Mégse
+                            </button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-save"></i> Mentés
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @endif
     @if($group->status<4 && $group->archived!=true)
         <div class="modal fade" id="new_order">
             <div class="modal-dialog">

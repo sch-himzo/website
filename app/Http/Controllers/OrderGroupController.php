@@ -9,6 +9,7 @@ use App\Models\Order\Group;
 use App\Models\Order\Image;
 use App\Models\Order\Order;
 use App\Models\Setting;
+use App\Models\TempUser;
 use App\Models\User;
 use Auth;
 use Carbon\Carbon;
@@ -349,5 +350,34 @@ class OrderGroupController extends Controller
             'group' => $group,
             'statuses' => $statuses
         ]);
+    }
+
+    public function edit(Request $request, Group $group)
+    {
+        $name = $request->input('edit_name');
+        $email = $request->input('edit_email');
+        $time_limit = $request->input('edit_time_limit');
+        $comment = $request->input('edit_comment');
+
+        $user = User::where('email', $email)->first();
+        if($user==null) {
+            $user = TempUser::where('email', $email)->first();
+            if($user==null) {
+                $user = new TempUser();
+                $user->name = $name;
+                $user->email = $email;
+                $user->save();
+            }
+            $group->temp_user_id = $user->id;
+            $group->user_id = null;
+            $group->save();
+        }else{
+            $group->user_id = $user->id;
+        }
+        $group->time_limit = $time_limit;
+        $group->comment = $comment;
+        $group->save();
+
+        return redirect()->back();
     }
 }
