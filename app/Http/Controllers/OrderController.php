@@ -163,7 +163,7 @@ class OrderController extends Controller
         $count = $request->input('edit_count');
         $type = $request->input('edit_type');
         $size = $request->input('edit_size');
-        $comment = $request->input('comment');
+        $comment = $request->input('edit_comment');
 
         $order->title = $title;
         $order->count = $count;
