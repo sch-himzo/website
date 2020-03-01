@@ -53,6 +53,12 @@
                                     </tr>
                                 @endif
                             @endif
+                            @if($order->comment!=null)
+                                <tr>
+                                    <th>Megjegyzés</th>
+                                    <td>{{ $order->comment }}</td>
+                                </tr>
+                            @endif
                         @else
                             <tr>
                                 <th>Csatolt képek</th>
