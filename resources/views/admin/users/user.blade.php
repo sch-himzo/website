@@ -8,7 +8,7 @@
             <i class="fa fa-child" data-toggle="tooltip" title="Ez te vagy!"></i>
         @endif
     </h1>
-    <h2 class="page-description"><a href="{{ route('admin.users.index') }}">Vissza</a></h2>
+    <h2 class="page-description"><a href="#" onclick="window.history.back()">Vissza</a></h2>
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
