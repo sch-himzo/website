@@ -17,6 +17,13 @@ use Str;
 
 class MachineController extends Controller
 {
+    const STATE_STOP_SWITCH = 0;
+    const STATE_NEEDLE_STOP = 1;
+    const STATE_THREAD_BREAK = 2;
+    const STATE_MACHINE_ERROR = 3;
+    const STATE_END = 4;
+    const STATE_RUNNING = 68;
+
     protected static $machine_states = [
         0 => 'stop_switch',
         1 => 'needle_stop',
@@ -133,7 +140,7 @@ class MachineController extends Controller
         if($state==0){
             $machine->current_stitch = $machine->total_stitches;
         }elseif($stitches!=null && $current_design!=null && $designs!=null){
-            if($stitches!=$machine->current_stitch){
+            if($stitches!=$machine->current_stitch && $state === self::STATE_RUNNING){
                 $seconds_passed = time()-strtotime($machine->updated_at);
                 $machine->seconds_passed += $seconds_passed;
             }
@@ -164,7 +171,7 @@ class MachineController extends Controller
         if($machine_key!=env("MACHINE_KEY")) {
             abort(401);
         }
-        
+
         $machine = Machine::find(Setting::where('name','current_machine')->first()->setting);
 
         return response()->json([
