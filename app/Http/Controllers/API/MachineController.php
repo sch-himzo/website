@@ -140,7 +140,7 @@ class MachineController extends Controller
         if($state==0){
             $machine->current_stitch = $machine->total_stitches;
         }elseif($stitches!=null && $current_design!=null && $designs!=null){
-            if($stitches!=$machine->current_stitch && $state === self::STATE_RUNNING){
+            if($stitches!=$machine->current_stitch && $state == 1){
                 $seconds_passed = time()-strtotime($machine->updated_at);
                 $machine->seconds_passed += $seconds_passed;
             }
