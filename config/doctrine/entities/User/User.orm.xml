@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+    <entity name="App\Entities\User\User" table="users">
+        <unique-constraints>
+            <unique-constraint columns="email"/>
+        </unique-constraints>
+
+        <id name="id" type="bigInteger" column="id">
+            <generator strategy="AUTO"/>
+            <sequence-generator sequence-name="users_seq" allocation-size="100" initial-value="1"/>
+        </id>
+
+        <field name="name" type="string" column="name"/>
+
+        <field name="email" type="string" column="email"/>
+
+        <field name="rememberToken" type="string" column="remember_token" nullable="true"/>
+
+        <field name="createdAt" type="dateTime" column="created_at" nullable="true"/>
+
+        <field name="updatedAt" type="dateTime" column="updated_at" nullable="true"/>
+
+        <many-to-one field="role" target-entity="App\Entities\User\Role">
+            <join-column name="role_id" referenced-column-name="id" on-delete="CASCADE"/>
+        </many-to-one>
+
+        <field name="internalId" type="string" column="internal_id" nullable="true"/>
+
+        <field name="password" type="string" column="password" nullable="true"/>
+
+        <field name="inClub" type="boolean" column="in_club">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
+
+        <field name="activated" type="boolean" column="activated">
+            <options>
+                <option name="default">1</option>
+            </options>
+        </field>
+
+        <field name="activateToken" type="string" column="activate_token" nullable="true"/>
+
+        <field name="allowEmails" type="boolean" column="allow_emails">
+            <options>
+                <option name="default">1</option>
+            </options>
+        </field>
+
+        <field name="emailToken" type="string" column="email_token" nullable="true"/>
+
+        <field name="notificationsDisabled" type="boolean" column="notifications_disabled">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
+
+        <field name="stickyRole" type="boolean" column="sticky_role">
+            <options>
+                <option name="default">0</option>
+            </options>
+        </field>
+
+        <many-to-one field="projectsDesignGroup" target-entity="App\Entities\Design\Group">
+            <join-column name="projects_design_group" referenced-column-name="id" on-delete="SET NULL" nullable="true"/>
+        </many-to-one>
+    </entity>
+</doctrine-mapping>

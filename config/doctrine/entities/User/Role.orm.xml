@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping
+                          http://raw.github.com/doctrine/doctrine2/master/doctrine-mapping.xsd">
+    <entity name="App\Entities\User\Role" table="roles">
+
+        <id name="id" type="bigInteger" column="id">
+            <generator strategy="AUTO"/>
+            <sequence-generator sequence-name="roles_seq" allocation-size="100" initial-value="1"/>
+        </id>
+
+        <field name="name" type="string" column="name"/>
+
+        <field name="description" type="string" column="description"/>
+
+        <one-to-many field="users" target-entity="App\Entities\User\User" mapped-by="role">
+            <cascade>
+                <cascade-all/>
+            </cascade>
+        </one-to-many>
+
+        <field name="createdAt" type="dateTime" column="created_at" nullable="true"/>
+
+        <field name="updatedAt" type="dateTime" column="updated_at" nullable="true"/>
+    </entity>
+</doctrine-mapping>
