@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entities\User;
 
 use App\Entities\Design\DesignGroupInterface;
+use App\Entities\Gallery\ImageInterface;
 use App\Entities\Order\OrderInterface;
 use App\Traits\EntityTrait;
 use App\Traits\TimestampableTrait;
@@ -59,6 +60,12 @@ class User implements UserInterface
 
     /** @var ArrayCollection|OrderInterface[] */
     private $orders;
+
+    /** @var ArrayCollection|DesignGroupInterface[] */
+    private $designGroups;
+
+    /** @var ArrayCollection|ImageInterface[] */
+    private $images;
 
     public function getName(): string
     {
@@ -232,5 +239,73 @@ class User implements UserInterface
     public function removeOrders(): void
     {
         $this->orders->clear();
+    }
+
+    public function getDesignGroups(): ArrayCollection
+    {
+        return $this->designGroups;
+    }
+
+    public function hasDesignGroup(DesignGroupInterface $designGroup): bool
+    {
+        return $this->designGroups->contains($designGroup);
+    }
+
+    public function hasDesignGroups(): bool
+    {
+        return !$this->designGroups->isEmpty();
+    }
+
+    public function addDesignGroup(DesignGroupInterface $designGroup): void
+    {
+        if(!$this->hasDesignGroup($designGroup)) {
+            $this->designGroups->add($designGroup);
+        }
+    }
+
+    public function removeDesignGroup(DesignGroupInterface $designGroup): void
+    {
+        if($this->hasDesignGroup($designGroup)) {
+            $this->designGroups->removeElement($designGroup);
+        }
+    }
+
+    public function removeDesignGroups(): void
+    {
+        $this->designGroups->clear();
+    }
+
+    public function getImages(): ArrayCollection
+    {
+        return $this->images;
+    }
+
+    public function hasImage(ImageInterface $image): bool
+    {
+        return $this->images->contains($image);
+    }
+
+    public function hasImages(): bool
+    {
+        return !$this->images->isEmpty();
+    }
+
+    public function addImage(ImageInterface $image): void
+    {
+        if(!$this->hasImage($image)) {
+            $this->images->add($image);
+        }
+    }
+
+    public function removeImage(ImageInterface $image): void
+    {
+        if($this->hasImage($image)) {
+            $this->images->removeElement($image);
+        }
+    }
+
+    public function removeImages(): void
+    {
+        $this->images->clear();
     }
 }

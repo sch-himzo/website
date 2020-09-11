@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entities\User;
 
 use App\Entities\Design\DesignGroupInterface;
+use App\Entities\Gallery\ImageInterface;
 use App\Entities\Order\OrderInterface;
 use App\Traits\EntityInterface;
 use App\Traits\TimestampableInterface;
@@ -81,4 +82,28 @@ interface UserInterface extends
     public function removeOrder(OrderInterface $order): void;
 
     public function removeOrders(): void;
+
+    public function getDesignGroups(): ArrayCollection;
+
+    public function hasDesignGroup(DesignGroupInterface $designGroup): bool;
+
+    public function hasDesignGroups(): bool;
+
+    public function addDesignGroup(DesignGroupInterface $designGroup): void;
+
+    public function removeDesignGroup(DesignGroupInterface $designGroup): void;
+
+    public function removeDesignGroups(): void;
+
+    public function getImages(): ArrayCollection;
+
+    public function hasImage(ImageInterface $image): bool;
+
+    public function hasImages(): bool;
+
+    public function addImage(ImageInterface $image): void;
+
+    public function removeImage(ImageInterface $image): void;
+
+    public function removeImages(): void;
 }
