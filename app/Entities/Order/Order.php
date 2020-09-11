@@ -12,6 +12,7 @@ use App\Traits\EntityTrait;
 use App\Traits\TimestampableTrait;
 use App\Traits\UserAwareTrait;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 class Order implements OrderInterface
 {
@@ -59,6 +60,9 @@ class Order implements OrderInterface
 
     /** @var UserInterface|null */
     private $reportedBy;
+
+    /** @var ArrayCollection|OrderItemInterface[] */
+    private $items;
 
     public function getTitle(): string
     {
@@ -190,5 +194,39 @@ class Order implements OrderInterface
     public function setReportedBy(?UserInterface $reportedBy): void
     {
         $this->reportedBy = $reportedBy;
+    }
+
+    public function getItems(): ArrayCollection
+    {
+        return $this->items;
+    }
+
+    public function hasItem(OrderItemInterface $orderItem): bool
+    {
+        return $this->items->contains($orderItem);
+    }
+
+    public function hasItems(): bool
+    {
+        return !$this->items->isEmpty();
+    }
+
+    public function addItem(OrderItemInterface $orderItem): void
+    {
+        if(!$this->hasItem($orderItem)) {
+            $this->items->add($orderItem);
+        }
+    }
+
+    public function removeItem(OrderItemInterface $orderItem): void
+    {
+        if($this->hasItem($orderItem)) {
+            $this->items->removeElement($orderItem);
+        }
+    }
+
+    public function removeItems(): void
+    {
+        $this->items->clear();
     }
 }

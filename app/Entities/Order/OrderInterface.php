@@ -12,6 +12,7 @@ use App\Traits\EntityInterface;
 use App\Traits\TimestampableInterface;
 use App\Traits\UserAwareInterface;
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 
 interface OrderInterface extends
     EntityInterface,
@@ -87,4 +88,16 @@ interface OrderInterface extends
     public function getReportedBy(): ?UserInterface;
 
     public function setReportedBy(?UserInterface $reportedBy): void;
+
+    public function getItems(): ArrayCollection;
+
+    public function hasItem(OrderItemInterface $orderItem): bool;
+
+    public function hasItems(): bool;
+
+    public function addItem(OrderItemInterface $orderItem): void;
+
+    public function removeItem(OrderItemInterface $orderItem): void;
+
+    public function removeItems(): void;
 }
