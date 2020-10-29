@@ -74,8 +74,8 @@
                                 </label>
                             </div>
                             <div class="input-group" data-toggle="tooltip" title="Képenként Max. 3MB">
-                                <label id="image_label" class="input-group-addon" for="image">Tervrajzok<span class="required">*</span></label>
-                                <input accept="image/*" required class="form-control" type="file" id="image" name="image[]" multiple>
+                                <label id="image_label" class="input-group-addon" for="image">Tervrajz<span class="required">*</span></label>
+                                <input accept=".jpg,.JPG,.jpeg,.JPEG,.png,.PNG" required class="form-control" type="file" id="image" name="image[]" multiple>
                             </div>
                         </div>
                         <div class="form-group">
