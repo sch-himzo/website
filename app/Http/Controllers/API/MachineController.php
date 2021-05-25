@@ -9,6 +9,8 @@ use App\Models\Design;
 use App\Models\DesignGroup;
 use App\Models\Machine;
 use App\Models\Setting;
+use App\Parser\DSTParser;
+use App\Parser\ParserInterface;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +26,9 @@ class MachineController extends Controller
     const STATE_END = 4;
     const STATE_RUNNING = 68;
 
+    /** @var ParserInterface $dstParser */
+    private $dstParser;
+
     protected static $machine_states = [
         0 => 'stop_switch',
         1 => 'needle_stop',
@@ -32,6 +37,11 @@ class MachineController extends Controller
         4 => 'end',
         68 => 'running'
     ];
+
+    public function __construct(DSTParser $dstParser)
+    {
+        $this->dstParser = $dstParser;
+    }
 
     public function updateDST(Request $request)
     {
@@ -66,13 +76,13 @@ class MachineController extends Controller
         $design->name = "Machine design #$design->id";
         $design->save();
 
-        $parsed = \App\Http\Controllers\DSTController::parseDST($design);
+        $dst = $this->dstParser->parse($design);
 
-        $stitches = json_encode($parsed[0]);
-        $width = $parsed[2];
-        $height = $parsed[1];
-        $xoffset = $parsed[3];
-        $yoffset = $parsed[4];
+        $stitches = json_encode($dst->getStitches());
+        $width = $dst->getCanvasWidth();
+        $height = $dst->getCanvasHeight();
+        $xOffset = $dst->getMinVerticalPosition();
+        $yOffset = $dst->getMaxVerticalPosition();
 
         $setting = Setting::where('name','current_machine')->first();
 
@@ -98,9 +108,9 @@ class MachineController extends Controller
         $machine->total_stitches = $design->stitch_count;
         $machine->design_width = $width;
         $machine->design_height = $height;
-        $machine->x_offset = $xoffset;
+        $machine->x_offset = $xOffset;
         $machine->state = 0;
-        $machine->y_offset = $yoffset;
+        $machine->y_offset = $yOffset;
         $machine->current_stitch = 0;
         $machine->seconds_passed = 0;
         $machine->save();

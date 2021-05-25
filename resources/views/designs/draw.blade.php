@@ -19,7 +19,8 @@
                     <input type="hidden" name="width" value="{{ $width }}">
                     <div class="panel-body">
                         <div class="color-select">
-                            @if($design->colors->count()==0)
+
+                            @if(count($design->colors) == 0)
                             @for($i = 0; $i<$color_count; $i++)
                                 <input type="hidden" name="color_stitches_{{ $i }}" value="{{ sizeof($stitches[$i]) }}">
                                 <input type="hidden" name="r_{{ $i }}" id="r_{{ $i }}" value="">
@@ -87,7 +88,7 @@
                             @if($design->colors->count()==0)
                                 <g id="color_{{ $id }}" style="stroke:#000000">
                                     @else
-                                        <g id="color_{{ $id }}" style="stroke:{{ $design->colors->where('number',$id)->first()->red }};">
+                                        <g id="color_{{ $id }}" style="stroke:{{ $colors[$id] }};">
                                             @endif
                                             @foreach($color as $stitch)
                                                 <line x1="{{ $stitch[0][0]+abs($minx)+5 }}" x2="{{ $stitch[1][0]+abs($minx)+5 }}" y1="{{ $stitch[0][1]+abs($miny)+5 }}" y2="{{ $stitch[1][1]+abs($miny)+5 }}" style="stroke-width:2;"></line>

@@ -2,17 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Generator\GeneratorInterface;
+use App\Generator\SVGGenerator;
 use App\Models\Background;
 use App\Models\Design;
 use App\Models\Order\Order;
+use App\Parser\DSTParser;
+use App\Parser\ParserInterface;
 use File;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\View;
 use Str;
 
 class DSTController extends Controller
 {
+    public const DESIGN_SVG_VIEW = 'designs.svg';
+
+    /** @var ParserInterface $dstParser */
+    private static $dstParser;
+
+    /** @var GeneratorInterface $svgGenerator */
+    private static $svgGenerator;
+
     private static $control_bytes = [
         '0' => 'normal',
         '1' => 'normal',
@@ -51,79 +61,29 @@ class DSTController extends Controller
         'F' => '1111'
     ];
 
+    public function __construct(
+        DSTParser $dstParser,
+        SVGGenerator $svgGenerator
+    ) {
+        self::$dstParser = $dstParser;
+        self::$svgGenerator = $svgGenerator;
+    }
+
     public static function parseDST(Design $design)
     {
-        $contents = File::get(storage_path('app/images/uploads/designs/'. $design->image));
+        $dst = self::$dstParser->parse($design);
 
-        $hex_contents = static::strToHex($contents);
-        $stitches = [];
-        $color_count = 0;
-        $stitch_count = 0;
-        $maxx = 0;
-        $minx = 0;
-        $miny = 0;
-        $maxy = 0;
-        $pos = [0,0];
-        $asd = 0;
-        for($i = 0; $i<strlen($hex_contents); $i = $i+6){
-            $current = substr($hex_contents,$i,6);
-            if(strlen($current)!=6){
-                continue;
-            }
-            $current_array = str_split($current,1);
-
-            $byte1 = static::$hex2bin[$current_array[0]].static::$hex2bin[$current_array[1]];
-            $byte2 = static::$hex2bin[$current_array[2]].static::$hex2bin[$current_array[3]];
-            $byte3 = static::$hex2bin[$current_array[4]].static::$hex2bin[$current_array[5]];
-
-
-            if(static::$control_bytes[$current_array[4]]=='') {
-                $pos = static::posChange($pos[0], $pos[1], $byte1, $byte2, $byte3);
-
-                $asd = 0;
-            }
-
-            if(static::$control_bytes[$current_array[4]]=='color'){
-                $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
-                $color_count++;
-                $asd = 0;
-            }
-
-            if(static::$control_bytes[$current_array[4]]=='normal'){
-                if($asd>1){
-                    $stitch_count++;
-                    $stitches[$color_count][] = [$pos,static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3)];
-                }
-                $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
-                $asd++;
-                if($pos[0]>$maxx){
-                    $maxx = $pos[0];
-                }
-                if($pos[0]<$minx){
-                    $minx = $pos[0];
-                }
-                if($pos[1]>$maxy){
-                    $maxy = $pos[1];
-                }
-                if($pos[1]<$miny){
-                    $miny = $pos[1];
-                }
-            }
-
-            if(static::$control_bytes[$current_array[4]]=='jump'){
-                $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
-                $asd = 0;
-            }
-        }
-
-        $canvas_height = abs($miny) + abs($maxy) + 10;
-        $canvas_width = abs($minx) + abs($maxx) + 10;
-
-        $design->svg = static::generateSVG($design, $stitches, $canvas_width,$canvas_height,$minx,$miny);
-        $design->stitch_count = $stitch_count;
+        $design->svg = self::$svgGenerator->generate($design, $dst);
+        $design->stitch_count = $dst->getStitchCount();
         $design->save();
 
-        return [$stitches, $canvas_height, $canvas_width, $minx, $miny];
+        return [
+            $dst->getStitches(),
+            $dst->getCanvasHeight(),
+            $dst->getCanvasWidth(),
+            $dst->getMinHorizontalPosition(),
+            $dst->getMinVerticalPosition()
+        ];
     }
 
     private static function strToHex($string){
@@ -142,113 +102,47 @@ class DSTController extends Controller
             abort(400);
         }
 
-        $contents = File::get(storage_path('app/images/uploads/designs/' . $design->image));
+        $dst = self::$dstParser->parse($design);
 
-        $hex_contents = substr(static::strToHex($contents),1024);
-        $stitches = [];
-        $color_count = 0;
-        $stitch_count = 0;
-        $maxx = 0;
-        $minx = 0;
-        $miny = 0;
-        $maxy = 0;
-        $pos = [0,0];
-        $asd = 0;
-        for($i = 0; $i<strlen($hex_contents); $i=$i+6){
-            $current = substr($hex_contents,$i,6);
-            if(strlen($current)!=6){
-                continue;
-            }
-
-            $current_array = str_split($current,1);
-
-            $byte1 = static::$hex2bin[$current_array[0]].static::$hex2bin[$current_array[1]];
-            $byte2 = static::$hex2bin[$current_array[2]].static::$hex2bin[$current_array[3]];
-            $byte3 = static::$hex2bin[$current_array[4]].static::$hex2bin[$current_array[5]];
-
-
-            if(static::$control_bytes[$current_array[4]]=='') {
-                $pos = static::posChange($pos[0], $pos[1], $byte1, $byte2, $byte3);
-
-                $asd = 0;
-            }
-
-            if(static::$control_bytes[$current_array[4]]=='color'){
-                $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
-                $color_count++;
-                $asd = 0;
-            }
-
-            if(static::$control_bytes[$current_array[4]]=='normal'){
-                if($asd>1){
-                    $stitch_count++;
-                    $stitches[$color_count][] = [$pos,static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3)];
-                }
-                $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
-                $asd++;
-                if($pos[0]>$maxx){
-                    $maxx = $pos[0];
-                }
-                if($pos[0]<$minx){
-                    $minx = $pos[0];
-                }
-                if($pos[1]>$maxy){
-                    $maxy = $pos[1];
-                }
-                if($pos[1]<$miny){
-                    $miny = $pos[1];
-                }
-            }
-
-            if(static::$control_bytes[$current_array[4]]=='jump'){
-                $pos = static::posChange($pos[0],$pos[1],$byte1,$byte2,$byte3);
-                $asd = 0;
-            }
-        }
-
-        $canvas_width = abs($maxx) + abs($minx) + 10;
-        $canvas_height = abs($maxy) + abs($miny) + 10;
-
-
-
-        if($color_count+1!=$design->color_count){
+        if (($colorCount = $dst->getColorCount()) !== (int)$design->color_count) {
             $colors = $design->colors;
 
-            foreach($colors as $color){
+            foreach ($colors as $color) {
                 $color->delete();
             }
 
-            $design->color_count = $color_count+1;
+            $design->color_count = $colorCount;
         }
 
-        $areacm = $canvas_width*$canvas_height/2500;
+        $area = $dst->getCanvasWidth() * $dst->getCanvasHeight() / 2500;
 
-        $diameter = sqrt($areacm/pi());
+        $diameter = sqrt($area / pi());
 
         $backgrounds = Background::all();
         $current_background = $design->background;
 
-
-        if($design->svg==null){
-            $design->svg = static::generateSVG($design, $stitches, $canvas_width, $canvas_height, $minx, $miny);
-        }
-        $design->stitch_count = $stitch_count;
+        $design->stitch_count = $dst->getStitchCount();
         $design->save();
 
+        if($design->svg==null){
+            $design->svg = self::$svgGenerator->generate($design, $dst);
+        }
+
         return view('designs.draw', [
-            'stitches' => $stitches,
-            'minx' => $minx,
-            'miny' => $miny,
-            'maxx' => $maxx,
-            'maxy' => $maxy,
+            'stitches' => $dst->getStitches(),
+            'minx' => $dst->getMinHorizontalPosition(),
+            'miny' => $dst->getMinVerticalPosition(),
+            'maxx' => $dst->getMaxHorizontalPosition(),
+            'maxy' => $dst->getMaxVerticalPosition(),
             'backgrounds' => $backgrounds,
             'diameter' => $diameter,
-            'height' => $canvas_height,
-            'width' => $canvas_width,
-            'color_count' => $color_count,
+            'height' => $dst->getCanvasHeight(),
+            'width' => $dst->getCanvasWidth(),
+            'color_count' => $colorCount ,
             'current_background' => $current_background,
             'design' => $design,
-            'order' => $order
+            'order' => $order,
+            'colors' => $design->getColors(),
         ]);
     }
 

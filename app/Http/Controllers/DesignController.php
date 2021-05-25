@@ -2,12 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Generator\GeneratorInterface;
+use App\Generator\SVGGenerator;
 use App\Models\Background;
 use App\Models\Color;
 use App\Models\Design;
 use App\Models\DesignGroup;
 use App\Models\Order\Order;
 use App\Models\Setting;
+use App\Parser\DSTParser;
+use App\Parser\ParserInterface;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,6 +20,20 @@ use Str;
 
 class DesignController extends Controller
 {
+    /** @var ParserInterface $dstParser */
+    private $dstParser;
+
+    /** @var GeneratorInterface */
+    private $svgGenerator;
+
+    public function __construct(
+        DSTParser $dstParser,
+        SVGGenerator $svgGenerator
+    ) {
+        $this->dstParser = $dstParser;
+        $this->svgGenerator = $svgGenerator;
+    }
+
     public function order(Order $order)
     {
         $group = $order->design;
@@ -231,7 +249,13 @@ class DesignController extends Controller
                 $colors[] = $color;
             }
             $bg = Background::all()->find($background);
-            $design->svg = DSTController::updateSVG($design, $colors, $bg);
+
+            $dst = $this->dstParser->parse($design);
+
+            $svg = $this->svgGenerator->generate($design, $dst);
+
+            $design->svg = $svg;
+
             $design->size = $diameter*2;
             $design->background_id = $background;
             $design->save();
@@ -274,7 +298,9 @@ class DesignController extends Controller
 
             $bg = Background::all()->find($background);
 
-            $design->svg = DSTController::updateSVG($design, $colors, $bg);
+            $dst = $this->dstParser->parse($design);
+
+            $design->svg = $this->svgGenerator->generate($design, $dst);
             $design->size = $diameter*2;
             $design->background_id = $background;
             $design->save();

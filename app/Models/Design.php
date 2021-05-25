@@ -40,4 +40,15 @@ class Design extends Model
     {
         return $this->hasMany(Machine::class);
     }
+
+    public function getColors()
+    {
+        $colors = [];
+
+        foreach ($this->colors as $color) {
+            $colors[$color->number] = $color->red;
+        }
+
+        return $colors;
+    }
 }
