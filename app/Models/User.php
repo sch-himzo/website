@@ -2,15 +2,14 @@
 
 namespace App\Models;
 
-use App\Models\Gallery\Image;
-use App\Models\Order\Group;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Str;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +17,9 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password','role_id'
+        'name',
+        'email',
+        'password',
     ];
 
     /**
@@ -27,7 +28,8 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'password',
+        'remember_token',
     ];
 
     /**
@@ -38,74 +40,4 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function role()
-    {
-        return $this->belongsTo(Role::class);
-    }
-
-    public function orders()
-    {
-        return $this->hasMany(Group::class);
-    }
-
-    public function approvedOrders()
-    {
-        return $this->hasMany(Group::class);
-    }
-
-    public function transactions()
-    {
-        return $this->hasMany(Transaction::class);
-    }
-
-    public function images()
-    {
-        return $this->hasMany(Image::class);
-    }
-
-    public function designGroups()
-    {
-        return $this->hasMany(DesignGroup::class,'owner_id');
-    }
-
-    public function comments()
-    {
-        return $this->hasMany(Comment::class);
-    }
-
-    public function assignedOrders()
-    {
-        return $this->belongsToMany(Group::class,'user_order','user_id','order_group_id');
-    }
-
-    public function emails()
-    {
-        return $this->hasMany(Email::class);
-    }
-
-    public function generateEmailToken()
-    {
-        if($this->email_token == null){
-            $this->email_token = Str::random(60);
-            $this->save();
-        }
-
-        return $this->email_token;
-    }
-
-    public function jumperTransactions()
-    {
-        return $this->hasMany(JumperTransaction::class);
-    }
-
-    public function projects()
-    {
-        return $this->hasMany(Project::class);
-    }
-
-    public function projectsGroup()
-    {
-        return $this->belongsTo(DesignGroup::class, 'projects_design_group');
-    }
 }
