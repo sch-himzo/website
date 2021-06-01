@@ -6,6 +6,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="role")
+ */
 class Role implements RoleInterface
 {
     use ResourceTrait;

@@ -6,14 +6,16 @@
     "license": "MIT",
     "require": {
         "php": "^7.4|^8.0",
+        "doctrine/cache": "^1",
         "doctrine/inflector": "1.4",
-        "doctrine/orm": "^2.9",
+        "doctrine/orm": "2.9",
         "doctrine/persistence": "^2.2",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel-doctrine/orm": "1.7.7",
-        "laravel/framework": "^8.40",
+        "laravel-doctrine/migrations": "^2",
+        "laravel-doctrine/orm": "^1.7",
+        "laravel/framework": "8.40",
         "laravel/tinker": "^2.5"
     },
     "require-dev": {

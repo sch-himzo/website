@@ -5,8 +5,14 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="order")
+ */
 class Order implements OrderInterface
 {
     use ResourceTrait;
@@ -21,8 +27,8 @@ class Order implements OrderInterface
     private ?string $comment = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=App\Entity\User)
-     * @ORM\JoinColumn(name=approved_by, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(name="approved_by", nullable=true)
      */
     private ?UserInterface $approvedBy = null;
 
@@ -32,8 +38,8 @@ class Order implements OrderInterface
     private string $paymentType = self::PAYMENT_TYPE_EXTERNAL;
 
     /**
-     * @ORM\ManyToOne(targetEntity=App\Entity\TemporaryUser)
-     * @ORM\JoinColumn(name=temp_user_id)
+     * @ORM\ManyToOne(targetEntity="App\Entity\TemporaryUser")
+     * @ORM\JoinColumn(name="temp_user_id")
      */
     private ?TemporaryUserInterface $temporaryUser = null;
 
@@ -73,10 +79,20 @@ class Order implements OrderInterface
     private bool $markedAsSpam = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity=App\Entity\User)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(name="reported_by")
      * */
     private ?UserInterface $markedBy = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="order")
+     */
+    private Collection $orderItems;
+
+    public function __construct()
+    {
+        $this->orderItems = new ArrayCollection();
+    }
 
     public function getComment(): ?string
     {

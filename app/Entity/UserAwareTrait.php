@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait UserAwareTrait
 {
     /**
-     * @ORM\ManyToOne(targetEntity=App\Entity\User)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
      * @ORM\JoinColumn(name="user_id", nullable=true)
      */
     private ?UserInterface $user = null;

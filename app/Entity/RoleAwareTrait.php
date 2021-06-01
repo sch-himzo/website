@@ -9,8 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 trait RoleAwareTrait
 {
     /**
-     * @ORM\ManyToOne(targetEntity=App\Entity\Role)
-     * @ORM\JoinColumn(name=role_id, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Role")
+     * @ORM\JoinColumn(name="role_id", nullable=true)
      */
     private ?RoleInterface $role;
 

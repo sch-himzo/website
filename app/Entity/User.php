@@ -6,6 +6,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="user")
+ */
 class User implements UserInterface
 {
     use AuthenticatableTrait;
@@ -55,8 +59,8 @@ class User implements UserInterface
     private bool $stickRole = false;
 
     /**
-     * @ORM\ManyToOne(targetEntity=App\Entity\Folder)
-     * @ORM\JoinColumn(name=projects_design_group_id, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Folder")
+     * @ORM\JoinColumn(name="project_folder_id", nullable=true)
      */
     private ?FolderInterface $projectFolder = null;
 

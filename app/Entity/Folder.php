@@ -6,6 +6,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="folder")
+ */
 class Folder implements FolderInterface
 {
     use ResourceTrait;
@@ -14,14 +18,14 @@ class Folder implements FolderInterface
     use DeletableTrait;
 
     /**
-     * @ORM\ManyToOne(targetEntity=App\Entity\Folder)
-     * @ORM\JoinColumn(name=parent_id, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\Folder")
+     * @ORM\JoinColumn(name="parent_id", nullable=true)
      */
     private ?FolderInterface $parent = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=App\Entity\User)
-     * @ORM\JoinColumn(name=owner_id, nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     * @ORM\JoinColumn(name="owner_id", nullable=true)
      */
     private ?UserInterface $owner = null;
 

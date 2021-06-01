@@ -27,7 +27,7 @@ return [
             'connection'    => env('DB_CONNECTION', 'mysql'),
             'namespaces'    => [],
             'paths'         => [
-                base_path('app/Entities')
+                base_path('app/Entity')
             ],
             'repository'    => Doctrine\ORM\EntityRepository::class,
             'proxies'       => [
@@ -72,7 +72,7 @@ return [
             |--------------------------------------------------------------------------
             */
             'mapping_types' => [
-                //'enum' => 'string'
+                'enum' => 'string'
             ]
         ]
     ],
