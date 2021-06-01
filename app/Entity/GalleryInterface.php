@@ -27,4 +27,6 @@ interface GalleryInterface extends
     public function removeAlbum(AlbumInterface $album): void;
 
     public function removeAlbums(): void;
+
+    public function getImages(): Collection;
 }

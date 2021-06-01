@@ -81,4 +81,23 @@ class Gallery implements GalleryInterface
             $this->removeAlbum($album);
         }
     }
+
+    public function getImages(): Collection
+    {
+        $images = new ArrayCollection();
+
+        /** @var AlbumInterface $album */
+        foreach ($this->albums as $album) {
+
+            /** @var ImageInterface $image */
+            foreach ($album->getImages() as $image) {
+
+                if (!$images->contains($image)) {
+                    $images->add($image);
+                }
+            }
+        }
+
+        return $images;
+    }
 }
