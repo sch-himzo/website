@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -93,6 +94,12 @@ class OrderItem implements OrderItemInterface
      * @ORM\OneTomany(targetEntity="App\Entity\Comment", mappedBy="order_item_id")
      */
     private Collection $comments;
+
+    public function __construct()
+    {
+        $this->images = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
 
     public function getQuantity(): ?int
     {

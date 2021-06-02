@@ -97,6 +97,7 @@ class Order implements OrderInterface
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getComment(): ?string
