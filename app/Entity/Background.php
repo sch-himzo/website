@@ -17,12 +17,12 @@ class Background implements BackgroundInterface
     use NameableTrait;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     private ?string $code = null;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="array", nullable=true)
      */
     private ?array $colors = null;
 
