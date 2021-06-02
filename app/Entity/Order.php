@@ -39,7 +39,7 @@ class Order implements OrderInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\TemporaryUser")
-     * @ORM\JoinColumn(name="temp_user_id")
+     * @ORM\JoinColumn(name="temp_user_id", nullable=true)
      */
     private ?TemporaryUserInterface $temporaryUser = null;
 
@@ -64,12 +64,12 @@ class Order implements OrderInterface
     private bool $helpNeeded = false;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private ?DateTimeInterface $deadline = null;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private ?DateTimeInterface $estimatedCompletionDate = null;
 
@@ -80,7 +80,7 @@ class Order implements OrderInterface
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User")
-     * @ORM\JoinColumn(name="reported_by")
+     * @ORM\JoinColumn(name="reported_by", nullable=true)
      * */
     private ?UserInterface $markedBy = null;
 
@@ -217,5 +217,31 @@ class Order implements OrderInterface
     public function setMarkedBy(?UserInterface $markedBy): void
     {
         $this->markedBy = $markedBy;
+    }
+
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function hasComment(CommentInterface $comment): bool
+    {
+        return $this->comments->contains($comment);
+    }
+
+    public function addComment(CommentInterface $comment): void
+    {
+        if (!$this->hasComment($comment)) {
+            $this->comments->add($comment);
+            $comment->setCommentable($this);
+        }
+    }
+
+    public function removeComment(CommentInterface $comment): void
+    {
+        if ($this->hasComment($comment)) {
+            $this->comments->removeElement($comment);
+            $comment->setCommentable(null);
+        }
     }
 }

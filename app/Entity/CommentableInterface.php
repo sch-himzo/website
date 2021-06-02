@@ -12,12 +12,6 @@ interface CommentableInterface
 
     public function hasComment(CommentInterface $comment): bool;
 
-    public function getImages(): Collection;
-
-    public function addImage(OrderImageInterface $orderImage): void;
-
-    public function removeImage(OrderImageInterface $orderImage): void;
-
     public function addComment(CommentInterface $comment): void;
 
     public function removeComment(CommentInterface $comment): void;

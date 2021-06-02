@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\Collection;
 
 interface OrderItemInterface extends
     ResourceInterface,
@@ -83,4 +84,10 @@ interface OrderItemInterface extends
     public function getMarkedAsSpamBy(): ?UserInterface;
 
     public function setMarkedAsSpamBy(?UserInterface $markedAsSpamBy): void;
+
+    public function getImages(): Collection;
+
+    public function addImage(OrderImageInterface $orderImage): void;
+
+    public function removeImage(OrderImageInterface $orderImage): void;
 }
