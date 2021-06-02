@@ -56,7 +56,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $stickRole = false;
+    private bool $stickyRole = false;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Folder")
@@ -129,14 +129,14 @@ class User implements UserInterface
         $this->notificationsDisabled = $notificationsDisabled;
     }
 
-    public function isStickRole(): bool
+    public function isStickyRole(): bool
     {
-        return $this->stickRole;
+        return $this->stickyRole;
     }
 
-    public function setStickRole(bool $stickRole): void
+    public function setStickyRole(bool $stickyRole): void
     {
-        $this->stickRole = $stickRole;
+        $this->stickyRole = $stickyRole;
     }
 
     public function getProjectFolder(): ?FolderInterface

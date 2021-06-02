@@ -45,9 +45,9 @@ interface UserInterface extends
 
     public function setNotificationsDisabled(bool $notificationsDisabled): void;
 
-    public function isStickRole(): bool;
+    public function isStickyRole(): bool;
 
-    public function setStickRole(bool $stickRole): void;
+    public function setStickyRole(bool $stickyRole): void;
 
     public function getProjectFolder(): ?FolderInterface;
 
