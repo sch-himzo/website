@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use DateTimeInterface;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -82,6 +83,16 @@ class OrderItem implements OrderItemInterface
      * @ORM\JoinColumn(name="marked_as_spam_by", nullable=true)
      */
     private ?UserInterface $markedAsSpamBy = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\OrderImage", mappedBy="orderItem")
+     */
+    private Collection $images;
+
+    /**
+     * @ORM\OneTomany(targetEntity="App\Entity\Comment", mappedBy="order_item_id")
+     */
+    private Collection $comments;
 
     public function getQuantity(): ?int
     {
@@ -226,5 +237,57 @@ class OrderItem implements OrderItemInterface
     public function setMarkedAsSpamBy(?UserInterface $markedAsSpamBy): void
     {
         $this->markedAsSpamBy = $markedAsSpamBy;
+    }
+
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function hasImage(OrderImageInterface $orderImage): bool
+    {
+        return $this->images->contains($orderImage);
+    }
+
+    public function addImage(OrderImageInterface $orderImage): void
+    {
+        if (!$this->hasImage($orderImage)) {
+            $this->images->add($orderImage);
+            $orderImage->setOrderItem($this);
+        }
+    }
+
+    public function removeImage(OrderImageInterface $orderImage): void
+    {
+        if ($this->hasImage($orderImage)) {
+            $this->images->removeElement($orderImage);
+            $orderImage->setOrderItem(null);
+        }
+    }
+
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function hasComment(CommentInterface $comment): bool
+    {
+        return $this->comments->contains($comment);
+    }
+
+    public function addComment(CommentInterface $comment): void
+    {
+        if (!$this->hasComment($comment)) {
+            $this->comments->add($comment);
+            $comment->setCommentable($this);
+        }
+    }
+
+    public function removeComment(CommentInterface $comment): void
+    {
+        if ($this->hasComment($comment)) {
+            $this->comments->removeElement($comment);
+            $comment->setCommentable(null);
+        }
     }
 }

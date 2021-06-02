@@ -11,7 +11,8 @@ interface OrderItemInterface extends
     TimestampableInterface,
     DeletableInterface,
     NameableInterface,
-    OrderAwareInterface
+    OrderAwareInterface,
+    CommentableInterface
 {
     public const STATE_DRAFT = 'draft';
     public const STATE_NEW = 'new';

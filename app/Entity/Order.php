@@ -89,6 +89,11 @@ class Order implements OrderInterface
      */
     private Collection $orderItems;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Comment", mappedBy="order")
+     */
+    private Collection $comments;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();

@@ -9,7 +9,8 @@ interface OrderInterface extends
     TimestampableInterface,
     NameableInterface,
     UserAwareInterface,
-    DeletableInterface
+    DeletableInterface,
+    CommentableInterface
 {
     public const PAYMENT_TYPE_INTERNAL = 'internal';
     public const PAYMENT_TYPE_EXTERNAL = 'external';
