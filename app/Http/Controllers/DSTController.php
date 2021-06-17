@@ -281,9 +281,12 @@ class DSTController extends Controller
             $i++;
         }
 
-        $background_pattern = "/(<rect width=\"[0-9\.]*\" height=\"[0-9\.]*\" style=\")fill:rgb\([0-9]{1,3}, [0-9]{1,3}, [0-9]{1,3}\);(\"><\/rect>)/";
-        $background_replace = "$1fill:rgb($background->red, $background->green, $background->blue)$2";
-        $file = preg_replace($background_pattern,$background_replace,$file);
+        if (isset($background)) {
+            $background_pattern = "/(<rect width=\"[0-9\.]*\" height=\"[0-9\.]*\" style=\")fill:rgb\([0-9]{1,3}, [0-9]{1,3}, [0-9]{1,3}\);(\"><\/rect>)/";
+            $background_replace = "$1fill:rgb($background->red, $background->green, $background->blue)$2";
+
+            $file = preg_replace($background_pattern,$background_replace,$file);
+        }
 
         Storage::put('public/images/svg/'.$name,$file);
 
