@@ -146,7 +146,9 @@ class MachineController extends Controller
         }
 
         $machine = Machine::all()->find($setting->setting);
+
         $machine->state = $state;
+
         if($state==0){
             $machine->current_stitch = $machine->total_stitches;
         }elseif($stitches!=null && $current_design!=null && $designs!=null){
@@ -154,7 +156,7 @@ class MachineController extends Controller
                 $seconds_passed = time()-strtotime($machine->updated_at);
                 $machine->seconds_passed += $seconds_passed;
             }
-            $machine->current_stitch = $stitches;
+            $machine->current_stitch = max(0, $stitches);
             $machine->current_design = $current_design;
             $machine->design_count = $designs;
         }elseif($stitches!=null){
@@ -162,7 +164,7 @@ class MachineController extends Controller
                 $seconds_passed = time()-strtotime($machine->updated_at);
                 $machine->seconds_passed += $seconds_passed;
             }
-            $machine->current_stitch = $stitches;
+            $machine->current_stitch = max(0, $stitches);
         }
 
         if($machine->current_stitch>$machine->total_stitches && $machine->design_count==$machine->current_design){
