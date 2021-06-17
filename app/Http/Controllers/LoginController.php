@@ -159,7 +159,8 @@ class LoginController extends Controller
         $user = User::where('email',$email)->first();
 
         /** @var TempUser $temporaryUser */
-        $temporaryUser = TempUser::all()->where('email',$user->email)->first();
+        $temporaryUser = isset($user) ? TempUser::all()->where('email',$user->email)->first() : null;
+
 
         if ($temporaryUser !== null) {
             $orders = $temporaryUser->orders;
@@ -168,7 +169,7 @@ class LoginController extends Controller
                 foreach($orders as $order){
                     $order->user_id = $user->id;
                     $order->temp_user_id = null;
-                    
+
                     $order->save();
                 }
             }
