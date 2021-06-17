@@ -87,9 +87,11 @@ class LoginController extends Controller
 
         $result = json_decode($result);
 
-        foreach($result->eduPersonEntitlement as $group){
-            if($group->name == "Pulcsi és Foltmékör"){
-                $himzo = $group;
+        if (isset($result->eduPersonEntitlement)) {
+            foreach($result->eduPersonEntitlement as $group){
+                if($group->name == "Pulcsi és Foltmékör"){
+                    $himzo = $group;
+                }
             }
         }
 
