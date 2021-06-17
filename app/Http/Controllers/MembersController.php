@@ -23,7 +23,7 @@ class MembersController extends Controller
         Carbon::setLocale('hu');
 
         Session::put('return_to','members.index');
-        Session::put('return_to_parameters',null);
+        Session::put('return_to_parameters', []);
 
         $oneweek = date('Y-m-d',time()+7*24*60*60);
 
@@ -69,7 +69,7 @@ class MembersController extends Controller
     {
 
         Session::put('return_to','members.mine');
-        Session::put('return_to_parameters',null);
+        Session::put('return_to_parameters',[]);
 
         Carbon::setLocale('hu');
         $orders = Auth::user()
@@ -92,7 +92,7 @@ class MembersController extends Controller
     public function unapproved()
     {
         Session::put('return_to','members.unapproved');
-        Session::put('return_to_parameters',null);
+        Session::put('return_to_parameters',[]);
 
         Carbon::setLocale('hu');
 
@@ -106,7 +106,7 @@ class MembersController extends Controller
     public function unassigned()
     {
         Session::put('return_to','members.unassigned');
-        Session::put('return_to_parameters',null);
+        Session::put('return_to_parameters',[]);
 
         Carbon::setLocale('hu');
 
@@ -126,7 +126,7 @@ class MembersController extends Controller
     public function joint()
     {
         Session::put('return_to','members.joint');
-        Session::put('return_to_parameters',null);
+        Session::put('return_to_parameters',[]);
 
         Carbon::setLocale('hu');
 
@@ -144,7 +144,7 @@ class MembersController extends Controller
     public function active()
     {
         Session::put('return_to','members.active');
-        Session::put('return_to_parameters',null);
+        Session::put('return_to_parameters',[]);
 
         Carbon::setLocale('hu');
 
@@ -158,7 +158,7 @@ class MembersController extends Controller
     public function archived()
     {
         Session::put('return_to','members.archived');
-        Session::put('return_to_parameters',null);
+        Session::put('return_to_parameters',[]);
 
         Carbon::setLocale('hu');
 
