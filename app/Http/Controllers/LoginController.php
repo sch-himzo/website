@@ -177,7 +177,11 @@ class LoginController extends Controller
 
         Auth::attempt(['email' => $email, 'password' => $password]);
 
-        if(Auth::user() !== null && !Auth::user()->activated) {
+        if (Auth::user() !== null) {
+            return redirect()->back();
+        }
+
+        if(!Auth::user()->activated) {
             return redirect()->route('activate');
         }
 
