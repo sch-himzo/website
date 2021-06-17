@@ -12,7 +12,7 @@
     </style>
 </head>
 <body style="background:black">
-<div style="max-width:880px; text-align:center;">
+<div style="max-width:880px; margin:auto; text-align:center;">
     <img style="margin:auto; width:100%;" src="http://http.cat/418" alt="418">
 </div>
 </body>

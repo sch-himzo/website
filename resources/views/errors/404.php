@@ -12,7 +12,7 @@
     </style>
 </head>
 <body>
-<div style="max-width:880px; text-align:center;">
+<div style="max-width:880px; margin:auto; text-align:center;">
     <img style="margin:auto; width:100%;" src="http://http.cat/404" alt="404">
 </div>
 </body>
