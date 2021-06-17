@@ -14,6 +14,11 @@ trait RoleAwareTrait
      */
     private ?RoleInterface $role;
 
+    public function hasRole(): bool
+    {
+        return isset($this->role);
+    }
+
     public function getRole(): ?RoleInterface
     {
         return $this->role;
