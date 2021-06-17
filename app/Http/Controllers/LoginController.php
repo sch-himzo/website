@@ -156,18 +156,21 @@ class LoginController extends Controller
         $email = $request->input('email');
         $password = $request->input('password');
 
-
         $user = User::where('email',$email)->first();
 
-        $temp_user = TempUser::all()->where('email',$user->email)->first();
+        /** @var TempUser $temporaryUser */
+        $temporaryUser = TempUser::all()->where('email',$user->email)->first();
 
-        if($temp_user!=null){
-            $orders = $temp_user->orders;
+        if ($temporaryUser !== null) {
+            $orders = $temporaryUser->orders;
 
-            foreach($orders as $order){
-                $order->user_id = $user->id;
-                $order->temp_user_id = null;
-                $order->save();
+            if (isset($orders)) {
+                foreach($orders as $order){
+                    $order->user_id = $user->id;
+                    $order->temp_user_id = null;
+                    
+                    $order->save();
+                }
             }
         }
 
