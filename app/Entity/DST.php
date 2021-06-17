@@ -67,6 +67,10 @@ class DST implements DSTInterface
 
     public function incrementStitchCount(): void
     {
+        if ($this->stitchCount === null) {
+            $this->stitchCount = 0;
+        }
+
         $this->stitchCount++;
     }
 
