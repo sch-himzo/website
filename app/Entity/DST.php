@@ -52,6 +52,10 @@ class DST implements DSTInterface
 
     public function incrementColorCount(): void
     {
+        if (!isset($this->colorCount)) {
+            $this->colorCount = 0;
+        }
+
         $this->colorCount++;
     }
 
@@ -67,7 +71,7 @@ class DST implements DSTInterface
 
     public function incrementStitchCount(): void
     {
-        if ($this->stitchCount === null) {
+        if (!isset($this->stitchCount)) {
             $this->stitchCount = 0;
         }
 
