@@ -42,7 +42,7 @@ class DST implements DSTInterface
 
     public function getColorCount(): int
     {
-        return $this->colorCount;
+        return sizeof($this->stitches);
     }
 
     public function setColorCount(int $colorCount): void
@@ -61,7 +61,13 @@ class DST implements DSTInterface
 
     public function getStitchCount(): int
     {
-        return $this->stitchCount;
+        $sum = 0;
+
+        foreach ($this->stitches as $color) {
+            $sum += sizeof($color);
+        }
+
+        return $sum;
     }
 
     public function setStitchCount(int $stitchCount): void
