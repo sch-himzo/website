@@ -13,7 +13,7 @@
 </head>
 <body>
 <div style="max-width:880px; text-align:center;">
-    <img src="http://http.cat/404" alt="404">
+    <img style="margin:auto; width:100%;" src="http://http.cat/404" alt="404">
 </div>
 </body>
 </html>
