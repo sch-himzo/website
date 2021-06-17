@@ -11,6 +11,12 @@ class ImageController extends Controller
     public function get(Image $image)
     {
         $path = $image->image;
-        return response()->file(storage_path("app/" . $path));
+
+        if (file_exists($path = storage_path(sprintf('app/%s', $path)))) {
+            return response()->file(storage_path("app/" . $path));
+        }
+
+        abort(404);
+        die();
     }
 }
