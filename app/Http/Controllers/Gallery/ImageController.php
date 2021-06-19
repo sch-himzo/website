@@ -13,7 +13,7 @@ class ImageController extends Controller
         $path = $image->image;
 
         if (file_exists($path = storage_path(sprintf('app/%s', $path)))) {
-            return response()->file(storage_path("app/" . $path));
+            return response()->file($path);
         }
 
         abort(404);
