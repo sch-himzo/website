@@ -81,7 +81,7 @@ class MachineController extends Controller
         $stitches = json_encode($dst->getStitches());
         $width = $dst->getCanvasWidth();
         $height = $dst->getCanvasHeight();
-        $xOffset = $dst->getMinVerticalPosition();
+        $xOffset = $dst->getMinHorizontalPosition();
         $yOffset = $dst->getMaxVerticalPosition();
 
         $setting = Setting::where('name','current_machine')->first();
