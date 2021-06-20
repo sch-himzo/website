@@ -176,29 +176,31 @@
             $('#crosshair').attr('transform', 'translate(' + x_transform + " " + y_transform + ")");
 
             // change opacity of stitches
-            doStitches(data.message, milliSecondsPerStitch);
+            doStitches(data.message, milliSecondsPerStitch, lastStitch);
 
             $('#current_stitch').val(data.message.current_stitch);
+
+            lastStitch = message.current_stitch;
+            lastTimestamp = Date.now();
         });
 
         function sleep(ms) {
             return new Promise(resolve => setTimeout(resolve, ms));
         }
 
-        async function doStitches(message, ms) {
-            if (message.current_stitch >= lastStitch) {
-                for (let i = lastStitch; i < message.current_stitch; i++) {
+        async function doStitches(message, ms, stitch) {
+            if (message.current_stitch >= stitch) {
+                for (let i = stitch; i < message.current_stitch; i++) {
                     $('#stitch_' + i).css('opacity', '1');
                     await sleep(ms);
                 }
             } else {
-                for (let i = lastStitch; i > message.current_stitch; i--) {
+                for (let i = stitch; i > message.current_stitch; i--) {
                     $('#stitch_' + i).css('opacity', '0.2');
                     await sleep(ms);
                 }
             }
 
-            lastStitch = message.current_stitch;
         }
     </script>
 @endsection
