@@ -115,7 +115,7 @@
     <script>
         let lastTimestamp = Date.now();
         let lastStitch;
-        let colors = JSON.parse(`{{ $machine->stitches }}`);
+        let colors = JSON.parse(`{{ $machine->current_dst }}`);
 
         let stitches;
 
