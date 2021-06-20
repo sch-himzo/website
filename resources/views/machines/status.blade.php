@@ -150,11 +150,11 @@
             let diff = data.message.current_stitch - current_stitch;
             if (diff > 0) {
                 for (let i = 0; i < data.message.current_stitch; i++) {
-                    $('#stitch_' + i).css('stroke', 'rgba(0,0,0,1)');
+                    $('#stitch_' + i).css('opacity', '1');
                 }
             } else {
                 for (let i = data.message.total_stitches; i > data.message.current_stitch - 1; i--) {
-                    $('#stitch_' + i).css('stroke', 'rgba(0,0,0,0.2)');
+                    $('#stitch_' + i).css('opacity', '0.2');
                 }
             }
 
