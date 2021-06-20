@@ -117,7 +117,7 @@
         let lastStitch;
         let colors = JSON.parse(`{{ $machine->current_dst }}`);
 
-        let stitches;
+        let stitches = [];
 
         colors.forEach(function (element) {
             element.forEach(function (stitch) {
