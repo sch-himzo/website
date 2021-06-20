@@ -82,7 +82,7 @@ class MachineController extends Controller
         $width = $dst->getCanvasWidth();
         $height = $dst->getCanvasHeight();
         $xOffset = $dst->getMinHorizontalPosition();
-        $yOffset = $dst->getMaxVerticalPosition();
+        $yOffset = $dst->getMinVerticalPosition();
 
         $setting = Setting::where('name','current_machine')->first();
 
