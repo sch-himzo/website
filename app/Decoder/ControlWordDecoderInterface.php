@@ -6,7 +6,7 @@ namespace App\Decoder;
 
 interface ControlWordDecoderInterface
 {
-    public const DECODE_FACTOR = -2;
+    public const DECODE_FACTOR = -4;
 
     public const POS_BYTE_1 = 0;
     public const POS_BYTE_2 = 1;

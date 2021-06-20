@@ -30,11 +30,7 @@ class DSTParser implements ParserInterface
     {
         $filePath = storage_path(self::UPLOADED_DESIGN_STORAGE_PATH. $design->image);
 
-        try {
-            $fileContent = File::get($filePath);
-        } catch (FileNotFoundException $exception) {
-            return null;
-        }
+        $fileContent = File::get($filePath);
 
         $fileContentHex = $this->stringToHexadecimal($fileContent);
 
@@ -123,7 +119,6 @@ class DSTParser implements ParserInterface
         $stitchType = $this->getStitchType(substr($controlBytes[2], 0, 2));
 
         switch ($stitchType) {
-            case 'lol':
             case DSTInterface::STITCH_TYPE_JUMP:
             {
                 $this->stitchIndicator = 0;
