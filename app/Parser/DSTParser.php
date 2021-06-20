@@ -35,7 +35,7 @@ class DSTParser implements ParserInterface
         $fileContentHex = $this->stringToHexadecimal($fileContent);
 
         if (substr($fileContent, 0, 2) === 'LA') {
-            $newFileContent = substr($fileContent, 513);
+            $newFileContent = substr($fileContent, 1024);
 
             $fileContentHex = $this->stringToHexadecimal($newFileContent);
         }
