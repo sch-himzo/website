@@ -108,9 +108,9 @@ class MachineController extends Controller
         $machine->total_stitches = $dst->getStitchCount();
         $machine->design_width = $width;
         $machine->design_height = $height;
-        $machine->x_offset = $xOffset * 2;
+        $machine->x_offset = $xOffset / 2;
         $machine->state = 0;
-        $machine->y_offset = $yOffset * 2;
+        $machine->y_offset = $yOffset / 2;
         $machine->current_stitch = 0;
         $machine->seconds_passed = 0;
         $machine->save();
