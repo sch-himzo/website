@@ -63,7 +63,7 @@
                 </div>
                 <div class="panel-body">
                     @if($machine->total_stitches!=1022)
-                        <svg style="@if (isset($machine->design) && isset($machine->design->background)) background-color:rgba({{ ($bg = $machine->design->background)->red }},{{ $bg->green }},{{ $bg->blue }},0.5); @else background-color:white; @endif margin:auto;" id="svg" class="svg" viewBox="0 0 {{ $machine->design_width }} {{ $machine->design_height }}" preserveAspectRatio="none">
+                        <svg style="@if (isset($machine->design) && isset($machine->design->background)) background-color:rgba({{ ($bg = $machine->design->background)->red }},{{ $bg->green }},{{ $bg->blue }},0.8); @else background-color:white; @endif margin:auto;" id="svg" class="svg" viewBox="0 0 {{ $machine->design_width }} {{ $machine->design_height }}" preserveAspectRatio="none">
                             <?php $i = 0; ?>
                             @foreach(json_decode($machine->current_dst) as $id => $color)
 
