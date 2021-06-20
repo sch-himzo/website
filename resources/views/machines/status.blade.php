@@ -179,8 +179,6 @@
             doStitches(data.message, milliSecondsPerStitch, lastStitch);
 
             $('#current_stitch').val(data.message.current_stitch);
-
-            lastStitch = data.message.current_stitch;
             lastTimestamp = Date.now();
         });
 
@@ -201,6 +199,8 @@
                 }
             }
 
+            await sleep(1);
+            lastStitch = message.current_stitch;
         }
     </script>
 @endsection
