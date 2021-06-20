@@ -113,42 +113,20 @@
 
 @section('scripts')
     <script>
-        let lastTimestamp = Date.now();
-        let lastStitch;
-        let colors = JSON.parse(`{{ $machine->current_dst }}`);
-
-        let stitches = [];
-
-        colors.forEach(function (element) {
-            element.forEach(function (stitch) {
-                stitches.push(stitch);
-            });
-        })
-
         channel.bind('machine-update', function(data){
             let total_stitches = $('#total_stitches').val();
             let current_stitch = $('#current_stitch').val();
             let current_state = $('#current_state').val();
 
-            let timePassed = Date.now() - lastTimestamp;
-            let stitchesPassed = data.message.current_stitch - lastStitch;
-
-            let milliSecondsPerStitch = Math.abs(timePassed / stitchesPassed) * 1000;
-
             if(current_state!==data.message.state){
                 $('#status').html(data.message.status);
                 $('#current_state').val(data.message.state);
             }
-
-            // set percentage
             let percentage = Math.round(data.message.current_stitch * 10000 / data.message.total_stitches) / 100;
             percentage += "%";
-
             $('#machine_progress_bar_status').css('width', percentage);
             $('#machine_progress_bar_status').html(percentage);
             $('#machine_progress_bar_status').attr('class', data.message.progress_bar);
-
-            // set design count progress bar
             if (data.message.current_design === data.message.total_designs && data.message.current_stitch===data.message.total_stitches) {
                 $('#machine_designs_progress_bar_current_status').css('display', 'none');
                 $('#machine_designs_progress_bar_status').css('width', '100%');
@@ -162,45 +140,25 @@
                 $('#machine_designs_progress_bar_status').html(data.message.current_design - 1);
                 $('#machine_designs_left_status').html(data.message.total_designs - data.message.current_design);
             }
-
-            // set speed
             $('#speed').html("~" + Math.round(data.message.stitches_so_far/data.message.seconds_passed*60) + " öltés/perc");
             $('#ETA').html("~" + Math.round(data.message.eta) + " perc");
-
-            // set stitch counter
             $('#stitches').html(total_stitches + "/" + data.message.current_stitch + " öltés");
-
-            // transform crosshair
             let x_transform = data.message.current_offset[0][0] + data.message.x_offset + 5;
             let y_transform = data.message.current_offset[0][1] + data.message.y_offset + 5;
             $('#crosshair').attr('transform', 'translate(' + x_transform + " " + y_transform + ")");
 
-            // change opacity of stitches
-            doStitches(data.message, milliSecondsPerStitch, lastStitch);
-
-            $('#current_stitch').val(data.message.current_stitch);
-            lastTimestamp = Date.now();
-        });
-
-        function sleep(ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        }
-
-        async function doStitches(message, ms, stitch) {
-            if (message.current_stitch >= stitch) {
-                for (let i = stitch; i < message.current_stitch; i++) {
+            let diff = data.message.current_stitch - current_stitch;
+            if (diff > 0) {
+                for (let i = 0; i < data.message.current_stitch; i++) {
                     $('#stitch_' + i).css('opacity', '1');
-                    await sleep(ms);
                 }
             } else {
-                for (let i = stitch; i > message.current_stitch; i--) {
+                for (let i = data.message.total_stitches; i > data.message.current_stitch - 1; i--) {
                     $('#stitch_' + i).css('opacity', '0.2');
-                    await sleep(ms);
                 }
             }
 
-            await sleep(1);
-            lastStitch = message.current_stitch;
-        }
+            $('#current_stitch').val(data.message.current_stitch);
+        });
     </script>
 @endsection
