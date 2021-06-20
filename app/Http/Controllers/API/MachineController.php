@@ -105,7 +105,7 @@ class MachineController extends Controller
 
         $machine->current_dst = $stitches;
         $machine->design_id = $design->id;
-        $machine->total_stitches = $design->stitch_count;
+        $machine->total_stitches = $dst->getStitchCount();
         $machine->design_width = $width;
         $machine->design_height = $height;
         $machine->x_offset = $xOffset;
