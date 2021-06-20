@@ -131,7 +131,7 @@
             let current_state = $('#current_state').val();
 
             let timePassed = Date.now() - lastTimestamp;
-            let stitchesPassed = current_stitch - lastStitch;
+            let stitchesPassed = data.message.current_stitch - lastStitch;
 
             let milliSecondsPerStitch = Math.abs(timePassed / stitchesPassed) * 1000;
 
