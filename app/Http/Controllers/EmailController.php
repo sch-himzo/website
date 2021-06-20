@@ -296,12 +296,12 @@ class EmailController extends Controller
         $from_name = "Pulcsi és Foltmékör";
         $from_email = "himzobot@gmail.com";
 
-        Mail::send('emails.register', $data, function($message) use ($to_name, $to_email, $from_email, $from_name){
-            $message->to($to_email, $to_name)
-                ->subject('Felhasználó aktiválása');
-
-            $message->from($from_email, $from_name);
-        });
+//        Mail::send('emails.register', $data, function($message) use ($to_name, $to_email, $from_email, $from_name){
+//            $message->to($to_email, $to_name)
+//                ->subject('Felhasználó aktiválása');
+//
+//            $message->from($from_email, $from_name);
+//        });
     }
 
     public static function sendPings()

@@ -75,6 +75,7 @@ class DSTController extends Controller
 
         $design->svg = self::$svgGenerator->generate($design, $dst);
         $design->stitch_count = $dst->getStitchCount();
+        $design->stitches = json_encode($dst->getStitches());
         $design->save();
 
         return [
@@ -122,6 +123,7 @@ class DSTController extends Controller
         $current_background = $design->background;
 
         $design->stitch_count = $dst->getStitchCount();
+        $design->stitches = json_encode($dst->getStitches());
         $design->save();
 
         if($design->svg==null){

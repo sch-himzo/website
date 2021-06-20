@@ -36,7 +36,7 @@
                             @else
                                 <?php $i = 0; ?>
                                 @foreach($design->colors as $color)
-                                    <input type="hidden" name="color_stitches_{{ $i }}" value="{{ sizeof($stitches[$i]) }}">
+                                    <input type="hidden" name="color_stitches_{{ $i }}" value="{{ array_key_exists($i, $stitches) ? sizeof($stitches[$i]) : '' }}">
                                     <input type="hidden" name="r_{{ $i }}" id="r_{{ $i }}" value="{{ $color->red }}">
                                     <input type="hidden" name="g_{{ $i }}" id="g_{{ $i }}" value="{{ $color->green }}">
                                     <input type="hidden" name="b_{{ $i }}" id="b_{{ $i }}" value="{{ $color->blue }}">

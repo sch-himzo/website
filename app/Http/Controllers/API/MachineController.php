@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Events\MachineDST;
 use App\Events\MachineUpdate;
 use App\Http\Controllers\Controller;
+use App\Models\Color;
 use App\Models\Design;
 use App\Models\DesignGroup;
 use App\Models\Machine;
@@ -78,6 +79,12 @@ class MachineController extends Controller
 
         $dst = $this->dstParser->parse($design);
 
+        $design->stitches = json_encode($dst->getStitches());
+        $design->save();
+
+        /** @var Design $uploadedDesign */
+        $uploadedDesign = Design::all()->where('stitches', json_encode($dst->getStitches()))->first();
+
         $stitches = json_encode($dst->getStitches());
         $width = $dst->getCanvasWidth();
         $height = $dst->getCanvasHeight();
@@ -103,8 +110,28 @@ class MachineController extends Controller
             $machine = Machine::find($setting->setting);
         }
 
-        $machine->current_dst = $stitches;
+        if (isset($uploadedDesign)) {
+            $design->background_id = $uploadedDesign->background_id;
+            $design->save();
+
+            foreach ($uploadedDesign->colors as $color) {
+                $newColor = new Color();
+
+                $newColor->red = $color->red;
+                $newColor->design_id = $design->id;
+                $newColor->isacord = $color->isacord;
+                $newColor->number = $color->number;
+                $newColor->code = $color->code;
+                $newColor->stitch_count = $color->stitch_count;
+                $newColor->fancy = $color->fancy;
+
+                $newColor->save();
+            }
+        }
+
         $machine->design_id = $design->id;
+
+        $machine->current_dst = $stitches;
         $machine->total_stitches = $dst->getStitchCount();
         $machine->design_width = $width;
         $machine->design_height = $height;
@@ -117,7 +144,7 @@ class MachineController extends Controller
 
         event(new MachineDST());
 
-        return response()->json('200 Response OK');
+        return response()->json();
     }
 
     public function updateStatus(Request $request)
@@ -175,7 +202,7 @@ class MachineController extends Controller
 
         event(new MachineUpdate($machine));
 
-        return response()->json('200 Response OK');
+        return response()->json([]);
     }
 
     public function getStatus($machine_key)

@@ -63,11 +63,18 @@
                 </div>
                 <div class="panel-body">
                     @if($machine->total_stitches!=1022)
-                        <svg style="background-color:white; margin:auto;" id="svg" class="svg" viewBox="0 0 {{ $machine->design_width }} {{ $machine->design_height }}" preserveAspectRatio="none">
+                        <svg style="@if (isset($machine->design) && isset($machine->design->background)) background-color:rgba({{ ($bg = $machine->design->background)->red }},{{ $bg->green }},{{ $bg->blue }},0.5); @else background-color:white; @endif margin:auto;" id="svg" class="svg" viewBox="0 0 {{ $machine->design_width }} {{ $machine->design_height }}" preserveAspectRatio="none">
                             <?php $i = 0; ?>
                             @foreach(json_decode($machine->current_dst) as $id => $color)
+
+                                @if (isset($machine->design) && count($machine->design->colors) !== 0)
+                                    <g id="color_{{ $id }}" style="stroke:{{ is_object($colorModel = $machine->design->colors->filter(function($c)use($id){return $c->number == $id;})->first()) ? $colorModel->red : 'rgb(0,0,0)' }}">
+                                @else
+                                    <g id="color" style="stroke:rgb(0,0,0);">
+                                @endif
+
                                 @foreach($color as $stitch)
-                                    <line id="stitch_<?= $i ?>" x1="{{ $stitch[0][0]+abs($machine->x_offset)+5 }}" x2="{{ $stitch[1][0]+abs($machine->x_offset)+5 }}" y1="{{ $stitch[0][1]+abs($machine->y_offset)+5 }}" y2="{{ $stitch[1][1]+abs($machine->y_offset)+5 }}" style="stroke-width:1.5; stroke:rgba(0,0,0, @if($i<$machine->current_stitch) 1 @else 0.2 @endif );"></line>
+                                    <line id="stitch_<?= $i ?>" x1="{{ $stitch[0][0]+abs($machine->x_offset)+5 }}" x2="{{ $stitch[1][0]+abs($machine->x_offset)+5 }}" y1="{{ $stitch[0][1]+abs($machine->y_offset)+5 }}" y2="{{ $stitch[1][1]+abs($machine->y_offset)+5 }}" style="stroke-width:1.5;  opacity:@if($i<$machine->current_stitch) 1 @else 0.2 @endif;"></line>
                                     @if($i==$machine->current_stitch)
                                         @php
                                             $asd = $stitch;
@@ -75,6 +82,9 @@
                                     @endif
                                     <?php $i++ ?>
                                 @endforeach
+                                @if (isset($machine->design) && count($machine->design->colors) !== 0)
+                                    </g>
+                                @endif
                             @endforeach
                                 @if(!isset($asd))
                                     @php
