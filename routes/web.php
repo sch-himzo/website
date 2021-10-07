@@ -2,4 +2,4 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('', 'HomeController@index')->name('index');
+Route::get('', '\App\Http\Controllers\HomeController@index')->name('index');

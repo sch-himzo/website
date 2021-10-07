@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Entity\NewsItem;
 use App\Entity\UserInterface;
+use App\EntityManager;
 use App\Providers\NewsItemProviderInterface;
 use App\Providers\SettingProviderInterface;
 use App\Repository\MachineRepositoryInterface;
+use App\Repository\RoleRepositoryInterface;
 use App\Repository\SlideRepositoryInterface;
 use App\Repository\UserRepositoryInterface;
 use App\Util\Settings;
-use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
@@ -32,14 +34,17 @@ class HomeController extends Controller
 
     private MachineRepositoryInterface $machineRepository;
 
+    private RoleRepositoryInterface $roleRepository;
+
     public function __construct(
-        EntityManagerInterface $entityManager,
+        EntityManager $entityManager,
         SlideRepositoryInterface $slideRepository,
         NewsItemProviderInterface $newsItemProvider,
         SessionInterface $session,
         UserRepositoryInterface $userRepository,
         SettingProviderInterface $settingProvider,
-        MachineRepositoryInterface $machineRepository
+        MachineRepositoryInterface $machineRepository,
+        RoleRepositoryInterface $roleRepository
     )
     {
         $this->slideRepository = $slideRepository;
@@ -48,6 +53,7 @@ class HomeController extends Controller
         $this->userRepository = $userRepository;
         $this->settingProvider = $settingProvider;
         $this->machineRepository = $machineRepository;
+        $this->roleRepository = $roleRepository;
 
         parent::__construct($entityManager);
     }
@@ -56,6 +62,15 @@ class HomeController extends Controller
     {
         $slides = $this->slideRepository->findAll();
         $news = $this->newsItemProvider->provideForUser($this->getUser());
+
+        $newsItem = new NewsItem();
+
+        $newsItem->setAlert(false);
+        $newsItem->setContent("asd");
+        $newsItem->setRole($this->roleRepository->findDefaultRole());
+
+        $this->entityManager->persist($newsItem);
+        $this->entityManager->flush();
 
         return view('index', [
             'slides' => $slides,
@@ -90,14 +105,12 @@ class HomeController extends Controller
 
         return response()->json([
             'users' => $users->map(
-                static function (UserInterface $user): string
-                {
+                static function (UserInterface $user): string {
                     return $user->getName();
                 }
             ),
             'ids' => $users->map(
-                static function (UserInterface $user): int
-                {
+                static function (UserInterface $user): int {
                     return $user->getId();
                 }
             )
@@ -107,7 +120,7 @@ class HomeController extends Controller
     public function machineStatus()
     {
         $setting = $this->settingProvider->provide(Settings::SETTING_CURRENT_MACHINE);
-        $machine = $this->machineRepository->find()
+        $machine = $this->machineRepository->find();
 
         return view('machines.status', [
             'machine' => $machine

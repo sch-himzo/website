@@ -3,9 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Entity\UserInterface;
+use App\EntityManager;
 use Carbon\Carbon;
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -16,7 +15,7 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-    protected EntityManagerInterface $entityManager;
+    protected EntityManager $entityManager;
 
     public function __construct(
         EntityManager $entityManager

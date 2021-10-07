@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\EntityManager;
 use App\Providers\SettingProvider;
 use App\Providers\SettingProviderInterface;
 use App\Util\Settings;
-use Doctrine\ORM\EntityManager;
 use Illuminate\Support\Facades\Session;
 use Symfony\Component\HttpFoundation\Request;
 

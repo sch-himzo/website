@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Doctrine\Common\EventManager;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
