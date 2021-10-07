@@ -35,7 +35,7 @@ class MachineUpdate implements ShouldBroadcast
         }
 
         if($machine->current_stitch!=$machine->total_stitches){
-            $current_offset = $stitches[min(sizeof($stitches), $machine->current_stitch)];
+            $current_offset = $stitches[min(sizeof($stitches), $machine->current_stitch)] ?? $stitches[0];
         }else{
             $current_offset = $stitches[0];
         }
